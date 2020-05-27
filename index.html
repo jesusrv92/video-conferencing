@@ -5,54 +5,56 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>WebRTC Video Conferencing</title>
 
-        <script>
-            if(!location.hash.replace('#', '').length) {
-                location.href = location.href.split('#')[0] + '#' + (Math.random() * 100).toString().replace('.', '');
-                location.reload();
-            }
-        </script>
+<head>
+    <title>WebRTC Video Conferencing</title>
 
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <link rel="author" type="text/html" href="https://plus.google.com/+MuazKhan">
-        <meta name="author" content="Muaz Khan">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <script>
+        if (!location.hash.replace('#', '').length) {
+            location.href = location.href.split('#')[0] + '#' + (Math.random() * 100).toString().replace('.', '');
+            location.reload();
+        }
+    </script>
 
-        <meta name="title" content="Video Conferencing" />
-        <meta name="description" content="Video Conferencing using WebRTC." />
-        <meta name="keywords" content="WebRTC, Video Conferencing, Demo, Example, Experiment" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="author" type="text/html" href="https://plus.google.com/+MuazKhan">
+    <meta name="author" content="Muaz Khan">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <link rel="stylesheet" href="https://www.webrtc-experiment.com/style.css">
-        <link rel="stylesheet" href="style.css">
+    <meta name="title" content="Video Conferencing" />
+    <meta name="description" content="Video Conferencing using WebRTC." />
+    <meta name="keywords" content="WebRTC, Video Conferencing, Demo, Example, Experiment" />
 
-        <script>
-            document.createElement('article');
-            document.createElement('footer');
-        </script>
+    <link rel="stylesheet" href="https://www.webrtc-experiment.com/style.css">
+    <link rel="stylesheet" href="style.css">
 
-        <!-- script used to stylize video element -->
-        <script src="https://www.webrtc-experiment.com/getMediaElement.min.js"> </script>
+    <script>
+        document.createElement('article');
+        document.createElement('footer');
+    </script>
 
-        <script src="https://www.webrtc-experiment.com/socket.io.js"> </script>
-        <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-        <script src="https://www.webrtc-experiment.com/IceServersHandler.js"></script>
-        <script src="https://www.webrtc-experiment.com/CodecsHandler.js"></script>
-        <script src="https://www.webrtc-experiment.com/RTCPeerConnection-v1.5.js"> </script>
-        <script src="https://www.webrtc-experiment.com/video-conferencing/conference.js"> </script>
-    </head>
+    <!-- script used to stylize video element -->
+    <script src="https://www.webrtc-experiment.com/getMediaElement.min.js"> </script>
 
-    <body>
-        <article>
-            <header style="text-align: center;">
+    <script src="https://www.webrtc-experiment.com/socket.io.js"> </script>
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <script src="https://www.webrtc-experiment.com/IceServersHandler.js"></script>
+    <script src="https://www.webrtc-experiment.com/CodecsHandler.js"></script>
+    <script src="https://www.webrtc-experiment.com/RTCPeerConnection-v1.5.js"> </script>
+    <script src="https://www.webrtc-experiment.com/video-conferencing/conference.js"> </script>
+</head>
+
+<body>
+    <article>
+        <header style="text-align: center;">
             <!-- just copy this <section> and next script -->
             <section class="experiment">
                 <section>
                     <span>
-                        Private ?? <a href="/video-conferencing/" target="_blank" title="Open this link in new tab. Then your conference room will be private!"><code><strong id="unique-token">#123456789</strong></code></a>
+                        Private ?? <a href="/video-conferencing/" target="_blank"
+                            title="Open this link in new tab. Then your conference room will be private!"><code><strong id="unique-token">#123456789</strong></code></a>
                     </span>
 
                     <input type="text" id="conference-name" placeholder="Conference Name" style="width: 50%;">
@@ -73,7 +75,7 @@
 
                 var config = {
                     // via: https://github.com/muaz-khan/WebRTC-Experiment/tree/master/socketio-over-nodejs
-                    openSocket: function(config) {
+                    openSocket: function (config) {
                         var SIGNALING_SERVER = 'https://socketio-over-nodejs2.herokuapp.com:443/';
 
                         config.channel = config.channel || location.href.replace(/\/|:|#|%|\.|\[|\]/g, '');
@@ -99,7 +101,7 @@
 
                         socket.on('message', config.onmessage);
                     },
-                    onRemoteStream: function(media) {
+                    onRemoteStream: function (media) {
                         var mediaElement = getMediaElement(media.video, {
                             width: (videosContainer.clientWidth / 2) - 50,
                             buttons: ['mute-audio', 'mute-video', 'full-screen', 'volume-slider']
@@ -107,12 +109,12 @@
                         mediaElement.id = media.stream.streamid;
                         videosContainer.appendChild(mediaElement);
                     },
-                    onRemoteStreamEnded: function(stream, video) {
+                    onRemoteStreamEnded: function (stream, video) {
                         if (video.parentNode && video.parentNode.parentNode && video.parentNode.parentNode.parentNode) {
                             video.parentNode.parentNode.parentNode.removeChild(video.parentNode.parentNode);
                         }
                     },
-                    onRoomFound: function(room) {
+                    onRoomFound: function (room) {
                         var alreadyExist = document.querySelector('button[data-broadcaster="' + room.broadcaster + '"]');
                         if (alreadyExist) return;
 
@@ -126,22 +128,22 @@
                         var joinRoomButton = tr.querySelector('.join');
                         joinRoomButton.setAttribute('data-broadcaster', room.broadcaster);
                         joinRoomButton.setAttribute('data-roomToken', room.roomToken);
-                        joinRoomButton.onclick = function() {
+                        joinRoomButton.onclick = function () {
                             this.disabled = true;
 
                             var broadcaster = this.getAttribute('data-broadcaster');
                             var roomToken = this.getAttribute('data-roomToken');
-                            captureUserMedia(function() {
+                            captureUserMedia(function () {
                                 conferenceUI.joinRoom({
                                     roomToken: roomToken,
                                     joinUser: broadcaster
                                 });
-                            }, function() {
+                            }, function () {
                                 joinRoomButton.disabled = false;
                             });
                         };
                     },
-                    onRoomClosed: function(room) {
+                    onRoomClosed: function (room) {
                         var joinButton = document.querySelector('button[data-roomToken="' + room.roomToken + '"]');
                         if (joinButton) {
                             // joinButton.parentNode === <li>
@@ -151,7 +153,7 @@
                             joinButton.parentNode.parentNode.parentNode.parentNode.removeChild(joinButton.parentNode.parentNode.parentNode);
                         }
                     },
-                    onReady: function() {
+                    onReady: function () {
                         console.log('now you can open or join rooms');
                     }
                 };
@@ -159,11 +161,11 @@
                 function setupNewRoomButtonClickHandler() {
                     btnSetupNewRoom.disabled = true;
                     document.getElementById('conference-name').disabled = true;
-                    captureUserMedia(function() {
+                    captureUserMedia(function () {
                         conferenceUI.createRoom({
-                            roomName: (document.getElementById('conference-name') || { }).value || 'Anonymous'
+                            roomName: (document.getElementById('conference-name') || {}).value || 'Anonymous'
                         });
-                    }, function() {
+                    }, function () {
                         btnSetupNewRoom.disabled = document.getElementById('conference-name').disabled = false;
                     });
                 }
@@ -185,7 +187,7 @@
 
                     getUserMedia({
                         video: video,
-                        onsuccess: function(stream) {
+                        onsuccess: function (stream) {
                             config.attachStream = stream;
 
                             var mediaElement = getMediaElement(video, {
@@ -197,7 +199,7 @@
 
                             callback && callback();
                         },
-                        onerror: function() {
+                        onerror: function () {
                             alert('unable to get access to your webcam');
                             callback && callback();
                         }
@@ -215,16 +217,16 @@
 
                 function rotateVideo(video) {
                     video.style[navigator.mozGetUserMedia ? 'transform' : '-webkit-transform'] = 'rotate(0deg)';
-                    setTimeout(function() {
+                    setTimeout(function () {
                         video.style[navigator.mozGetUserMedia ? 'transform' : '-webkit-transform'] = 'rotate(360deg)';
                     }, 1000);
                 }
 
-                (function() {
+                (function () {
                     var uniqueToken = document.getElementById('unique-token');
                     if (uniqueToken)
                         if (location.hash.length > 2) uniqueToken.parentNode.parentNode.parentNode.innerHTML = '<h2 style="text-align:center;display: block;"><a href="' + location.href + '" target="_blank">Right click to copy & share this private link</a></h2>';
-                        else uniqueToken.innerHTML = uniqueToken.parentNode.parentNode.href = '#' + (Math.random() * new Date().getTime()).toString(36).toUpperCase().replace( /\./g , '-');
+                        else uniqueToken.innerHTML = uniqueToken.parentNode.parentNode.href = '#' + (Math.random() * new Date().getTime()).toString(36).toUpperCase().replace(/\./g, '-');
                 })();
 
                 function scaleVideos() {
@@ -260,6 +262,7 @@
                 window.onresize = scaleVideos;
 
             </script>
-        </article>
-    </body>
+    </article>
+</body>
+
 </html>
