@@ -1,7 +1,6 @@
 audio, video {
     -moz-transition: all 1s ease;
     -ms-transition: all 1s ease;
-
     -o-transition: all 1s ease;
     -webkit-transition: all 1s ease;
     transition: all 1s ease;
@@ -26,7 +25,9 @@ input {
     position: absolute;
 }
 
-p { padding: 1em; }
+p {
+    padding: 1em;
+}
 
 li {
     border-bottom: 1px solid rgb(189, 189, 189);
@@ -36,14 +37,12 @@ li {
 
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}  
-  
-  body {
+}
+
+body {
     background-color: #282c34;
     min-height: 100vh;
     display: flex;
@@ -52,25 +51,8 @@ body {
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: white;
-  }
-  
-  a {
+}
+
+a {
     color: #61dafb;
-  }
-    
-  div#videos {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  
-  div#videos > video {
-    background: black;
-    flex: 1;
-    display: block;
-    margin: 1em;
-  }
-  
-  video#local {
-    transform: scaleX(-1);
-  }
+}
