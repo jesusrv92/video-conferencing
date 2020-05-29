@@ -7,22 +7,25 @@ audio, video {
     vertical-align: top;
 }
 
+#conference-input{
+    display: flex;
+    align-content: center;
+    height: 100%;
+}
+
 input {
+    flex: auto;
     border: 1px solid #d9d9d9;
     border-radius: 1px;
-    font-size: 2em;
+    font-size: 1em;
     margin: .2em;
-    width: 30%;
+    padding: 0 .3em;
 }
 
 .setup {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    font-size: 102%;
-    height: 47px;
-    margin-left: -9px;
-    margin-top: 8px;
-    position: absolute;
+    flex: auto;
+    font-size: 1em;
+    margin: .2em;
 }
 
 p {
@@ -50,9 +53,12 @@ body {
     align-items: center;
     justify-content: center;
     font-size: calc(10px + 2vmin);
-    color: white;
 }
 
 a {
     color: #61dafb;
+}
+
+tr,td,th{
+    vertical-align: middle;
 }
