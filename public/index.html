@@ -10,9 +10,12 @@
     <title>WebRTC Video Conferencing</title>
 
     <script>
+        var invited = false;
         if (!location.hash.replace('#', '').length) {
             location.href = location.href.split('#')[0] + '#' + (Math.random() * 100).toString().replace('.', '');
-            location.reload();
+        }
+        else {
+            invited = true;
         }
     </script>
 
@@ -40,9 +43,9 @@
 
     <script src="https://www.webrtc-experiment.com/socket.io.js"> </script>
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-    <script src="https://www.webrtc-experiment.com/IceServersHandler.js"></script>
     <script src="https://www.webrtc-experiment.com/CodecsHandler.js"></script>
     <script src="https://www.webrtc-experiment.com/RTCPeerConnection-v1.5.js"> </script>
+    <script src="https://www.webrtc-experiment.com/IceServersHandler.js"></script>
     <script src="./conference.js"> </script>
 </head>
 
@@ -51,17 +54,19 @@
         <header style="text-align: center;">
             <!-- just copy this <section> and next script -->
             <section class="experiment">
-                <section>
+                <section id="new-conference">
                     <span>
                         Private ?? <a href="/video-conferencing/" target="_blank"
                             title="Open this link in new tab. Then your conference room will be private!"><code><strong id="unique-token">#123456789</strong></code></a>
                     </span>
                     <div id="conference-input">
-                        <input type="text" id="conference-name" placeholder="Conference Name">
+                        <input type="text" id="conference-name" placeholder="Conference Name" hidden>
                         <button id="setup-new-room" class="setup">Setup New Conference</button>
                     </div>
                 </section>
-
+                <script>
+                    document.getElementById('new-conference').hidden = invited;
+                </script>
                 <!-- list of all available conferencing rooms -->
                 <table style="width: 100%;" id="rooms-list"></table>
 
