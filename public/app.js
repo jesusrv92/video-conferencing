@@ -50,7 +50,7 @@ var config = {
         if (typeof roomsList === 'undefined') roomsList = document.body;
 
         var tr = document.createElement('tr');
-        tr.innerHTML = '<td><strong>' + room.roomName + '</strong> room available</td>' +
+        tr.innerHTML = '<td>Room available</td>' +
             '<td><button class="join">Join</button></td>';
         roomsList.appendChild(tr);
 
