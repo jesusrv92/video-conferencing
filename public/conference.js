@@ -15,7 +15,7 @@ var conference = function(config) {
     var defaultSocket = { };
 
     function openDefaultSocket(callback) {
-        defaultSocket = config.openSocket({
+        config.openSocket({
             onmessage: onDefaultSocketResponse,
             callback: function(socket) {
                 defaultSocket = socket;
@@ -26,7 +26,7 @@ var conference = function(config) {
 
     function onDefaultSocketResponse(response) {
         if (response.userToken == self.userToken) return;
-
+        
         if (isGetNewRoom && response.roomToken && response.broadcaster) config.onRoomFound(response);
 
         if (response.newParticipant && self.joinedARoom && self.broadcasterid == response.userToken) onNewParticipant(response.newParticipant);
