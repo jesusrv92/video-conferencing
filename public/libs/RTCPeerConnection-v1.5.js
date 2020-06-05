@@ -30,7 +30,7 @@ var RTCPeerConnection = function (options) {
             options.onICE(event.candidate);
     };
 
-    if(peer.addTrack === 'function') {
+    if(typeof peer.addTrack === 'function') {
         // attachStream = MediaStream;
         if (options.attachStream) {
             options.attachStream.getTracks().forEach(function(track) {
