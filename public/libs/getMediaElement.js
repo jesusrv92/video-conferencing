@@ -204,15 +204,15 @@ function getMediaElement(mediaElement, config) {
 
         function exitFullScreen() {
             if (document.fullscreen) {
-                document.cancelFullScreen();
+                document.exitFullscreen();
             }
 
             if (document.mozFullScreen) {
-                document.mozCancelFullScreen();
+                document.mozExitFullscreen();
             }
 
             if (document.webkitIsFullScreen) {
-                document.webkitCancelFullScreen();
+                document.webkitExitFullscreen();
             }
         }
 
