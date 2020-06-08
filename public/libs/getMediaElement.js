@@ -83,14 +83,10 @@ function getMediaElement(mediaElement, config) {
         muteVideo.onclick = function() {
             if (muteVideo.className.indexOf('unmute-video') != -1) {
                 muteVideo.className = muteVideo.className.replace('unmute-video selected', 'mute-video');
-                mediaElement.muted = false;
-                mediaElement.volume = 1;
                 mediaElement.play();
                 if (config.onUnMuted) config.onUnMuted('video');
             } else {
                 muteVideo.className = muteVideo.className.replace('mute-video', 'unmute-video selected');
-                mediaElement.muted = true;
-                mediaElement.volume = 0;
                 mediaElement.pause();
                 if (config.onMuted) config.onMuted('video');
             }
