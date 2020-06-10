@@ -2,6 +2,8 @@
 // MIT License   - https://www.webrtc-experiment.com/licence/
 // Documentation - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/video-conferencing
 
+import rotateVideo from './utils/rotateVideo'
+
 var config = {
     // via: https://github.com/muaz-khan/WebRTC-Experiment/tree/master/socketio-over-nodejs
     openSocket: function (config) {
@@ -139,12 +141,7 @@ var roomsList = document.getElementById('rooms-list');
 
 if (btnSetupNewRoom) btnSetupNewRoom.onclick = setupNewRoomButtonClickHandler;
 
-function rotateVideo(video) {
-    video.style[navigator.mozGetUserMedia ? 'transform' : '-webkit-transform'] = 'rotate(0deg)';
-    setTimeout(function () {
-        video.style[navigator.mozGetUserMedia ? 'transform' : '-webkit-transform'] = 'rotate(360deg)';
-    }, 1000);
-}
+
 
 (function () {
     var uniqueToken = document.getElementById('unique-token');
