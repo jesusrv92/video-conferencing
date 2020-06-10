@@ -116,6 +116,8 @@ var conference = function(config) {
             }
 
             peer = RTCPeerConnection(peerConfig);
+            // console.log(peer)
+            // window.peerGlobal = peer;
         }
         
         function afterRemoteStreamStartedFlowing() {
@@ -191,18 +193,13 @@ var conference = function(config) {
     }
 
     function leave() {
-        var length = sockets.length;
-        for (var i = 0; i < length; i++) {
-            var socket = sockets[i];
-            if (socket) {
-                socket.send({
-                    left: true,
-                    userToken: self.userToken
-                });
-                delete sockets[i];
-            }
-        }
-
+        sockets.forEach(socket =>{
+            socket.send({
+                left: true,
+                userToken: self.userToken
+            });
+        });
+        sockets = [];
         // if owner leaves; try to remove his room from all other users side
         if (isbroadcaster) {
             defaultSocket.send({
@@ -223,15 +220,7 @@ var conference = function(config) {
             }
         }
     }
-    
-    window.addEventListener('beforeunload', function () {
-        leave();
-    }, false);
-
-    window.addEventListener('keyup', function (e) {
-        if (e.keyCode == 116)
-            leave();
-    }, false);
+    window.onbeforeunload = leave;
 
     function startBroadcasting() {
         defaultSocket && defaultSocket.send({
