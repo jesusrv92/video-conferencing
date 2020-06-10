@@ -65,7 +65,7 @@ function getMediaElement(mediaElement, config) {
             if (muteAudio.className.indexOf('unmute-audio') != -1) {
                 muteAudio.className = muteAudio.className.replace('unmute-audio selected', 'mute-audio');
                 mediaElement.muted = false;
-                mediaElement.volume = 1;
+                if(config.selfStream) mediaElement.volume = 1;
                 audioMediaStreamTrack.enabled = true;
                 if (config.onUnMuted) config.onUnMuted('audio');
             } else {
