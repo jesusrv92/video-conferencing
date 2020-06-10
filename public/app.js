@@ -2,8 +2,6 @@
 // MIT License   - https://www.webrtc-experiment.com/licence/
 // Documentation - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/video-conferencing
 
-import rotateVideo from './utils/rotateVideo'
-
 var config = {
     // via: https://github.com/muaz-khan/WebRTC-Experiment/tree/master/socketio-over-nodejs
     openSocket: function (config) {
@@ -118,9 +116,10 @@ function captureUserMedia(callback, failure_callback) {
 
             var mediaElement = getMediaElement(video, {
                 width: '50%',
-                buttons: ['mute-audio', 'mute-video']
+                buttons: ['mute-audio', 'mute-video'],
+                selfStream: true
             });
-            mediaElement.toggle('mute-audio');
+            // mediaElement.toggle('mute-audio');
             videosContainer.appendChild(mediaElement);
 
             callback && callback();
@@ -149,35 +148,3 @@ if (btnSetupNewRoom) btnSetupNewRoom.onclick = setupNewRoomButtonClickHandler;
         if (location.hash.length > 2) uniqueToken.parentNode.parentNode.parentNode.innerHTML = '<h2 style="text-align:center;display: block;"><a href="' + location.href + '" target="_blank">Right click to copy & share this private link</a></h2>';
         else uniqueToken.innerHTML = uniqueToken.parentNode.parentNode.href = '#' + (Math.random() * new Date().getTime()).toString(36).toUpperCase().replace(/\./g, '-');
 })();
-
-function scaleVideos() {
-    var videos = document.querySelectorAll('video'),
-        length = videos.length, video;
-
-    var minus = 130;
-    var windowHeight = 700;
-    var windowWidth = 600;
-    var windowAspectRatio = windowWidth / windowHeight;
-    var videoAspectRatio = 4 / 3;
-    var blockAspectRatio;
-    var tempVideoWidth = 0;
-    var maxVideoWidth = 0;
-
-    for (var i = length; i > 0; i--) {
-        blockAspectRatio = i * videoAspectRatio / Math.ceil(length / i);
-        if (blockAspectRatio <= windowAspectRatio) {
-            tempVideoWidth = videoAspectRatio * windowHeight / Math.ceil(length / i);
-        } else {
-            tempVideoWidth = windowWidth / i;
-        }
-        if (tempVideoWidth > maxVideoWidth)
-            maxVideoWidth = tempVideoWidth;
-    }
-    for (var i = 0; i < length; i++) {
-        video = videos[i];
-        if (video)
-            video.width = maxVideoWidth - minus;
-    }
-}
-
-window.onresize = scaleVideos;
