@@ -192,15 +192,6 @@ var RTCPeerConnection = function (options) {
         };
     }
 
-    // fake:true is also available on chrome under a flag!
-
-    function useless() {
-        console.error('Error in fake:true');
-    }
-
-    function onSdpSuccess() {
-    }
-
     function onSdpError(e) {
         var message = JSON.stringify(e, null, '\t');
 
@@ -254,13 +245,6 @@ function getUserMedia(options) {
             alert(e.message || JSON.stringify(e));
         });
 }
-
-window.moz = !!navigator.mozGetUserMedia;
-var chromeVersion = 70;
-try {
-    chromeVersion = !!navigator.mozGetUserMedia ? 0 : parseInt(navigator.userAgent.match( /Chrom(e|ium)\/([0-9]+)\./ )[2]);
-}
-catch(e) {}
 
 // IceServersHandler.js
 
