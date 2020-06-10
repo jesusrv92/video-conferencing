@@ -61,15 +61,18 @@ function getMediaElement(mediaElement, config) {
         mediaControls.appendChild(muteAudio);
 
         muteAudio.onclick = function() {
+            let [audioMediaStreamTrack] = mediaElement.srcObject.getAudioTracks()
             if (muteAudio.className.indexOf('unmute-audio') != -1) {
                 muteAudio.className = muteAudio.className.replace('unmute-audio selected', 'mute-audio');
                 mediaElement.muted = false;
                 mediaElement.volume = 1;
+                audioMediaStreamTrack.enabled = true;
                 if (config.onUnMuted) config.onUnMuted('audio');
             } else {
                 muteAudio.className = muteAudio.className.replace('mute-audio', 'unmute-audio selected');
                 mediaElement.muted = true;
                 mediaElement.volume = 0;
+                audioMediaStreamTrack.enabled = false;
                 if (config.onMuted) config.onMuted('audio');
             }
         };
@@ -81,13 +84,16 @@ function getMediaElement(mediaElement, config) {
         mediaControls.appendChild(muteVideo);
 
         muteVideo.onclick = function() {
+            let [videoMediaStreamTrack] = mediaElement.srcObject.getVideoTracks()
             if (muteVideo.className.indexOf('unmute-video') != -1) {
                 muteVideo.className = muteVideo.className.replace('unmute-video selected', 'mute-video');
                 mediaElement.play();
+                videoMediaStreamTrack.enabled = true;
                 if (config.onUnMuted) config.onUnMuted('video');
             } else {
                 muteVideo.className = muteVideo.className.replace('mute-video', 'unmute-video selected');
                 mediaElement.pause();
+                videoMediaStreamTrack.enabled = false;
                 if (config.onMuted) config.onMuted('video');
             }
         };
@@ -251,13 +257,11 @@ function getMediaElement(mediaElement, config) {
 
     if (!config.width) config.width = (innerWidth / 2) - 50;
 
-    mediaElementContainer.style.width = config.width + 'px';
+    mediaElementContainer.style.width = config.width;
 
     if (config.height) {
-        mediaBox.style.height = config.height + 'px';
+        mediaBox.style.height = config.height;
     }
-
-    mediaBox.querySelector('video').style.maxHeight = innerHeight + 'px';
 
     var times = 0;
 
