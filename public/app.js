@@ -32,8 +32,8 @@ var config = {
     },
     onRemoteStream: function (media) {
         var mediaElement = getMediaElement(media.video, {
-            width: (videosContainer.clientWidth / 2) - 50,
-            buttons: ['mute-audio', 'mute-video', 'full-screen', 'volume-slider']
+            width: '50%',
+            buttons: ['mute-audio', 'mute-video']
         });
         mediaElement.id = media.stream.streamid;
         videosContainer.appendChild(mediaElement);
@@ -75,10 +75,6 @@ var config = {
     onRoomClosed: function (room) {
         var joinButton = document.querySelector('button[data-roomToken="' + room.roomToken + '"]');
         if (joinButton) {
-            // joinButton.parentNode === <li>
-            // joinButton.parentNode.parentNode === <td>
-            // joinButton.parentNode.parentNode.parentNode === <tr>
-            // joinButton.parentNode.parentNode.parentNode.parentNode === <table>
             joinButton.parentNode.parentNode.parentNode.parentNode.removeChild(joinButton.parentNode.parentNode.parentNode);
         }
     },
@@ -89,7 +85,6 @@ var config = {
 
 function setupNewRoomButtonClickHandler() {
     btnSetupNewRoom.disabled = true;
-    document.getElementById('conference-name').disabled = true;
     captureUserMedia(function () {
         conferenceUI.createRoom({
             roomName: (document.getElementById('conference-name') || {}).value || 'Anonymous'
@@ -120,8 +115,8 @@ function captureUserMedia(callback, failure_callback) {
             config.attachStream = stream;
 
             var mediaElement = getMediaElement(video, {
-                width: (videosContainer.clientWidth / 2) - 50,
-                buttons: ['mute-audio', 'mute-video', 'full-screen', 'volume-slider']
+                width: '50%',
+                buttons: ['mute-audio', 'mute-video']
             });
             mediaElement.toggle('mute-audio');
             videosContainer.appendChild(mediaElement);
