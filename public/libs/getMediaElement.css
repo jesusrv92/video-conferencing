@@ -33,6 +33,7 @@ Demo          - www.WebRTC-Experiment.com/getMediaElement
     overflow: hidden;
     vertical-align: top;
     background: white;
+    box-sizing: border-box;
 }
 
 .media-box {
