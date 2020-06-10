@@ -59,30 +59,25 @@
 
 <body>
     <article>
-        <header style="text-align: center;">
-            <!-- just copy this <section> and next script -->
-            <section class="experiment">
-                <section id="new-conference">
-                    <span>
-                        Private ?? <a href="/video-conferencing/" target="_blank"
-                            title="Open this link in new tab. Then your conference room will be private!"><code><strong id="unique-token">#123456789</strong></code></a>
-                    </span>
-                    <div id="conference-input">
-                        <input type="text" id="conference-name" placeholder="Conference Name" hidden>
-                        <button id="setup-new-room" class="setup">Setup New Conference</button>
-                    </div>
-                </section>
-                <script>
-                    document.getElementById('new-conference').hidden = invited;
-                </script>
-                <!-- list of all available conferencing rooms -->
-                <table style="width: 100%;" id="rooms-list"></table>
+        <section id="new-conference">
+            <span>
+                Private ?? <a href="/video-conferencing/" target="_blank"
+                    title="Open this link in new tab. Then your conference room will be private!"><code><strong id="unique-token">#123456789</strong></code></a>
+            </span>
+            <div id="conference-input">
+                <button id="setup-new-room" class="setup">Setup New Conference</button>
+            </div>
+        </section>
+        <script>
+            document.getElementById('new-conference').hidden = invited;
+        </script>
+        <!-- list of all available conferencing rooms -->
+        <table style="width: 100%;" id="rooms-list"></table>
 
-                <!-- local/remote videos container -->
-                <div id="videos-container"></div>
-            </section>
+        <!-- local/remote videos container -->
+        <div id="videos-container"></div>
 
-            <script src="./app.js"></script>
+        <script src="./app.js"></script>
     </article>
 </body>
 
