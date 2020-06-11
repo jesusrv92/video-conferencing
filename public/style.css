@@ -639,3 +639,7 @@ a {
 tr,td,th{
     vertical-align: middle;
 }
+
+#videos-container{
+    text-align: center;
+}
