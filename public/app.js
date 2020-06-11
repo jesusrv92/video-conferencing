@@ -32,7 +32,7 @@ var config = {
     },
     onRemoteStream: function (media) {
         var mediaElement = getMediaElement(media.video, {
-            width: '50%',
+            width: '30%',
             buttons: ['mute-audio', 'mute-video']
         });
         mediaElement.id = media.stream.streamid;
@@ -115,7 +115,7 @@ function captureUserMedia(callback, failure_callback) {
             config.attachStream = stream;
 
             var mediaElement = getMediaElement(video, {
-                width: '50%',
+                width: '30%',
                 buttons: ['mute-audio', 'mute-video'],
                 selfStream: true
             });
