@@ -58,9 +58,11 @@ var RTCPeerConnection = function (options) {
             dontDuplicate[remoteMediaStream.id] = true;
 
             // onRemoteStreamEnded(MediaStream)
-            remoteMediaStream.onended = remoteMediaStream.oninactive = function() {
-                if (options.onRemoteStreamEnded) options.onRemoteStreamEnded(remoteMediaStream);
-            };
+            // TODO: ADD EVENT LISTENER FOR WHEN TRACKS END
+            // remoteMediaStream.onended = remoteMediaStream.oninactive = function() {
+            //     console.log('THIS SHOULD CALL REMOTE STREAM ENDED')
+            //     if (options.onRemoteStreamEnded) options.onRemoteStreamEnded(remoteMediaStream);
+            // };
 
             // onRemoteStream(MediaStream)
             if (options.onRemoteStream) options.onRemoteStream(remoteMediaStream);
