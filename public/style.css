@@ -8,9 +8,8 @@ audio, video {
 }
 
 #conference-input{
-    display: flex;
-    align-content: center;
     height: 100%;
+    text-align: center;
 }
 
 input {
@@ -23,7 +22,6 @@ input {
 }
 
 .setup {
-    flex: auto;
     font-size: 1em;
     margin: .2em;
 }
