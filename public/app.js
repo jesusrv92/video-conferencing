@@ -154,21 +154,22 @@ hangUp.onclick = () => {
     invitation.disabled = true;
     // This sends a signal to stop streaming and remove the video component
     // on the others browsers
-    config.attachStream.getTracks().forEach(track=>{
+    config.attachStream.getTracks().forEach(track => {
         track.stop();
         track.dispatchEvent(new Event('ended'));
     })
     videosContainer.innerHTML = "";
 }
-window.onbeforeunload = ()=>{
+window.onbeforeunload = () => {
     // This cleans up the socket server
     conferenceUI.leaveRoom();
     // This sends a signal to stop streaming and remove the video component
     // on the others browsers
-    config.attachStream.getTracks().forEach(track=>{
+    config.attachStream.getTracks().forEach(track => {
         track.stop();
         track.dispatchEvent(new Event('ended'));
     })
+    return hangUp.disabled ? null : 'Call on going, please hang up';
 }
 (function () {
     var uniqueToken = document.getElementById('unique-token');
