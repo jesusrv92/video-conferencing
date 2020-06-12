@@ -160,7 +160,7 @@ hangUp.onclick = () => {
     })
     videosContainer.innerHTML = "";
 }
-window.onbeforeunload = () => {
+window.onclose = window.onbeforeunload = () => {
     // This cleans up the socket server
     conferenceUI.leaveRoom();
     // This sends a signal to stop streaming and remove the video component
@@ -169,7 +169,6 @@ window.onbeforeunload = () => {
         track.stop();
         track.dispatchEvent(new Event('ended'));
     })
-    return hangUp.disabled ? null : 'Call on going, please hang up';
 }
 (function () {
     var uniqueToken = document.getElementById('unique-token');
