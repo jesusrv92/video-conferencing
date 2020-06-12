@@ -145,11 +145,15 @@ var invitation = document.getElementById('invitation');
 var roomsList = document.getElementById('rooms-list');
 
 if (btnSetupNewRoom) btnSetupNewRoom.onclick = setupNewRoomButtonClickHandler;
+// The hangUp button resets the page to the default state
 hangUp.onclick = () => {
+    // This cleans up the socket server
     conferenceUI.leaveRoom();
     btnSetupNewRoom.disabled = false;
     hangUp.disabled = true;
     invitation.disabled = true;
+    // This sends a signal to stop streaming and remove the video component
+    // on the others browsers
     config.attachStream.getTracks().forEach(track=>{
         track.stop();
         track.dispatchEvent(new Event('ended'));
@@ -157,7 +161,10 @@ hangUp.onclick = () => {
     videosContainer.innerHTML = "";
 }
 window.onbeforeunload = ()=>{
+    // This cleans up the socket server
     conferenceUI.leaveRoom();
+    // This sends a signal to stop streaming and remove the video component
+    // on the others browsers
     config.attachStream.getTracks().forEach(track=>{
         track.stop();
         track.dispatchEvent(new Event('ended'));
