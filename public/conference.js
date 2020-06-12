@@ -220,7 +220,6 @@ var conference = function(config) {
             }
         }
     }
-    window.onbeforeunload = leave;
 
     function startBroadcasting() {
         defaultSocket && defaultSocket.send({
