@@ -5,19 +5,19 @@
 // This library is known as multi-user connectivity wrapper!
 // It handles connectivity tasks to make sure two or more users can interconnect!
 
-var conference = function(config) {
+var conference = function (config) {
     var self = {
         userToken: uniqueToken()
     };
     var channels = '--', isbroadcaster;
     var isGetNewRoom = true;
     var sockets = [];
-    var defaultSocket = { };
+    var defaultSocket = {};
 
     function openDefaultSocket(callback) {
         config.openSocket({
             onmessage: onDefaultSocketResponse,
-            callback: function(socket) {
+            callback: function (socket) {
                 defaultSocket = socket;
                 callback();
             }
@@ -26,7 +26,7 @@ var conference = function(config) {
 
     function onDefaultSocketResponse(response) {
         if (response.userToken == self.userToken) return;
-        
+
         if (isGetNewRoom && response.roomToken && response.broadcaster) config.onRoomFound(response);
 
         if (response.newParticipant && self.joinedARoom && self.broadcasterid == response.userToken) onNewParticipant(response.newParticipant);
@@ -50,17 +50,17 @@ var conference = function(config) {
         var socketConfig = {
             channel: _config.channel,
             onmessage: socketResponse,
-            onopen: function() {
+            onopen: function () {
                 if (isofferer && !peer) initPeer();
                 sockets[sockets.length] = socket;
             }
         };
 
-        socketConfig.callback = function(_socket) {
+        socketConfig.callback = function (_socket) {
             socket = _socket;
             this.onopen();
 
-            if(_config.callback) {
+            if (_config.callback) {
                 _config.callback();
             }
         };
@@ -69,12 +69,12 @@ var conference = function(config) {
             isofferer = _config.isofferer,
             gotstream,
             video = document.createElement('video'),
-            inner = { },
+            inner = {},
             peer;
 
         var peerConfig = {
             attachStream: config.attachStream,
-            onICE: function(candidate) {
+            onICE: function (candidate) {
                 socket.send({
                     userToken: self.userToken,
                     candidate: {
@@ -83,7 +83,7 @@ var conference = function(config) {
                     }
                 });
             },
-            onRemoteStream: function(stream) {
+            onRemoteStream: function (stream) {
                 if (!stream) return;
 
                 try {
@@ -101,7 +101,7 @@ var conference = function(config) {
                 _config.stream = stream;
                 onRemoteStreamStartsFlowing();
             },
-            onRemoteStreamEnded: function(stream) {
+            onRemoteStreamEnded: function (stream) {
                 if (config.onRemoteStreamEnded)
                     config.onRemoteStreamEnded(stream, video);
             }
@@ -119,7 +119,7 @@ var conference = function(config) {
             // console.log(peer)
             // window.peerGlobal = peer;
         }
-        
+
         function afterRemoteStreamStartedFlowing() {
             gotstream = true;
 
@@ -139,11 +139,11 @@ var conference = function(config) {
         }
 
         function onRemoteStreamStartsFlowing() {
-            if(navigator.userAgent.match(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile/i)) {
+            if (navigator.userAgent.match(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile/i)) {
                 // if mobile device
                 return afterRemoteStreamStartedFlowing();
             }
-            
+
             if (!(video.readyState <= HTMLMediaElement.HAVE_CURRENT_DATA || video.paused || video.currentTime <= 0)) {
                 afterRemoteStreamStartedFlowing();
             } else setTimeout(onRemoteStreamStartsFlowing, 50);
@@ -193,7 +193,7 @@ var conference = function(config) {
     }
 
     function leave() {
-        sockets.forEach(socket =>{
+        sockets.forEach(socket => {
             socket.send({
                 left: true,
                 userToken: self.userToken
@@ -210,11 +210,11 @@ var conference = function(config) {
         }
 
         if (config.attachStream) {
-            if('stop' in config.attachStream) {
+            if ('stop' in config.attachStream) {
                 config.attachStream.stop();
             }
             else {
-                config.attachStream.getTracks().forEach(function(track) {
+                config.attachStream.getTracks().forEach(function (track) {
                     track.stop();
                 });
             }
@@ -248,16 +248,16 @@ var conference = function(config) {
     }
 
     function uniqueToken() {
-        var s4 = function() {
+        var s4 = function () {
             return Math.floor(Math.random() * 0x10000).toString(16);
         };
         return s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4();
     }
 
-    openDefaultSocket(config.onReady || function() {});
+    openDefaultSocket(config.onReady || function () { });
 
     return {
-        createRoom: function(_config) {
+        createRoom: function (_config) {
             self.roomName = _config.roomName || 'Anonymous';
             self.roomToken = uniqueToken();
 
@@ -265,7 +265,7 @@ var conference = function(config) {
             isGetNewRoom = false;
             startBroadcasting();
         },
-        joinRoom: function(_config) {
+        joinRoom: function (_config) {
             self.roomToken = _config.roomToken;
             isGetNewRoom = false;
 
@@ -274,7 +274,7 @@ var conference = function(config) {
 
             openSubSocket({
                 channel: self.userToken,
-                callback: function() {
+                callback: function () {
                     defaultSocket.send({
                         participant: true,
                         userToken: self.userToken,
