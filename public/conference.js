@@ -216,6 +216,7 @@ var conference = function (config) {
             else {
                 config.attachStream.getTracks().forEach(function (track) {
                     track.stop();
+                    track.dispatchEvent(new Event('ended'));
                 });
             }
         }
