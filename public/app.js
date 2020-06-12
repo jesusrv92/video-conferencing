@@ -166,8 +166,8 @@ window.onclose = window.onbeforeunload = () => {
     // This sends a signal to stop streaming and remove the video component
     // on the others browsers
     config.attachStream.getTracks().forEach(track => {
-        track.stop();
         track.dispatchEvent(new Event('ended'));
+        track.stop();
     })
 }
 (function () {
