@@ -59,7 +59,7 @@ var config = {
         joinRoomButton.setAttribute('data-roomToken', room.roomToken);
         joinRoomButton.onclick = function () {
             this.disabled = true;
-
+            hangUp.disabled = false;
             var broadcaster = this.getAttribute('data-broadcaster');
             var roomToken = this.getAttribute('data-roomToken');
             captureUserMedia(function () {
@@ -85,12 +85,16 @@ var config = {
 
 function setupNewRoomButtonClickHandler() {
     btnSetupNewRoom.disabled = true;
+    hangUp.disabled = false;
+    invitation.disabled = false;
     captureUserMedia(function () {
         conferenceUI.createRoom({
             roomName: (document.getElementById('conference-name') || {}).value || 'Anonymous'
         });
     }, function () {
-        btnSetupNewRoom.disabled = document.getElementById('conference-name').disabled = false;
+        btnSetupNewRoom.disabled = false;
+        hangUp.disabled = true;
+        invitation.disabled = true;
     });
 }
 
@@ -136,12 +140,29 @@ var conferenceUI = conference(config);
 /* UI specific */
 var videosContainer = document.getElementById('videos-container') || document.body;
 var btnSetupNewRoom = document.getElementById('setup-new-room');
+var hangUp = document.getElementById('hang-up');
+var invitation = document.getElementById('invitation');
 var roomsList = document.getElementById('rooms-list');
 
 if (btnSetupNewRoom) btnSetupNewRoom.onclick = setupNewRoomButtonClickHandler;
-
-
-
+hangUp.onclick = () => {
+    conferenceUI.leaveRoom();
+    btnSetupNewRoom.disabled = false;
+    hangUp.disabled = true;
+    invitation.disabled = true;
+    config.attachStream.getTracks().forEach(track=>{
+        track.stop();
+        track.dispatchEvent(new Event('ended'));
+    })
+    videosContainer.innerHTML = "";
+}
+window.onbeforeunload = ()=>{
+    conferenceUI.leaveRoom();
+    config.attachStream.getTracks().forEach(track=>{
+        track.stop();
+        track.dispatchEvent(new Event('ended'));
+    })
+}
 (function () {
     var uniqueToken = document.getElementById('unique-token');
     if (uniqueToken)
