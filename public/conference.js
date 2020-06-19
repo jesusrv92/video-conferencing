@@ -120,6 +120,14 @@ var conference = function (config) {
             // console.log(peer)
             peers.push(peer);
             peer.peer.oniceconnectionstatechange = () => {
+                if (peer.peer.iceConnectionState === 'connected' || peer.peer.iceConnectionState === 'completed') {
+                    const [disconnectedContainer] = video.parentElement.parentElement.getElementsByClassName('disconnected');
+                    disconnectedContainer.hidden = true;
+                }
+                if (peer.peer.iceConnectionState === 'disconnected') {
+                    const [disconnectedContainer] = video.parentElement.parentElement.getElementsByClassName('disconnected');
+                    disconnectedContainer.hidden = false;
+                }
                 if (peer.peer.iceConnectionState === 'failed') peer.peer.close();
             }
         }
