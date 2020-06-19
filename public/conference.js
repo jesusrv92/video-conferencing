@@ -13,6 +13,7 @@ var conference = function (config) {
     var isGetNewRoom = true;
     var sockets = [];
     var defaultSocket = {};
+    var peers = []
 
     function openDefaultSocket(callback) {
         config.openSocket({
@@ -117,7 +118,10 @@ var conference = function (config) {
 
             peer = RTCPeerConnection(peerConfig);
             // console.log(peer)
-            // window.peerGlobal = peer;
+            peers.push(peer);
+            peer.peer.oniceconnectionstatechange = () => {
+                if (peer.peer.iceConnectionState === 'failed') peer.peer.close();
+            }
         }
 
         function afterRemoteStreamStartedFlowing() {
@@ -284,6 +288,7 @@ var conference = function (config) {
                 }
             });
         },
-        leaveRoom: leave
+        leaveRoom: leave,
+        peers
     };
 };
