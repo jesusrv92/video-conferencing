@@ -98,6 +98,8 @@ function setupNewRoomButtonClickHandler() {
     });
 }
 
+const bandwidthSelector = document.getElementById('bandwidth');
+
 function captureUserMedia(callback, failure_callback) {
     var video = document.createElement('video');
     video.muted = true;
@@ -125,6 +127,7 @@ function captureUserMedia(callback, failure_callback) {
             });
             // mediaElement.toggle('mute-audio');
             videosContainer.appendChild(mediaElement);
+            bandwidthSelector.disabled = false;
 
             callback && callback();
         },
@@ -176,3 +179,59 @@ window.onclose = window.onbeforeunload = () => {
         if (location.hash.length > 2) uniqueToken.parentNode.parentNode.parentNode.innerHTML = '<h2 style="text-align:center;display: block;"><a href="' + location.href + '" target="_blank">Right click to copy & share this private link</a></h2>';
         else uniqueToken.innerHTML = uniqueToken.parentNode.parentNode.href = '#' + (Math.random() * new Date().getTime()).toString(36).toUpperCase().replace(/\./g, '-');
 })();
+
+bandwidthSelector.onchange = () => {
+    bandwidthSelector.disabled = true;
+    const bandwidth = bandwidthSelector.options[bandwidthSelector.selectedIndex].value;
+
+    // In Chrome, use RTCRtpSender.setParameters to change bandwidth without
+    // (local) renegotiation. Note that this will be within the envelope of
+    // the initial maximum bandwidth negotiated via SDP.
+    if ((adapter.browserDetails.browser === 'chrome' ||
+        adapter.browserDetails.browser === 'safari' ||
+        (adapter.browserDetails.browser === 'firefox' &&
+            adapter.browserDetails.version >= 64)) &&
+        'RTCRtpSender' in window &&
+        'setParameters' in window.RTCRtpSender.prototype) {
+        conferenceUI.peers.forEach((peer) => {
+            const senders = peer.peer.getSenders();
+            const [videoSender] = senders.filter(sender => sender.track.kind === 'video')
+            const parameters = videoSender.getParameters();
+            if (!parameters.encodings) {
+                parameters.encodings = [{}];
+            }
+            if (bandwidth === 'unlimited') {
+                delete parameters.encodings[0].maxBitrate;
+            } else {
+                parameters.encodings[0].maxBitrate = bandwidth * 1000;
+            }
+            videoSender.setParameters(parameters)
+                .then(() => {
+                    bandwidthSelector.disabled = false;
+                })
+                .catch(e => console.error(e));
+        });
+        return;
+    }
+    // Fallback to the SDP munging with local renegotiation way of limiting
+    // the bandwidth.
+    conferenceUI.peers.forEach(peer => {
+        peer.peer.createOffer()
+            .then(offer => peer.setLocalDescription(offer))
+            .then(() => {
+                const desc = {
+                    type: peer.remoteDescription.type,
+                    sdp: bandwidth === 'unlimited' ?
+                        removeBandwidthRestriction(peer.remoteDescription.sdp) :
+                        updateBandwidthRestriction(peer.remoteDescription.sdp, bandwidth)
+                };
+                console.log('Applying bandwidth restriction to setRemoteDescription:\n' +
+                    desc.sdp);
+                return peer.setRemoteDescription(desc);
+            })
+            .then(() => {
+                bandwidthSelector.disabled = false;
+            })
+            .catch(error => console.log('Failed to set session description: ' + error.toString()));
+    });
+};
