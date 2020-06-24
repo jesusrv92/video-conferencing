@@ -121,6 +121,7 @@ var conference = function (config) {
             peers.push(peer);
             peer.peer.oniceconnectionstatechange = () => {
                 if (peer.peer.iceConnectionState === 'connected' || peer.peer.iceConnectionState === 'completed') {
+                    if(!video.parentElement) return;
                     const [disconnectedContainer] = video.parentElement.parentElement.getElementsByClassName('disconnected');
                     disconnectedContainer.hidden = true;
                 }
