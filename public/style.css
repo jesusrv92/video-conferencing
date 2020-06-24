@@ -19,8 +19,8 @@ article {
     background: #fff;
     border: 1px solid;
     border-color: #ddd #aaa #aaa #ddd;
-    margin: 2.5em auto 0 auto;
-    padding: 2em;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 h1 {
