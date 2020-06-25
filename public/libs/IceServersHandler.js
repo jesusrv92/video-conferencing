@@ -1,3 +1,8 @@
+/*
+Modified by: Jesus Romero
+https://github.com/jesusrv92/video-conferencing
+*/
+
 // IceServersHandler.js
 
 var IceServersHandler = (function() {

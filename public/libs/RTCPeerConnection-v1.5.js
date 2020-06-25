@@ -1,3 +1,8 @@
+/*
+Modified by: Jesus Romero
+https://github.com/jesusrv92/video-conferencing
+*/
+
 // Last time updated on: Dec 22, 2018
 
 // Muaz Khan     - github.com/muaz-khan

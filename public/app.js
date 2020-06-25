@@ -1,3 +1,8 @@
+/*
+Modified by: Jesus Romero
+https://github.com/jesusrv92/video-conferencing
+*/
+
 // Muaz Khan     - https://github.com/muaz-khan
 // MIT License   - https://www.webrtc-experiment.com/licence/
 // Documentation - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/video-conferencing
