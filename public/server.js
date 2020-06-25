@@ -7,7 +7,17 @@ var port = process.env.PORT || 9001;
 var server = require('http'),
     url = require('url'),
     path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    mimeTypes = {
+        "html": "text/html",
+        "jpeg": "image/jpeg",
+        "jpg": "image/jpeg",
+        "png": "image/png",
+        "svg": "image/svg+xml",
+        "json": "application/json",
+        "js": "text/javascript",
+        "css": "text/css"
+    };
 
 function serverHandler(request, response) {
     try {
@@ -45,7 +55,7 @@ function serverHandler(request, response) {
         }
 
 
-        fs.readFile(filename, 'utf8', function(err, file) {
+        fs.readFile(filename, 'utf8', function (err, file) {
             if (err) {
                 response.writeHead(500, {
                     'Content-Type': 'text/plain'
@@ -54,8 +64,8 @@ function serverHandler(request, response) {
                 response.end();
                 return;
             }
-
-            response.writeHead(200);
+            var filetype = filename.substring(filename.lastIndexOf('.') + 1);
+            response.writeHead(200, { "Content-Type": mimeTypes[filetype] });
             response.write(file, 'utf8');
             response.end();
         });
@@ -71,7 +81,7 @@ function serverHandler(request, response) {
 var app = server.createServer(serverHandler);
 
 function runServer() {
-    app = app.listen(port, process.env.IP || '0.0.0.0', function() {
+    app = app.listen(port, process.env.IP || '0.0.0.0', function () {
         var addr = app.address();
 
         if (addr.address === '0.0.0.0') {
