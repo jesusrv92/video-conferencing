@@ -177,7 +177,7 @@ hangUp.onclick = () => {
     invitation.disabled = true;
     // This sends a signal to stop streaming and remove the video component
     // on the others browsers
-    config.attachStream.getTracks().forEach(track => {
+    config.attachStream?.getTracks().forEach(track => {
         track.stop();
         track.dispatchEvent(new Event('ended'));
     })
@@ -188,7 +188,7 @@ window.onclose = window.onbeforeunload = () => {
     conferenceUI.leaveRoom();
     // This sends a signal to stop streaming and remove the video component
     // on the others browsers
-    config.attachStream.getTracks().forEach(track => {
+    config.attachStream?.getTracks().forEach(track => {
         track.dispatchEvent(new Event('ended'));
         track.stop();
     })
