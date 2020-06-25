@@ -17,6 +17,6 @@ var IceServersHandler = (function() {
     }
 
     return {
-        getIceServers: getIceServers
+        getIceServers
     };
 })();
