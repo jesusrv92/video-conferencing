@@ -70,6 +70,13 @@ function getMediaElement(mediaElement, config) {
     var mediaControls = document.createElement('div');
     mediaControls.className = 'media-controls';
     mediaElementContainer.appendChild(mediaControls);
+    
+    if(!config.selfStream){
+        var removeButton = document.createElement('button');
+        removeButton.className = 'remove-button';
+        mediaElementContainer.appendChild(removeButton);
+        removeButton.innerText = 'Remove'
+    }
 
     if (buttons.has('mute-audio')) {
         var muteAudio = document.createElement('div');

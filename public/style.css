@@ -645,3 +645,16 @@ tr, td, th {
     background: rgba(0, 0, 0, .6);
     color: #FFF;
 }
+
+.remove-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    font-size: 1rem;
+    padding: 0 1rem;
+}
+
+.media-container:hover .remove-button{
+    opacity: 1;
+}
