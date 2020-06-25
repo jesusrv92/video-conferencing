@@ -7,6 +7,21 @@ https://github.com/jesusrv92/video-conferencing
 // MIT License   - https://www.webrtc-experiment.com/licence/
 // Documentation - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/video-conferencing
 
+var invited = false;
+if (!location.hash.replace('#', '').length) {
+    location.href = location.href.split('#')[0] + '#' + (Math.random() * 100).toString().replace('.', '');
+}
+else {
+    invited = true;
+}
+
+document.getElementById('conference-input').hidden = invited;
+new ClipboardJS('.invitation', {
+    text: function (trigger) {
+        return window.location.href;
+    }
+});
+
 var config = {
     // via: https://github.com/muaz-khan/WebRTC-Experiment/tree/master/socketio-over-nodejs
     openSocket: function (config) {

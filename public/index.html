@@ -16,16 +16,6 @@ https://github.com/jesusrv92/video-conferencing
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <script>
-        var invited = false;
-        if (!location.hash.replace('#', '').length) {
-            location.href = location.href.split('#')[0] + '#' + (Math.random() * 100).toString().replace('.', '');
-        }
-        else {
-            invited = true;
-        }
-    </script>
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -43,11 +33,8 @@ https://github.com/jesusrv92/video-conferencing
     <script src="./libs/socket.io.js"> </script>
     <script src="./libs/RTCPeerConnection-v1.5.js"> </script>
     <script src="./libs/IceServersHandler.js"></script>
-    <!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->
     
-    <script src="https://www.webrtc-experiment.com/getMediaElement.min.js"> </script>
-    <script src="https://www.webrtc-experiment.com/RTCPeerConnection-v1.5.js"> </script>
-    <script src="https://www.webrtc-experiment.com/IceServersHandler.js"></script> -->
     <script src="./conference.js"> </script>
     <script src="./libs/clipboard.min.js"></script>
 </head>
@@ -61,14 +48,6 @@ https://github.com/jesusrv92/video-conferencing
             </div>
             <button id="hang-up" class="setup" disabled> Hang Up</button>
         </section>
-        <script>
-            document.getElementById('conference-input').hidden = invited;
-            new ClipboardJS('.invitation', {
-                text: function (trigger) {
-                    return window.location.href;
-                }
-            });
-        </script>
         <!-- list of all available conferencing rooms -->
         <table style="width: 100%;" id="rooms-list"></table>
 
