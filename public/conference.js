@@ -196,6 +196,16 @@ var conference = function (config) {
                     peer.peer = null;
                 }
             }
+
+            if (response.remove) {
+                peers.forEach(peer => {
+                    peer.peer.getLocalStreams().forEach(stream => {
+                        if(stream.id === response.remove){
+                            leave();
+                        }
+                    });
+                });
+            }
         }
 
         var invokedOnce = false;
@@ -303,6 +313,13 @@ var conference = function (config) {
             });
         },
         leaveRoom: leave,
-        peers
+        peers,
+        remove(mediaStreamId) {
+            sockets.forEach(socket => {
+                socket.send({
+                    remove: mediaStreamId
+                })
+            })
+        }
     };
 };
