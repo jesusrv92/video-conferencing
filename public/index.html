@@ -23,19 +23,13 @@ https://github.com/jesusrv92/video-conferencing
 
     <meta name="title" content="Video Conferencing" />
 
+    <!-- STYLING -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="./libs/getMediaElement.css">
-
-    <!-- script used to stylize video element -->
-    <script src="./libs/getMediaElement.js"> </script>
-
-    <script src="./libs/adapter-latest.js"></script>
-    <script src="./libs/socket.io.js"> </script>
-    <script src="./libs/RTCPeerConnection-v1.5.js"> </script>
-    <script src="./libs/IceServersHandler.js"></script>
-    <!-- <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script> -->
     
-    <script src="./conference.js"> </script>
+    <!-- LIBRARIES -->
+    <script src="./libs/adapter-latest.js"></script>
+    <script src="./libs/socket.io.js"> </script>    
     <script src="./libs/clipboard.min.js"></script>
 </head>
 
@@ -49,7 +43,7 @@ https://github.com/jesusrv92/video-conferencing
             <button id="hang-up" class="setup" disabled> Hang Up</button>
         </section>
         <!-- list of all available conferencing rooms -->
-        <table style="width: 100%;" id="rooms-list"></table>
+        <table id="rooms-list"></table>
 
         <!-- local/remote videos container -->
         <div id="videos-container"></div>

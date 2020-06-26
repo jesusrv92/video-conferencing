@@ -1,3 +1,6 @@
+import getUserMedia from './modules/getUserMedia.js';
+import conference from './modules/conference.js'
+import getMediaElement from './modules/getMediaElement.js'
 /*
 Modified by: Jesus Romero
 https://github.com/jesusrv92/video-conferencing
@@ -22,11 +25,11 @@ new ClipboardJS('.invitation', {
     }
 });
 
+const SIGNALING_SERVER = 'https://socketio-over-nodejs2.herokuapp.com:443/';
+
 var config = {
     // via: https://github.com/muaz-khan/WebRTC-Experiment/tree/master/socketio-over-nodejs
     openSocket: function (config) {
-        var SIGNALING_SERVER = 'https://socketio-over-nodejs2.herokuapp.com:443/';
-
         config.channel = config.channel || location.href.replace(/\/|:|#|%|\.|\[|\]/g, '');
         var sender = Math.round(Math.random() * 999999999) + 999999999;
 

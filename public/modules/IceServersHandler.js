@@ -5,7 +5,7 @@ https://github.com/jesusrv92/video-conferencing
 
 // IceServersHandler.js
 
-var IceServersHandler = (function() {
+export default (function() {
     function getIceServers(connection) {
         // resiprocate: 3344+4433
         // pions: 7575

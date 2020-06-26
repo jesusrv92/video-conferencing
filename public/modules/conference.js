@@ -1,4 +1,5 @@
-﻿/*
+﻿import RTCPeerConnectionHandler from './RTCPeerConnectionHandler.js'
+/*
 Modified by: Jesus Romero
 https://github.com/jesusrv92/video-conferencing
 */
@@ -10,7 +11,7 @@ https://github.com/jesusrv92/video-conferencing
 // This library is known as multi-user connectivity wrapper!
 // It handles connectivity tasks to make sure two or more users can interconnect!
 
-var conference = function (config) {
+export default function conference(config) {
     var self = {
         userToken: uniqueToken()
     };
@@ -121,7 +122,7 @@ var conference = function (config) {
                 peerConfig.onAnswerSDP = sendsdp;
             }
 
-            peer = RTCPeerConnection(peerConfig);
+            peer = RTCPeerConnectionHandler(peerConfig);
             // console.log(peer)
             peers.push(peer);
             peer.peer.oniceconnectionstatechange = () => {

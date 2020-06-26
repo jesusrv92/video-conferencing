@@ -1,3 +1,5 @@
+import IceServersHandler from './IceServersHandler.js'
+
 /*
 Modified by: Jesus Romero
 https://github.com/jesusrv92/video-conferencing
@@ -9,22 +11,14 @@ https://github.com/jesusrv92/video-conferencing
 // MIT License   - www.WebRTC-Experiment.com/licence
 // Documentation - github.com/muaz-khan/WebRTC-Experiment/tree/master/RTCPeerConnection
 
-if (typeof window.RTCPeerConnection !== 'undefined') {
-    window.RTCPeerConnection00 = window.RTCPeerConnection;
-} else if (typeof mozRTCPeerConnection !== 'undefined') {
-    window.RTCPeerConnection00 = mozRTCPeerConnection;
-} else if (typeof webkitRTCPeerConnection !== 'undefined') {
-    window.RTCPeerConnection00 = webkitRTCPeerConnection;
-}
-
-var RTCPeerConnection = function (options) {
+export default function RTCPeerConnectionHandler(options) {
     var w = window;
 
     var RTCSessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription;
     var RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate;
     var MediaStreamTrack = window.MediaStreamTrack;
 
-    var peer = new RTCPeerConnection00({
+    var peer = new RTCPeerConnection({
         iceServers: IceServersHandler.getIceServers()
     });
 
@@ -230,79 +224,3 @@ var RTCPeerConnection = function (options) {
         }
     };
 }
-
-// getUserMedia
-var video_constraints = {
-    mandatory: { },
-    optional: []
-};
-
-function getUserMedia(options) {
-    navigator.mediaDevices.getUserMedia(options.constraints || {
-            audio: true,
-            video: video_constraints
-        }).then(function(stream) {
-            var video = options.video;
-            if (video) {
-                video.srcObject = stream;
-                video.play();
-            }
-            options.onsuccess && options.onsuccess(stream);
-        }).catch(function(e) {
-            alert(e.message || JSON.stringify(e));
-        });
-}
-
-// IceServersHandler.js
-
-var IceServersHandler = (function() {
-    function getIceServers(connection) {
-        // resiprocate: 3344+4433
-        // pions: 7575
-        var iceServers = [{
-                'urls': [
-                    'stun:webrtcweb.com:7788', // coTURN
-                    'stun:webrtcweb.com:7788?transport=udp', // coTURN
-                ],
-                'username': 'muazkh',
-                'credential': 'muazkh'
-            },
-            {
-                'urls': [
-                    'turn:webrtcweb.com:7788', // coTURN 7788+8877
-                    'turn:webrtcweb.com:4455?transport=udp', // restund udp
-
-                    'turn:webrtcweb.com:8877?transport=udp', // coTURN udp
-                    'turn:webrtcweb.com:8877?transport=tcp', // coTURN tcp
-                ],
-                'username': 'muazkh',
-                'credential': 'muazkh'
-            },
-            {
-                'urls': [
-                    'stun:stun.l.google.com:19302',
-                    'stun:stun1.l.google.com:19302',
-                    'stun:stun2.l.google.com:19302',
-                    'stun:stun.l.google.com:19302?transport=udp',
-                ]
-            }
-        ];
-
-        if (typeof window.InstallTrigger !== 'undefined') {
-            iceServers = [{
-                'urls': [
-                    'turn:webrtcweb.com:7788',
-                    'stun:webrtcweb.com:7788',
-                ],
-                'username': 'muazkh',
-                'credential': 'muazkh'
-            }];
-        }
-
-        return iceServers;
-    }
-
-    return {
-        getIceServers: getIceServers
-    };
-})();

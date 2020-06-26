@@ -14,7 +14,7 @@ https://github.com/jesusrv92/video-conferencing
 // __________________
 // getMediaElement.js
 
-function getMediaElement(mediaElement, config) {
+export default function getMediaElement(mediaElement, config) {
     config = config || {};
 
     function getTracks(stream, kind) {
@@ -359,7 +359,7 @@ function getMediaElement(mediaElement, config) {
 // __________________
 // getAudioElement.js
 
-function getAudioElement(mediaElement, config) {
+export function getAudioElement(mediaElement, config) {
     config = config || {};
 
     if (!mediaElement.nodeName || (mediaElement.nodeName.toLowerCase() != 'audio' && mediaElement.nodeName.toLowerCase() != 'video')) {
@@ -523,14 +523,4 @@ function getAudioElement(mediaElement, config) {
     mediaElementContainer.media = mediaElement;
 
     return mediaElementContainer;
-}
-
-if (typeof module !== 'undefined' /* && !!module.exports*/) {
-    module.exports = exports = getMediaElement;
-}
-
-if (typeof define === 'function' && define.amd) {
-    define('getMediaElement', [], function () {
-        return getMediaElement;
-    });
 }
