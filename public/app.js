@@ -53,7 +53,10 @@ var config = {
     onRemoteStream: function (media) {
         var mediaElement = getMediaElement(media.video, {
             width: '30%',
-            buttons: ['mute-audio', 'mute-video']
+            buttons: ['mute-audio', 'mute-video'],
+            onRemoveButton: () => {
+                conferenceUI.remove(media.stream.id)
+            }
         });
         mediaElement.id = media.stream.id.slice(1, -1);
         videosContainer.appendChild(mediaElement);

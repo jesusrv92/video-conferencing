@@ -76,6 +76,7 @@ function getMediaElement(mediaElement, config) {
         removeButton.className = 'remove-button';
         mediaElementContainer.appendChild(removeButton);
         removeButton.innerText = 'Remove'
+        removeButton.onclick = config.onRemoveButton;
     }
 
     if (buttons.has('mute-audio')) {
