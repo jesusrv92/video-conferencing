@@ -17,8 +17,8 @@ if (!location.hash.replace('#', '').length) {
 else {
     invited = true;
 }
-
 document.getElementById('conference-input').hidden = invited;
+
 new ClipboardJS('.invitation', {
     text: function (trigger) {
         return window.location.href;
@@ -202,12 +202,6 @@ window.onclose = window.onbeforeunload = () => {
         track.stop();
     })
 }
-(function () {
-    var uniqueToken = document.getElementById('unique-token');
-    if (uniqueToken)
-        if (location.hash.length > 2) uniqueToken.parentNode.parentNode.parentNode.innerHTML = '<h2 style="text-align:center;display: block;"><a href="' + location.href + '" target="_blank">Right click to copy & share this private link</a></h2>';
-        else uniqueToken.innerHTML = uniqueToken.parentNode.parentNode.href = '#' + (Math.random() * new Date().getTime()).toString(36).toUpperCase().replace(/\./g, '-');
-})();
 
 bandwidthSelector.onchange = () => {
     bandwidthSelector.disabled = true;
