@@ -25,6 +25,9 @@ new ClipboardJS('.invitation', {
     }
 });
 
+// Address to the signaling server that will be used
+// The server must implement all the functionality from this repo:
+// https://github.com/muaz-khan/WebRTC-Experiment/tree/master/socketio-over-nodejs
 const SIGNALING_SERVER = 'https://socketio-over-nodejs2.herokuapp.com:443/';
 
 var config = {
