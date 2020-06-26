@@ -4,11 +4,10 @@ https://github.com/jesusrv92/video-conferencing
 */
 
 // IceServersHandler.js
-
+// This is a function that returns an object with a method to return an array with the ICE servers
+// that will be used.
 export default (function() {
     function getIceServers(connection) {
-        // resiprocate: 3344+4433
-        // pions: 7575
         var iceServers = [{
             'urls': [
                 'stun:stun.l.google.com:19302',
