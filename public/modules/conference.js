@@ -145,7 +145,8 @@ export default function conference(config) {
             if (config.onRemoteStream)
                 config.onRemoteStream({
                     video: video,
-                    stream: _config.stream
+                    stream: _config.stream,
+                    socket
                 });
 
             if (isbroadcaster && channels.split('--').length > 3) {
