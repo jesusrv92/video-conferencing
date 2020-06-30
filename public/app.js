@@ -28,7 +28,7 @@ new ClipboardJS('.invitation', {
 // Address to the signaling server that will be used
 // The server must implement all the functionality from this repo:
 // https://github.com/muaz-khan/WebRTC-Experiment/tree/master/socketio-over-nodejs
-const SIGNALING_SERVER = 'https://socketio-over-nodejs2.herokuapp.com:443/';
+const SIGNALING_SERVER = 'https://socket-webrtc-signaling.herokuapp.com/';
 
 var config = {
     // via: https://github.com/muaz-khan/WebRTC-Experiment/tree/master/socketio-over-nodejs
@@ -55,6 +55,7 @@ var config = {
         };
 
         socket.on('message', config.onmessage);
+        config?.callback(socket);
     },
     onRemoteStream: function (media) {
         var mediaElement = getMediaElement(media.video, {
