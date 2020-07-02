@@ -1,6 +1,7 @@
 import getUserMedia from './modules/getUserMedia.js';
 import conference from './modules/conference.js'
 import getMediaElement from './modules/getMediaElement.js'
+import io from 'socket.io-client'
 /*
 Modified by: Jesus Romero
 https://github.com/jesusrv92/video-conferencing
@@ -17,13 +18,13 @@ if (!location.hash.replace('#', '').length) {
 else {
     invited = true;
 }
-document.getElementById('conference-input').hidden = invited;
+// document.getElementById('conference-input').hidden = invited;
 
-new ClipboardJS('.invitation', {
-    text: function (trigger) {
-        return window.location.href;
-    }
-});
+// new ClipboardJS('.invitation', {
+//     text: function (trigger) {
+//         return window.location.href;
+//     }
+// });
 
 // Address to the signaling server that will be used
 // The server must implement all the functionality from this repo:
@@ -66,7 +67,7 @@ var config = {
             }
         });
         mediaElement.id = media.stream.id.slice(1, -1);
-        videosContainer.appendChild(mediaElement);
+        // videosContainer.appendChild(mediaElement);
     },
     onRemoteStreamEnded: function (stream, video) {
         if (video.parentNode && video.parentNode.parentNode && video.parentNode.parentNode.parentNode) {
@@ -74,39 +75,16 @@ var config = {
         }
     },
     onRoomFound: function (room) {
-        var alreadyExist = document.querySelector('button[data-broadcaster="' + room.broadcaster + '"]');
-        if (alreadyExist) return;
-
-        if (typeof roomsList === 'undefined') roomsList = document.body;
-
-        var tr = document.createElement('tr');
-        tr.innerHTML = '<td>Room available</td>' +
-            '<td><button class="join">Join</button></td>';
-        roomsList.appendChild(tr);
-
-        var joinRoomButton = tr.querySelector('.join');
-        joinRoomButton.setAttribute('data-broadcaster', room.broadcaster);
-        joinRoomButton.setAttribute('data-roomToken', room.roomToken);
-        joinRoomButton.onclick = function () {
-            this.disabled = true;
-            hangUp.disabled = false;
-            var broadcaster = this.getAttribute('data-broadcaster');
-            var roomToken = this.getAttribute('data-roomToken');
-            captureUserMedia(function () {
-                conferenceUI.joinRoom({
-                    roomToken: roomToken,
-                    joinUser: broadcaster
-                });
-            }, function () {
-                joinRoomButton.disabled = false;
+        // hangUp.disabled = false;
+        captureUserMedia(function () {
+            conferenceUI.joinRoom({
+                roomToken: room.roomToken,
+                joinUser: room.broadcaster
             });
-        };
+        });
     },
     onRoomClosed: function (room) {
-        var joinButton = document.querySelector('button[data-roomToken="' + room.roomToken + '"]');
-        if (joinButton) {
-            joinButton.parentNode.parentNode.parentNode.parentNode.removeChild(joinButton.parentNode.parentNode.parentNode);
-        }
+
     },
     onReady: function () {
         console.log('now you can open or join rooms');
@@ -114,21 +92,21 @@ var config = {
 };
 
 function setupNewRoomButtonClickHandler() {
-    btnSetupNewRoom.disabled = true;
-    hangUp.disabled = false;
-    invitation.disabled = false;
+    // btnSetupNewRoom.disabled = true;
+    // hangUp.disabled = false;
+    // invitation.disabled = false;
     captureUserMedia(function () {
         conferenceUI.createRoom({
-            roomName: (document.getElementById('conference-name') || {}).value || 'Anonymous'
+            roomName: 'default'
         });
     }, function () {
-        btnSetupNewRoom.disabled = false;
-        hangUp.disabled = true;
-        invitation.disabled = true;
+        // btnSetupNewRoom.disabled = false;
+        // hangUp.disabled = true;
+        // invitation.disabled = true;
     });
 }
 
-const bandwidthSelector = document.getElementById('bandwidth');
+// const bandwidthSelector = document.getElementById('bandwidth');
 
 function captureUserMedia(callback, failure_callback) {
     var video = document.createElement('video');
@@ -156,8 +134,8 @@ function captureUserMedia(callback, failure_callback) {
                 selfStream: true
             });
             // mediaElement.toggle('mute-audio');
-            videosContainer.appendChild(mediaElement);
-            bandwidthSelector.disabled = false;
+            // videosContainer.appendChild(mediaElement);
+            // bandwidthSelector.disabled = false;
 
             callback && callback();
         },
@@ -171,28 +149,28 @@ function captureUserMedia(callback, failure_callback) {
 var conferenceUI = conference(config);
 
 /* UI specific */
-var videosContainer = document.getElementById('videos-container') || document.body;
-var btnSetupNewRoom = document.getElementById('setup-new-room');
-var hangUp = document.getElementById('hang-up');
-var invitation = document.getElementById('invitation');
-var roomsList = document.getElementById('rooms-list');
+// var videosContainer = document.getElementById('videos-container') || document.body;
+// var btnSetupNewRoom = document.getElementById('setup-new-room');
+// var hangUp = document.getElementById('hang-up');
+// var invitation = document.getElementById('invitation');
+// var roomsList = document.getElementById('rooms-list');
 
-if (btnSetupNewRoom) btnSetupNewRoom.onclick = setupNewRoomButtonClickHandler;
+// if (btnSetupNewRoom) btnSetupNewRoom.onclick = setupNewRoomButtonClickHandler;
 // The hangUp button resets the page to the default state
-hangUp.onclick = () => {
-    // This cleans up the socket server
-    conferenceUI.leaveRoom();
-    btnSetupNewRoom.disabled = false;
-    hangUp.disabled = true;
-    invitation.disabled = true;
-    // This sends a signal to stop streaming and remove the video component
-    // on the others browsers
-    config.attachStream?.getTracks().forEach(track => {
-        track.stop();
-        track.dispatchEvent(new Event('ended'));
-    })
-    videosContainer.innerHTML = "";
-}
+// hangUp.onclick = () => {
+//     // This cleans up the socket server
+//     conferenceUI.leaveRoom();
+//     // btnSetupNewRoom.disabled = false;
+//     hangUp.disabled = true;
+//     invitation.disabled = true;
+//     // This sends a signal to stop streaming and remove the video component
+//     // on the others browsers
+//     config.attachStream?.getTracks().forEach(track => {
+//         track.stop();
+//         track.dispatchEvent(new Event('ended'));
+//     })
+//     // videosContainer.innerHTML = "";
+// }
 window.onclose = window.onbeforeunload = () => {
     // This cleans up the socket server
     conferenceUI.leaveRoom();
@@ -204,58 +182,58 @@ window.onclose = window.onbeforeunload = () => {
     })
 }
 
-bandwidthSelector.onchange = () => {
-    bandwidthSelector.disabled = true;
-    const bandwidth = bandwidthSelector.options[bandwidthSelector.selectedIndex].value;
+// bandwidthSelector.onchange = () => {
+//     bandwidthSelector.disabled = true;
+//     const bandwidth = bandwidthSelector.options[bandwidthSelector.selectedIndex].value;
 
-    // In Chrome, use RTCRtpSender.setParameters to change bandwidth without
-    // (local) renegotiation. Note that this will be within the envelope of
-    // the initial maximum bandwidth negotiated via SDP.
-    if ((adapter.browserDetails.browser === 'chrome' ||
-        adapter.browserDetails.browser === 'safari' ||
-        (adapter.browserDetails.browser === 'firefox' &&
-            adapter.browserDetails.version >= 64)) &&
-        'RTCRtpSender' in window &&
-        'setParameters' in window.RTCRtpSender.prototype) {
-        conferenceUI.peers.forEach((peer) => {
-            const senders = peer.peer.getSenders();
-            const [videoSender] = senders.filter(sender => sender.track.kind === 'video')
-            const parameters = videoSender.getParameters();
-            if (!parameters.encodings) {
-                parameters.encodings = [{}];
-            }
-            if (bandwidth === 'unlimited') {
-                delete parameters.encodings[0].maxBitrate;
-            } else {
-                parameters.encodings[0].maxBitrate = bandwidth * 1000;
-            }
-            videoSender.setParameters(parameters)
-                .then(() => {
-                    bandwidthSelector.disabled = false;
-                })
-                .catch(e => console.error(e));
-        });
-        return;
-    }
-    // Fallback to the SDP munging with local renegotiation way of limiting
-    // the bandwidth.
-    conferenceUI.peers.forEach(peer => {
-        peer.peer.createOffer()
-            .then(offer => peer.setLocalDescription(offer))
-            .then(() => {
-                const desc = {
-                    type: peer.remoteDescription.type,
-                    sdp: bandwidth === 'unlimited' ?
-                        removeBandwidthRestriction(peer.remoteDescription.sdp) :
-                        updateBandwidthRestriction(peer.remoteDescription.sdp, bandwidth)
-                };
-                console.log('Applying bandwidth restriction to setRemoteDescription:\n' +
-                    desc.sdp);
-                return peer.setRemoteDescription(desc);
-            })
-            .then(() => {
-                bandwidthSelector.disabled = false;
-            })
-            .catch(error => console.log('Failed to set session description: ' + error.toString()));
-    });
-};
+//     // In Chrome, use RTCRtpSender.setParameters to change bandwidth without
+//     // (local) renegotiation. Note that this will be within the envelope of
+//     // the initial maximum bandwidth negotiated via SDP.
+//     if ((adapter.browserDetails.browser === 'chrome' ||
+//         adapter.browserDetails.browser === 'safari' ||
+//         (adapter.browserDetails.browser === 'firefox' &&
+//             adapter.browserDetails.version >= 64)) &&
+//         'RTCRtpSender' in window &&
+//         'setParameters' in window.RTCRtpSender.prototype) {
+//         conferenceUI.peers.forEach((peer) => {
+//             const senders = peer.peer.getSenders();
+//             const [videoSender] = senders.filter(sender => sender.track.kind === 'video')
+//             const parameters = videoSender.getParameters();
+//             if (!parameters.encodings) {
+//                 parameters.encodings = [{}];
+//             }
+//             if (bandwidth === 'unlimited') {
+//                 delete parameters.encodings[0].maxBitrate;
+//             } else {
+//                 parameters.encodings[0].maxBitrate = bandwidth * 1000;
+//             }
+//             videoSender.setParameters(parameters)
+//                 .then(() => {
+//                     bandwidthSelector.disabled = false;
+//                 })
+//                 .catch(e => console.error(e));
+//         });
+//         return;
+//     }
+//     // Fallback to the SDP munging with local renegotiation way of limiting
+//     // the bandwidth.
+//     conferenceUI.peers.forEach(peer => {
+//         peer.peer.createOffer()
+//             .then(offer => peer.setLocalDescription(offer))
+//             .then(() => {
+//                 const desc = {
+//                     type: peer.remoteDescription.type,
+//                     sdp: bandwidth === 'unlimited' ?
+//                         removeBandwidthRestriction(peer.remoteDescription.sdp) :
+//                         updateBandwidthRestriction(peer.remoteDescription.sdp, bandwidth)
+//                 };
+//                 console.log('Applying bandwidth restriction to setRemoteDescription:\n' +
+//                     desc.sdp);
+//                 return peer.setRemoteDescription(desc);
+//             })
+//             .then(() => {
+//                 bandwidthSelector.disabled = false;
+//             })
+//             .catch(error => console.log('Failed to set session description: ' + error.toString()));
+//     });
+// };
