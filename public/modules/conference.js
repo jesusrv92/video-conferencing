@@ -107,7 +107,7 @@ export default function conference(config) {
                 video.srcObject = stream;
 
                 _config.stream = stream;
-                onRemoteStreamStartsFlowing();
+                onRemoteStreamStartsFlowing(peerConfig.userToken);
             },
             onRemoteStreamEnded: function (stream) {
                 if (config.onRemoteStreamEnded)
@@ -128,7 +128,7 @@ export default function conference(config) {
             peers.push(peer);
             peer.peer.oniceconnectionstatechange = () => {
                 if (peer.peer.iceConnectionState === 'connected' || peer.peer.iceConnectionState === 'completed') {
-                    if(!video.parentElement) return;
+                    if (!video.parentElement) return;
                     const [disconnectedContainer] = video.parentElement.parentElement.getElementsByClassName('disconnected');
                     disconnectedContainer.hidden = true;
                 }
@@ -140,7 +140,7 @@ export default function conference(config) {
             }
         }
 
-        function afterRemoteStreamStartedFlowing() {
+        function afterRemoteStreamStartedFlowing(userToken) {
             gotstream = true;
 
             if (config.onRemoteStream)
@@ -148,7 +148,7 @@ export default function conference(config) {
                     video: video,
                     stream: _config.stream,
                     socket,
-                    userToken: self.userToken
+                    userToken
                 });
 
             if (isbroadcaster && channels.split('--').length > 3) {
@@ -160,15 +160,15 @@ export default function conference(config) {
             }
         }
 
-        function onRemoteStreamStartsFlowing() {
+        function onRemoteStreamStartsFlowing(userToken) {
             if (navigator.userAgent.match(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile/i)) {
                 // if mobile device
-                return afterRemoteStreamStartedFlowing();
+                return afterRemoteStreamStartedFlowing(userToken);
             }
 
             if (!(video.readyState <= HTMLMediaElement.HAVE_CURRENT_DATA || video.paused || video.currentTime <= 0)) {
-                afterRemoteStreamStartedFlowing();
-            } else setTimeout(onRemoteStreamStartsFlowing, 50);
+                afterRemoteStreamStartedFlowing(userToken);
+            } else setTimeout(onRemoteStreamStartsFlowing, 50, userToken);
         }
 
         function sendsdp(sdp) {
@@ -202,7 +202,7 @@ export default function conference(config) {
             }
 
             if (response.remove) {
-                if(response.remove === self.userToken) leave();
+                if (response.remove === self.userToken) leave();
             }
         }
 
@@ -315,7 +315,7 @@ export default function conference(config) {
         remove(userToken) {
             sockets.forEach(socket => {
                 socket.send({
-                    remove: userToken 
+                    remove: userToken
                 })
             })
         }
