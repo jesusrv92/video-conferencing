@@ -80,6 +80,7 @@ export default function conference(config) {
             peer;
 
         var peerConfig = {
+            userToken: self.userToken,
             attachStream: config.attachStream,
             onICE: function (candidate) {
                 socket.send({
