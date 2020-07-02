@@ -62,10 +62,10 @@ var config = {
             width: '30%',
             buttons: ['mute-audio', 'mute-video'],
             onRemoveButton: () => {
-                conferenceUI.remove(media.stream.id)
+                conferenceUI.remove(media.userToken)
             }
         });
-        mediaElement.id = media.stream.id.slice(1, -1);
+        mediaElement.id = media.userToken;
         videosContainer.appendChild(mediaElement);
     },
     onRemoteStreamEnded: function (stream, video) {
@@ -74,39 +74,16 @@ var config = {
         }
     },
     onRoomFound: function (room) {
-        var alreadyExist = document.querySelector('button[data-broadcaster="' + room.broadcaster + '"]');
-        if (alreadyExist) return;
-
-        if (typeof roomsList === 'undefined') roomsList = document.body;
-
-        var tr = document.createElement('tr');
-        tr.innerHTML = '<td>Room available</td>' +
-            '<td><button class="join">Join</button></td>';
-        roomsList.appendChild(tr);
-
-        var joinRoomButton = tr.querySelector('.join');
-        joinRoomButton.setAttribute('data-broadcaster', room.broadcaster);
-        joinRoomButton.setAttribute('data-roomToken', room.roomToken);
-        joinRoomButton.onclick = function () {
-            this.disabled = true;
-            hangUp.disabled = false;
-            var broadcaster = this.getAttribute('data-broadcaster');
-            var roomToken = this.getAttribute('data-roomToken');
-            captureUserMedia(function () {
-                conferenceUI.joinRoom({
-                    roomToken: roomToken,
-                    joinUser: broadcaster
-                });
-            }, function () {
-                joinRoomButton.disabled = false;
+        hangUp.disabled = false;
+        let { broadcaster, roomToken } = room;
+        captureUserMedia(function () {
+            conferenceUI.joinRoom({
+                roomToken: roomToken,
+                joinUser: broadcaster
             });
-        };
+        });
     },
     onRoomClosed: function (room) {
-        var joinButton = document.querySelector('button[data-roomToken="' + room.roomToken + '"]');
-        if (joinButton) {
-            joinButton.parentNode.parentNode.parentNode.parentNode.removeChild(joinButton.parentNode.parentNode.parentNode);
-        }
     },
     onReady: function () {
         console.log('now you can open or join rooms');
