@@ -1,0 +1,71 @@
+import React from 'react';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import KeyboardIcon from '@material-ui/icons/Keyboard';
+import Paper from '@material-ui/core/Paper';
+
+//Styles
+import useStyles from './home.styles';
+
+import intekGlobalLogo from '../../assets/images/logo.png';
+
+export default function Home(){
+
+  const classes = useStyles();
+
+  const [ meetingCode, setMeetingCode ] = React.useState('');
+
+  return(
+    <Grid item container direction="column" className={classes.homeContainer}>
+      <Grid item className={classes.companyLogo}>
+        <img src={intekGlobalLogo} alt="company-logo"/>
+      </Grid>
+      <Grid item container direction="column" className={classes.homeContent}>
+        <Grid item>
+          <Typography className={classes.homeTitle}>Video Conferencing App</Typography>
+        </Grid>
+        <Grid item container direction="row" className={classes.homeInputs} spacing={2}>
+          <Grid item>
+            <Button 
+              variant="contained" 
+              color="primary"
+              startIcon={<VideocamIcon/>}
+              className={classes.startButton}
+            >
+                Start a meeting
+            </Button>
+          </Grid>
+          <Grid item>
+            <TextField
+              id="meeting-code"
+              placeholder="Enter meeting code"
+              variant="outlined"
+              value={meetingCode}
+              onChange={(e) => setMeetingCode(e.target.value)}
+              InputProps={{
+                startAdornment:(
+                  <InputAdornment position="start">
+                    <KeyboardIcon/>
+                  </InputAdornment>
+                )
+              }}
+            >
+            </TextField>
+          </Grid>
+          <Grid item>
+            <Button 
+              disabled={meetingCode.length === 0}
+            >
+                Join
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
+  )
+
+}
