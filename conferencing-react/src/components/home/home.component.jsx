@@ -21,14 +21,14 @@ export default function Home(){
 
   return(
     <Grid item container direction="column" className={classes.homeContainer}>
-      <Grid item className={classes.companyLogo}>
-        <img src={intekGlobalLogo} alt="company-logo"/>
+      <Grid item>
+        <img src={intekGlobalLogo} alt="company-logo" className={classes.companyLogo}/>
       </Grid>
       <Grid item container direction="column" className={classes.homeContent}>
         <Grid item>
           <Typography className={classes.homeTitle}>Video Conferencing App</Typography>
         </Grid>
-        <Grid item container direction="row" className={classes.homeInputs} spacing={2}>
+        <Grid item container direction="column" className={classes.homeInputs} spacing={2}>
           <Grid item>
             <Button 
               variant="contained" 
@@ -46,6 +46,7 @@ export default function Home(){
               variant="outlined"
               value={meetingCode}
               onChange={(e) => setMeetingCode(e.target.value)}
+              className={classes.meetingCode}
               InputProps={{
                 startAdornment:(
                   <InputAdornment position="start">

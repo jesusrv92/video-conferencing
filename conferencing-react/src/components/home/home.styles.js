@@ -2,11 +2,18 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
   homeContainer: {
-    alignContent: "center",
-    padding: "5em"
+    alignItems: "center",
+    padding: "5em",
+    [theme.breakpoints.down("sm")]: {
+      padding: "3.5em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      padding: "1.5em",
+    }
   },
   companyLogo: {
-    textAlign: 'center'
+    alignSelf: 'center',
+    width: '90%'
   },
   homeContent: {
     marginTop: "5em",
@@ -16,23 +23,41 @@ export default makeStyles((theme) => ({
     borderStyle: 'solid',
     padding: "5em",
     borderRadius: '25px',
-    width: '61%'
+    width: '40%',
+    [theme.breakpoints.down("lg")]: {
+      padding: "3.5em",
+      width: '45%',
+    },
+    [theme.breakpoints.down("md")]: {
+      padding: "3.5em",
+      width: '55%',
+    },
+    [theme.breakpoints.down("sm")]: {
+      padding: "3em",
+      width: '90%',
+    },
+    [theme.breakpoints.down("xs")]: {
+      padding: "2em",
+      width: '100%',
+    }
   },
   homeTitle: {
     fontSize: "2.75em",
     fontWeight: '300',
     fontFamily: 'Quicksand',
+    textAlign: 'center',
 
     [theme.breakpoints.down("lg")]: {
-      color: 'red'
+      fontSize: "2em",
     },
     [theme.breakpoints.down("md")]: {
-      fontSize: "2.5em",
-      color: 'green'
+      fontSize: "1.7em",
     },
     [theme.breakpoints.down("sm")]: {
-      color: 'blue',
-      fontSize: "2.5em",
+      fontSize: "1.7em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1.6em"
     }
   },
   homeInputs: {
@@ -41,6 +66,16 @@ export default makeStyles((theme) => ({
     marginTop: '5em'
   },
   startButton: {
-    padding: '1.1em'
+    padding: '1.1em',
+    width: '17.5em',
+    [theme.breakpoints.down("xs")]: {
+      padding: '1em',
+      width: '14.8em',
+    }
+  },
+  meetingCode: {
+    [theme.breakpoints.down("xs")]: {
+      width: '13em',
+    }
   }
 }));
