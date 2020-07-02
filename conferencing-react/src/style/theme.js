@@ -1,18 +1,17 @@
 import { createMuiTheme } from '@material-ui/core/styles';
  
-const orange = "rgba(227, 111, 30, 1)";
-const blue = "#337ab7";
  
 export default createMuiTheme({
     palette: {
         common: {
-            arcBlue: `${blue}`,
-            orange: `${orange}`
+            blue: "#337ab7",
+            orange: '#e36f1e',
+            red: '#e52b50'
         },
         primary:{
-            main: `${blue}`
+            main: "#337ab7"
         }, secondary: {
-            main: `${orange}`,
+            main: '#e36f1e',
         }
     },
     typography: {
