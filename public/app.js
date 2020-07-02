@@ -153,7 +153,6 @@ var videosContainer = document.getElementById('videos-container') || document.bo
 var btnSetupNewRoom = document.getElementById('setup-new-room');
 var hangUp = document.getElementById('hang-up');
 var invitation = document.getElementById('invitation');
-var roomsList = document.getElementById('rooms-list');
 
 if (btnSetupNewRoom) btnSetupNewRoom.onclick = setupNewRoomButtonClickHandler;
 // The hangUp button resets the page to the default state
