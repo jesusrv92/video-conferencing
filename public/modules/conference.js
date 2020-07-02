@@ -146,7 +146,8 @@ export default function conference(config) {
                 config.onRemoteStream({
                     video: video,
                     stream: _config.stream,
-                    socket
+                    socket,
+                    userToken: self.userToken
                 });
 
             if (isbroadcaster && channels.split('--').length > 3) {
@@ -200,13 +201,7 @@ export default function conference(config) {
             }
 
             if (response.remove) {
-                peers.forEach(peer => {
-                    peer.peer.getLocalStreams().forEach(stream => {
-                        if(stream.id === response.remove){
-                            leave();
-                        }
-                    });
-                });
+                if(response.remove === self.userToken) leave();
             }
         }
 
@@ -316,10 +311,10 @@ export default function conference(config) {
         },
         leaveRoom: leave,
         peers,
-        remove(mediaStreamId) {
+        remove(userToken) {
             sockets.forEach(socket => {
                 socket.send({
-                    remove: mediaStreamId
+                    remove: userToken 
                 })
             })
         }
