@@ -140,7 +140,7 @@ function captureUserMedia(callback, failure_callback) {
         },
         onerror: function () {
             alert('unable to get access to your webcam');
-            callback && callback();
+            failure_callback && failure_callback();
         }
     });
 }
