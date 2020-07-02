@@ -263,7 +263,8 @@ export default function conference(config) {
 
         var new_channel = uniqueToken();
         openSubSocket({
-            channel: new_channel
+            channel: new_channel,
+            userToken: channel,
         });
 
         defaultSocket.send({
@@ -301,6 +302,7 @@ export default function conference(config) {
 
             openSubSocket({
                 channel: self.userToken,
+                userToken: self.userToken,
                 callback: function () {
                     defaultSocket.send({
                         participant: true,
