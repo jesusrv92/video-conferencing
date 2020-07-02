@@ -41,6 +41,7 @@ export default function conference(config) {
         if (response.userToken && response.joinUser == self.userToken && response.participant && channels.indexOf(response.userToken) == -1) {
             channels += response.userToken + '--';
             openSubSocket({
+                userToken: response.userToken,
                 isofferer: true,
                 channel: response.channel || response.userToken
             });
@@ -80,7 +81,6 @@ export default function conference(config) {
             peer;
 
         var peerConfig = {
-            userToken: self.userToken,
             attachStream: config.attachStream,
             onICE: function (candidate) {
                 socket.send({
@@ -107,7 +107,7 @@ export default function conference(config) {
                 video.srcObject = stream;
 
                 _config.stream = stream;
-                onRemoteStreamStartsFlowing(peerConfig.userToken);
+                onRemoteStreamStartsFlowing(_config.userToken);
             },
             onRemoteStreamEnded: function (stream) {
                 if (config.onRemoteStreamEnded)
