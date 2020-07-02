@@ -146,6 +146,7 @@ function captureUserMedia(callback, failure_callback) {
 }
 
 var conferenceUI = conference(config);
+window.conferenceUI = conferenceUI;
 
 /* UI specific */
 var videosContainer = document.getElementById('videos-container') || document.body;
