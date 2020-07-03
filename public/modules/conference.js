@@ -112,7 +112,7 @@ export default function conference(config) {
                 video.srcObject = stream;
 
                 _config.stream = stream;
-                onRemoteStreamStartsFlowing(_config.userToken);
+                onRemoteStreamStartsFlowing(_config.channel);
             },
             onRemoteStreamEnded: function (stream) {
                 if (config.onRemoteStreamEnded)
