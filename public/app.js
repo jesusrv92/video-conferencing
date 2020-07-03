@@ -55,7 +55,6 @@ var config = {
         };
 
         socket.on('message', config.onmessage);
-        config?.callback(socket);
     },
     onRemoteStream: function (media) {
         var mediaElement = getMediaElement(media.video, {
@@ -74,6 +73,7 @@ var config = {
         }
     },
     onRoomFound: function (room) {
+        console.log('Room was found', room)
         hangUp.disabled = false;
         let { broadcaster, roomToken } = room;
         captureUserMedia(function () {
