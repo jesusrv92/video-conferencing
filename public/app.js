@@ -74,9 +74,9 @@ var config = {
     },
     onRoomFound: function (room) {
         console.log('Room was found', room)
-        hangUp.disabled = false;
         let { broadcaster, roomToken } = room;
         captureUserMedia(function () {
+            hangUp.disabled = false;
             conferenceUI.joinRoom({
                 roomToken: roomToken,
                 joinUser: broadcaster
