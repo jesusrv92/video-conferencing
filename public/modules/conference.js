@@ -34,15 +34,15 @@ export default function conference(config) {
     function onDefaultSocketResponse(response) {
         if (response.userToken == self.userToken) return;
 
-        if (isGetNewRoom && response.roomToken && response.broadcaster) 
-        config.onRoomFound(response);
+        if (isGetNewRoom && response.roomToken && response.broadcaster)
+            config.onRoomFound(response);
 
-        if (response.newParticipant && self.joinedARoom && self.broadcasterid == response.userToken) 
-        onNewParticipant(response.newParticipant);
+        if (response.newParticipant && self.joinedARoom && self.broadcasterid == response.userToken)
+            onNewParticipant(response.newParticipant);
 
-        if (response.userToken && 
-            response.joinUser == self.userToken && 
-            response.participant && 
+        if (response.userToken &&
+            response.joinUser == self.userToken &&
+            response.participant &&
             channels.indexOf(response.userToken) == -1) {
             channels += response.userToken + '--';
             openSubSocket({
@@ -78,12 +78,12 @@ export default function conference(config) {
             }
         };
 
-        var socket = config.openSocket(socketConfig),
-            isofferer = _config.isofferer,
-            gotstream,
-            video = document.createElement('video'),
-            inner = {},
-            peer;
+        var socket = config.openSocket(socketConfig)
+        var isofferer = _config.isofferer
+        var gotstream
+        var video = document.createElement('video')
+        var inner = {}
+        var peer
 
         var peerConfig = {
             attachStream: config.attachStream,
