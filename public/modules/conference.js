@@ -34,11 +34,16 @@ export default function conference(config) {
     function onDefaultSocketResponse(response) {
         if (response.userToken == self.userToken) return;
 
-        if (isGetNewRoom && response.roomToken && response.broadcaster) config.onRoomFound(response);
+        if (isGetNewRoom && response.roomToken && response.broadcaster) 
+        config.onRoomFound(response);
 
-        if (response.newParticipant && self.joinedARoom && self.broadcasterid == response.userToken) onNewParticipant(response.newParticipant);
+        if (response.newParticipant && self.joinedARoom && self.broadcasterid == response.userToken) 
+        onNewParticipant(response.newParticipant);
 
-        if (response.userToken && response.joinUser == self.userToken && response.participant && channels.indexOf(response.userToken) == -1) {
+        if (response.userToken && 
+            response.joinUser == self.userToken && 
+            response.participant && 
+            channels.indexOf(response.userToken) == -1) {
             channels += response.userToken + '--';
             openSubSocket({
                 userToken: response.userToken,
@@ -320,6 +325,7 @@ export default function conference(config) {
                     remove: userToken
                 })
             })
-        }
+        },
+        userToken: self.userToken
     };
 };
