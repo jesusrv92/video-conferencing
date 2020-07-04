@@ -13,7 +13,7 @@ import useStyles from './home.styles';
 
 import intekGlobalLogo from '../../assets/images/logo.png';
 
-export default function Home(){
+export default function Home({setPage}){
 
   const classes = useStyles();
 
@@ -35,6 +35,7 @@ export default function Home(){
               color="primary"
               startIcon={<VideocamIcon/>}
               className={classes.startButton}
+              onClick={ () => setPage('join')}
             >
                 Start a meeting
             </Button>
@@ -60,6 +61,7 @@ export default function Home(){
           <Grid item>
             <Button 
               disabled={meetingCode.length === 0}
+              onClick={ () => setPage('join')}
             >
                 Join
             </Button>

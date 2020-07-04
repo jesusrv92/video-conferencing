@@ -13,7 +13,7 @@ import useStyles from './join.styles.js';
 import { useTheme } from '@material-ui/core/styles';
 
 
-export default function Join() {
+export default function Join({setPage}) {
 
   const classes = useStyles();
   const theme = useTheme();
@@ -80,6 +80,7 @@ export default function Join() {
           <Button
             variant="contained"
             color="primary"
+            onClick={ () => setPage('video')}
           >
             Join now
           </Button>
