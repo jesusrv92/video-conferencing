@@ -61,10 +61,10 @@ var config = {
             width: '30%',
             buttons: ['mute-audio', 'mute-video'],
             onRemoveButton: () => {
-                conferenceUI.remove(media.userToken)
+                conferenceUI.remove(media.stream.id)
             }
         });
-        mediaElement.id = media.userToken;
+        mediaElement.id = media.stream.id;
         videosContainer.appendChild(mediaElement);
     },
     onRemoteStreamEnded: function (stream, video) {
@@ -91,10 +91,10 @@ var config = {
 };
 
 function setupNewRoomButtonClickHandler() {
-    btnSetupNewRoom.disabled = true;
-    hangUp.disabled = false;
-    invitation.disabled = false;
     captureUserMedia(function () {
+        btnSetupNewRoom.disabled = true;
+        hangUp.disabled = false;
+        invitation.disabled = false;
         conferenceUI.createRoom({
             roomName: (document.getElementById('conference-name') || {}).value || 'Anonymous'
         });
