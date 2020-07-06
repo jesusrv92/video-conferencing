@@ -9,7 +9,8 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    env: ./conferencing-react
+    env: 
+      working-directory: ./conferencing-react
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
@@ -19,8 +20,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install Packages
         run: npm install
+        working-directory: ${{env.working-directory}}
       - name: Build page
         run: npm run build
+        working-directory: ${{env.working-directory}}
       - name: Download Artifact
         uses: actions/download-artifact@master
       - name: Deploy to Firebase
