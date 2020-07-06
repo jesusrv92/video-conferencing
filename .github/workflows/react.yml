@@ -16,14 +16,10 @@ jobs:
         uses: actions/setup-node@master
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Change to project folder
-        run: cd conferencing-react
       - name: Install Packages
         run: npm install
       - name: Build page
         run: npm run build
-      - name: Return to base folder
-        run: cd ..
       - name: Download Artifact
         uses: actions/download-artifact@master
       - name: Deploy to Firebase
