@@ -16,15 +16,5 @@ jobs:
         uses: actions/setup-node@master
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install Packages
-        run: npm install
-      - name: Build page
-        run: npm run build
-      - name: Download Artifact
-        uses: actions/download-artifact@master
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy 
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      - name: Checking directory
+        run: echo ls
