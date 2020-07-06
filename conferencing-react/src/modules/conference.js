@@ -34,12 +34,18 @@ export default function conference(config) {
     function onDefaultSocketResponse(response) {
         if (response.userToken == self.userToken) return;
 
-        if (isGetNewRoom && response.roomToken && response.broadcaster) config.onRoomFound(response);
+        if (isGetNewRoom && response.roomToken && response.broadcaster)
+            config.onRoomFound(response);
 
-        if (response.newParticipant && self.joinedARoom && self.broadcasterid == response.userToken) onNewParticipant(response.newParticipant);
+        if (response.newParticipant && self.joinedARoom && self.broadcasterid == response.userToken)
+            onNewParticipant(response.newParticipant);
 
-        if (response.userToken && response.joinUser == self.userToken && response.participant && channels.indexOf(response.userToken) == -1) {
+        if (response.userToken &&
+            response.joinUser == self.userToken &&
+            response.participant &&
+            channels.indexOf(response.userToken) == -1) {
             channels += response.userToken + '--';
+            // Sending your info to the peer you're going to connect
             openSubSocket({
                 isofferer: true,
                 channel: response.channel || response.userToken
@@ -72,12 +78,12 @@ export default function conference(config) {
             }
         };
 
-        var socket = config.openSocket(socketConfig),
-            isofferer = _config.isofferer,
-            gotstream,
-            video = document.createElement('video'),
-            inner = {},
-            peer;
+        var socket = config.openSocket(socketConfig)
+        var isofferer = _config.isofferer
+        var gotstream
+        var video = document.createElement('video')
+        var inner = {}
+        var peer
 
         var peerConfig = {
             attachStream: config.attachStream,
@@ -127,7 +133,7 @@ export default function conference(config) {
             peers.push(peer);
             peer.peer.oniceconnectionstatechange = () => {
                 if (peer.peer.iceConnectionState === 'connected' || peer.peer.iceConnectionState === 'completed') {
-                    if(!video.parentElement) return;
+                    if (!video.parentElement) return;
                     const [disconnectedContainer] = video.parentElement.parentElement.getElementsByClassName('disconnected');
                     disconnectedContainer.hidden = true;
                 }
@@ -145,8 +151,7 @@ export default function conference(config) {
             if (config.onRemoteStream)
                 config.onRemoteStream({
                     video: video,
-                    stream: _config.stream,
-                    socket
+                    stream: _config.stream
                 });
 
             if (isbroadcaster && channels.split('--').length > 3) {
@@ -200,13 +205,7 @@ export default function conference(config) {
             }
 
             if (response.remove) {
-                peers.forEach(peer => {
-                    peer.peer.getLocalStreams().forEach(stream => {
-                        if(stream.id === response.remove){
-                            leave();
-                        }
-                    });
-                });
+                if (response.remove === config.attachStream.id) leave();
             }
         }
 
@@ -302,7 +301,7 @@ export default function conference(config) {
 
             self.joinedARoom = true;
             self.broadcasterid = _config.joinUser;
-
+            // Sending connection information to host
             openSubSocket({
                 channel: self.userToken,
                 callback: function () {
@@ -316,10 +315,10 @@ export default function conference(config) {
         },
         leaveRoom: leave,
         peers,
-        remove(mediaStreamId) {
+        remove(streamID) {
             sockets.forEach(socket => {
                 socket.send({
-                    remove: mediaStreamId
+                    remove: streamID
                 })
             })
         }
