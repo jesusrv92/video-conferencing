@@ -45,8 +45,8 @@ export default function conference(config) {
             response.participant &&
             channels.indexOf(response.userToken) == -1) {
             channels += response.userToken + '--';
+            // Sending your info to the peer you're going to connect
             openSubSocket({
-                userToken: response.userToken,
                 isofferer: true,
                 channel: response.channel || response.userToken
             });
@@ -112,7 +112,7 @@ export default function conference(config) {
                 video.srcObject = stream;
 
                 _config.stream = stream;
-                onRemoteStreamStartsFlowing(_config.channel);
+                onRemoteStreamStartsFlowing();
             },
             onRemoteStreamEnded: function (stream) {
                 if (config.onRemoteStreamEnded)
@@ -145,15 +145,13 @@ export default function conference(config) {
             }
         }
 
-        function afterRemoteStreamStartedFlowing(userToken) {
+        function afterRemoteStreamStartedFlowing() {
             gotstream = true;
 
             if (config.onRemoteStream)
                 config.onRemoteStream({
                     video: video,
-                    stream: _config.stream,
-                    socket,
-                    userToken
+                    stream: _config.stream
                 });
 
             if (isbroadcaster && channels.split('--').length > 3) {
@@ -165,15 +163,15 @@ export default function conference(config) {
             }
         }
 
-        function onRemoteStreamStartsFlowing(userToken) {
+        function onRemoteStreamStartsFlowing() {
             if (navigator.userAgent.match(/Android|iPhone|iPad|iPod|BlackBerry|IEMobile/i)) {
                 // if mobile device
-                return afterRemoteStreamStartedFlowing(userToken);
+                return afterRemoteStreamStartedFlowing();
             }
 
             if (!(video.readyState <= HTMLMediaElement.HAVE_CURRENT_DATA || video.paused || video.currentTime <= 0)) {
-                afterRemoteStreamStartedFlowing(userToken);
-            } else setTimeout(onRemoteStreamStartsFlowing, 50, userToken);
+                afterRemoteStreamStartedFlowing();
+            } else setTimeout(onRemoteStreamStartsFlowing, 50);
         }
 
         function sendsdp(sdp) {
@@ -207,7 +205,7 @@ export default function conference(config) {
             }
 
             if (response.remove) {
-                if (response.remove === self.userToken) leave();
+                if (response.remove === config.attachStream.id) leave();
             }
         }
 
@@ -268,8 +266,7 @@ export default function conference(config) {
 
         var new_channel = uniqueToken();
         openSubSocket({
-            channel: new_channel,
-            userToken: channel,
+            channel: new_channel
         });
 
         defaultSocket.send({
@@ -304,10 +301,9 @@ export default function conference(config) {
 
             self.joinedARoom = true;
             self.broadcasterid = _config.joinUser;
-
+            // Sending connection information to host
             openSubSocket({
                 channel: self.userToken,
-                userToken: self.userToken,
                 callback: function () {
                     defaultSocket.send({
                         participant: true,
@@ -319,13 +315,12 @@ export default function conference(config) {
         },
         leaveRoom: leave,
         peers,
-        remove(userToken) {
+        remove(streamID) {
             sockets.forEach(socket => {
                 socket.send({
-                    remove: userToken
+                    remove: streamID
                 })
             })
-        },
-        userToken: self.userToken
+        }
     };
 };
