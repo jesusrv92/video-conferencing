@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "conferencing-react/build",
     "ignore": [
       "firebase.json",
       "**/.*",
