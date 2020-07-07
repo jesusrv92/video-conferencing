@@ -9,6 +9,9 @@ export default makeStyles((theme => ({
     height: '90vh',
     backgroundColor: '#000000'
   },
+  participantsContainer: {
+    boxSizing: 'border-box'
+  },
   buttonsContainer: {
     height: '10vh',
   },
@@ -31,8 +34,25 @@ export default makeStyles((theme => ({
     marginLeft: '0.4em',
     marginRight: '0.4em'
   },
+  circleButtonRed: {
+    border: '1px solid',
+    borderColor: 'rgba(125, 125, 125, 0.5)',
+    padding: '0.8em',
+    marginLeft: '0.4em',
+    marginRight: '0.4em',
+    backgroundColor: '#fe6f5e',
+
+    '&:hover': {
+      backgroundColor: '#fe2b12',
+    }
+
+  },
   buttonIcon: {
     color: '#546E7a',
+    fontSize: '1.3em'
+  },
+  buttonIconOff: {
+    color: '#ffffff',
     fontSize: '1.3em'
   },
   hangIcon: {

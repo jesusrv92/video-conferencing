@@ -10,16 +10,14 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 
 //Styles
 import useStyles from './join.styles.js';
-import { useTheme } from '@material-ui/core/styles';
+// import { useTheme } from '@material-ui/core/styles';
 
 
-export default function Join({setPage}) {
+export default function Join({setPage, video, setVideo, micro, setMicro, users, setUsers}) {
 
   const classes = useStyles();
-  const theme = useTheme();
+  // const theme = useTheme();
 
-  const [ video, setVideo ] = React.useState(false);
-  const [ micro, setMicro ] = React.useState(false);
   
   const localVideoRef = React.createRef();
   const constraints = { video: true };

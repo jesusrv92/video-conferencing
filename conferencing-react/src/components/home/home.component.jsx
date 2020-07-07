@@ -6,7 +6,6 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import KeyboardIcon from '@material-ui/icons/Keyboard';
-import Paper from '@material-ui/core/Paper';
 
 //Styles
 import useStyles from './home.styles';
