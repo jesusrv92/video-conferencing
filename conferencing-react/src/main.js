@@ -56,7 +56,6 @@ var config = {
         };
 
         socket.on('message', config.onmessage);
-        config?.callback(socket);
     },
     onRemoteStream: function (media) {
         var mediaElement = getMediaElement(media.video, {
@@ -66,7 +65,7 @@ var config = {
                 conferenceUI.remove(media.stream.id)
             }
         });
-        mediaElement.id = media.stream.id.slice(1, -1);
+        mediaElement.id = media.stream.id;
         // videosContainer.appendChild(mediaElement);
     },
     onRemoteStreamEnded: function (stream, video) {
@@ -75,16 +74,16 @@ var config = {
         }
     },
     onRoomFound: function (room) {
-        // hangUp.disabled = false;
+        let { broadcaster, roomToken } = room;
         captureUserMedia(function () {
+            // hangUp.disabled = false;
             conferenceUI.joinRoom({
-                roomToken: room.roomToken,
-                joinUser: room.broadcaster
+                roomToken: roomToken,
+                joinUser: broadcaster
             });
         });
     },
     onRoomClosed: function (room) {
-
     },
     onReady: function () {
         console.log('now you can open or join rooms');
@@ -92,10 +91,10 @@ var config = {
 };
 
 function setupNewRoomButtonClickHandler() {
-    // btnSetupNewRoom.disabled = true;
-    // hangUp.disabled = false;
-    // invitation.disabled = false;
     captureUserMedia(function () {
+        // btnSetupNewRoom.disabled = true;
+        // hangUp.disabled = false;
+        // invitation.disabled = false;
         conferenceUI.createRoom({
             roomName: 'default'
         });
@@ -141,7 +140,7 @@ function captureUserMedia(callback, failure_callback) {
         },
         onerror: function () {
             alert('unable to get access to your webcam');
-            callback && callback();
+            failure_callback && failure_callback();
         }
     });
 }
@@ -153,7 +152,6 @@ var conferenceUI = conference(config);
 // var btnSetupNewRoom = document.getElementById('setup-new-room');
 // var hangUp = document.getElementById('hang-up');
 // var invitation = document.getElementById('invitation');
-// var roomsList = document.getElementById('rooms-list');
 
 // if (btnSetupNewRoom) btnSetupNewRoom.onclick = setupNewRoomButtonClickHandler;
 // The hangUp button resets the page to the default state
