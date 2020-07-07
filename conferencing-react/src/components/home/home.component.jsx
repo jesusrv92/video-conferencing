@@ -15,8 +15,11 @@ import intekGlobalLogo from '../../assets/images/logo.png';
 export default function Home({setPage}){
 
   const classes = useStyles();
-
   const [ meetingCode, setMeetingCode ] = React.useState('');
+
+  const joinMeeting = () => {
+    setPage('join');
+  };
 
   return(
     <Grid item container direction="column" className={classes.homeContainer}>
@@ -46,6 +49,7 @@ export default function Home({setPage}){
               variant="outlined"
               value={meetingCode}
               onChange={(e) => setMeetingCode(e.target.value)}
+              onKeyDown={(e) => {if(e.keyCode === 13) joinMeeting()}}
               className={classes.meetingCode}
               InputProps={{
                 startAdornment:(
@@ -59,8 +63,11 @@ export default function Home({setPage}){
           </Grid>
           <Grid item>
             <Button 
+              variant="contained" 
+              color="primary"
               disabled={meetingCode.length === 0}
-              onClick={ () => setPage('join')}
+              className={classes.joinButton}
+              onClick={ joinMeeting }
             >
                 Join
             </Button>

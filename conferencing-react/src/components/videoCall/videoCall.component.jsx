@@ -41,7 +41,7 @@ export default function VideoCall({setPage, video, setVideo, micro, setMicro, us
                 <Grid item
                   key={user.key}
                   style={{
-                    width: `${100/(users.length)}%`,
+                    width: `${100/users.length}%`,
                     height: '200px'
                   }}
                 >

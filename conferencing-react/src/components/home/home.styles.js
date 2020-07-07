@@ -77,5 +77,10 @@ export default makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       width: '13em',
     }
+  },
+  joinButton: {
+    padding: '1.1em',
+    width: '17.5em',
+    backgroundColor: '#29ab87'
   }
 }));
