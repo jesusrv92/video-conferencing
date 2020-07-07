@@ -8,7 +8,7 @@ import VideoCall from './components/videoCall/videoCall.component.jsx';
 
 function App() {
 
-  const [ page, setPage] = React.useState('video');
+  const [ page, setPage] = React.useState('home');
   const [ video, setVideo ] = React.useState(false);
   const [ micro, setMicro ] = React.useState(false);
   const [users, setUsers] = React.useState([]);
