@@ -9,16 +9,19 @@ import KeyboardIcon from '@material-ui/icons/Keyboard';
 
 //Styles
 import useStyles from './home.styles';
-
 import intekGlobalLogo from '../../assets/images/logo.png';
 
-export default function Home({setPage}){
+import { Context } from '../../App.js';
+import { setPage } from '../../utils/actions';
+
+export default function Home(){
 
   const classes = useStyles();
   const [ meetingCode, setMeetingCode ] = React.useState('');
+  const { dispatch } = React.useContext(Context)
 
   const joinMeeting = () => {
-    setPage('join');
+    dispatch(setPage('join'));
   };
 
   return(
@@ -37,7 +40,7 @@ export default function Home({setPage}){
               color="primary"
               startIcon={<VideocamIcon/>}
               className={classes.startButton}
-              onClick={ () => setPage('join')}
+              onClick={ joinMeeting }
             >
                 Start a meeting
             </Button>
