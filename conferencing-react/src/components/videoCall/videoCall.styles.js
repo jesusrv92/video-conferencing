@@ -10,7 +10,9 @@ export default makeStyles((theme => ({
     backgroundColor: '#000000'
   },
   participantsContainer: {
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    height: '100%',
+    alignContent: 'center'
   },
   buttonsContainer: {
     height: '10vh',

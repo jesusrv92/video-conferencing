@@ -47,6 +47,34 @@ export default function VideoCall(){
     dispatch(toogleVideo(!video));
   };
 
+  const calculateSize = () => {
+    let n;
+    if(users.length === 1)
+      n = 12;
+    else if(users.length > 1 && users.length < 5)
+      n = 6;
+    else if(users.length > 1 && users.length < 7)
+      n = 4;
+    else if(users.length < 10)
+      n = 4;
+    else if(users.length < 17)
+      n = 3;
+    return n;
+  };
+
+  const calculateHeight = () => {
+    let height;
+    if(users.length === 1)
+      height = 100;
+    else if(users.length > 1 && users.length < 7)
+      height = 50;
+    else if(users.length < 13)
+      height = 100/3;
+    else if(users.length < 17)
+      height = 25;
+    return height;
+  }
+
   return(
     <Grid container className={classes.videoCallcontainer} direction='column'>
       <Grid item className={classes.videosConatiner}>
@@ -56,9 +84,9 @@ export default function VideoCall(){
               {users.map(user => (
                 <Grid item
                   key={user.key}
+                  lg={calculateSize()}
                   style={{
-                    width: `${100/users.length}%`,
-                    height: '200px'
+                    height: `${calculateHeight()}%`,
                   }}
                 >
                   <img 
@@ -66,8 +94,8 @@ export default function VideoCall(){
                     alt="video-user-component" 
                     className={classes.userVideoComponent}
                     style={{
-                      width: '100%',
-                      height: '200px'
+                      width: `${100}%`,
+                      height: `${100}%`,
                     }}
                   />
                 </Grid>
