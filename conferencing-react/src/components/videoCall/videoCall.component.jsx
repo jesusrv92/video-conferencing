@@ -15,21 +15,37 @@ import AddIcon from '@material-ui/icons/Add';
 import useStyles from './videoCall.styles';
 import userImg from '../../assets/images/user.png';
 
-export default function VideoCall({setPage, video, setVideo, micro, setMicro, users, setUsers}){
+//State MAnagment
+import { Context } from '../../App.js';
+import { setPage, toogleMic, toogleVideo, addUser } from '../../utils/actions';
+
+export default function VideoCall(){
   
   const classes = useStyles();
+  const { state, dispatch } = React.useContext(Context);
+  const { video, micro, users } = state;
 
-  const addUser = () => {
-    setUsers(
-      [
-        ...users,
+  const addParticipant = () => {
+    dispatch(addUser([
+      ...users,
         {
           name: 'user 1',
           key: new Date()
         }
-      ]
-    );
+    ]))
   }
+
+  const endCall = () => {
+    dispatch(setPage('join'));
+  };
+
+  const toogleMicrophone = () => {
+    dispatch(toogleMic(!micro));
+  };
+
+  const toogleCamera = () => {
+    dispatch(toogleVideo(!video));
+  };
 
   return(
     <Grid container className={classes.videoCallcontainer} direction='column'>
@@ -76,7 +92,7 @@ export default function VideoCall({setPage, video, setVideo, micro, setMicro, us
           <Grid item>
             <IconButton 
               className={ micro ? classes.circleButton : classes.circleButtonRed}
-              onClick={() => setMicro(!micro)}  
+              onClick={ toogleMicrophone }  
             >
               {
                 micro ? <MicIcon className={classes.buttonIcon} /> : <MicOffIcon className={classes.buttonIconOff} />
@@ -86,7 +102,7 @@ export default function VideoCall({setPage, video, setVideo, micro, setMicro, us
           <Grid item>
             <IconButton 
               className={classes.circleButton}
-              onClick={ () => setPage('join')}
+              onClick={ endCall }
             >
               <CallEndIcon className={classes.hangIcon}/>
             </IconButton>
@@ -94,7 +110,7 @@ export default function VideoCall({setPage, video, setVideo, micro, setMicro, us
           <Grid item>
             <IconButton 
               className={ video ? classes.circleButton : classes.circleButtonRed}
-              onClick={() => setVideo(!video)}
+              onClick={ toogleCamera }
             >
               {
                 video ? <VideocamIcon className={classes.buttonIcon} /> : <VideocamOffIcon className={classes.buttonIconOff} />
@@ -104,7 +120,7 @@ export default function VideoCall({setPage, video, setVideo, micro, setMicro, us
         </Grid>
 
         <Grid item container className={classes.videoMenu} lg={4}>
-          <IconButton onClick={addUser}>
+          <IconButton onClick={ addParticipant }>
             <AddIcon className={classes.menuIcon} />
           </IconButton>
           <IconButton >

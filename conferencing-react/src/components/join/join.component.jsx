@@ -10,14 +10,17 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 
 //Styles
 import useStyles from './join.styles.js';
-// import { useTheme } from '@material-ui/core/styles';
 
+//State managment
+import { Context } from '../../App.js';
+import { setPage, toogleMic, toogleVideo } from '../../utils/actions';
 
-export default function Join({setPage, video, setVideo, micro, setMicro, users, setUsers}) {
+export default function Join() {
 
   const classes = useStyles();
-  // const theme = useTheme();
-
+  
+  const { state, dispatch } = React.useContext(Context);
+  const { video, micro } = state;
   
   const localVideoRef = React.createRef();
   const constraints = { video: true };
@@ -30,10 +33,18 @@ export default function Join({setPage, video, setVideo, micro, setMicro, users, 
       window.localeStream = stream;
       localVideoRef.current.srcObject = stream;
       pc.addStream(stream);
-      setVideo(!video);
+      dispatch(toogleVideo(!video));
     })
     .catch(error => console.log("getUserMedia Error: ", error));
   }
+
+  const joinNow = () => {
+    dispatch(setPage('video'));
+  };
+
+  const toogleMicrophone = () => {
+    dispatch(toogleMic(!micro));
+  };
 
   return(
     <Grid item container direction="row" className={classes.joinContainer}>
@@ -44,7 +55,7 @@ export default function Join({setPage, video, setVideo, micro, setMicro, users, 
         </Grid>
         <Grid item container direction='row' className={classes.videoButtonsContainer}> 
           <Grid item>
-            <Fab onClick={() => setMicro(!micro)} 
+            <Fab onClick={toogleMicrophone} 
               className={classes.videoButton}
               style={{
                 backgroundColor: micro ? "#337ab7" : "#e52b50",
@@ -78,7 +89,7 @@ export default function Join({setPage, video, setVideo, micro, setMicro, users, 
           <Button
             variant="contained"
             color="primary"
-            onClick={ () => setPage('video')}
+            onClick={ joinNow }
           >
             Join now
           </Button>

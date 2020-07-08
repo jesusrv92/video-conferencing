@@ -13,7 +13,6 @@ export const Context = React.createContext(null);
 
 function App() {
 
-  const [ page, setPage] = React.useState('home');
   const [ video, setVideo ] = React.useState(false);
   const [ micro, setMicro ] = React.useState(false);
   const [users, setUsers] = React.useState([]);
@@ -28,17 +27,13 @@ function App() {
             <Home />
           ): state.page === "join" ? (
             <Join 
-              setPage={setPage}
               video = {video}
               setVideo = {setVideo}
               micro = {micro}
               setMicro = {setMicro}
-              users = {users}
-              setUsers = {setUsers}
             />
           ):(
             <VideoCall 
-              setPage={setPage}
               video = {video}
               setVideo = {setVideo}
               micro = {micro}
