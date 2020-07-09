@@ -61,6 +61,10 @@ export default makeStyles((theme => ({
     color: '#fe6f5e',
     fontSize: '1.3em'
   },
+  recordIcon: {
+    color: '#fe6f5e',
+    fontSize: '1.3em'
+  },
   menuIcon: {
     fontSize: '1.3em'
   }

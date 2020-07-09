@@ -10,6 +10,9 @@ import CallEndIcon from '@material-ui/icons/CallEnd';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AddIcon from '@material-ui/icons/Add';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
+import StopIcon from '@material-ui/icons/Stop';
+import PopUpMenu from '../popupMenu/popupMenu.component';
 
 //Styles
 import useStyles from './videoCall.styles';
@@ -24,6 +27,8 @@ export default function VideoCall(){
   const classes = useStyles();
   const { state, dispatch } = React.useContext(Context);
   const { video, micro, users } = state;
+
+  const [ record, setRecord ] = React.useState(false);
 
   const addParticipant = () => {
     dispatch(addUser([
@@ -46,6 +51,10 @@ export default function VideoCall(){
   const toogleCamera = () => {
     dispatch(toogleVideo(!video));
   };
+
+  const handleRecord = () => {
+    setRecord(!record);
+  }
 
   const calculateSize = () => {
     let n;
@@ -114,6 +123,7 @@ export default function VideoCall(){
           >
             Meeting Details
           </Button>
+          <PopUpMenu/>
         </Grid>
 
         <Grid item container className={classes.videoButtons} lg={4}>
@@ -142,6 +152,16 @@ export default function VideoCall(){
             >
               {
                 video ? <VideocamIcon className={classes.buttonIcon} /> : <VideocamOffIcon className={classes.buttonIconOff} />
+              }
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <IconButton 
+              className={classes.circleButton}
+              onClick={ handleRecord }
+            >
+              {
+                record ? <StopIcon className={classes.menuIcon}/> : <FiberManualRecordIcon className={classes.recordIcon} />
               }
             </IconButton>
           </Grid>
