@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import VideocamIcon from '@material-ui/icons/Videocam';
@@ -29,6 +30,7 @@ export default function VideoCall(){
   const { video, micro, users } = state;
 
   const [ record, setRecord ] = React.useState(false);
+  const [ detailsMenuOpen, setDetailsMenuOpen ] = React.useState(false);
 
   const addParticipant = () => {
     dispatch(addUser([
@@ -118,12 +120,15 @@ export default function VideoCall(){
 
         <Grid item container className={classes.videoDetails} lg={4}>
           <Button
-            endIcon={<ExpandLessIcon />}
+            endIcon={ detailsMenuOpen ? <ExpandMoreIcon/> : <ExpandLessIcon />}
             disableRipple
+            onClick={() => setDetailsMenuOpen(!detailsMenuOpen) }
           >
             Meeting Details
           </Button>
-          <PopUpMenu/>
+          {
+            detailsMenuOpen ? <PopUpMenu/> : null
+          }
         </Grid>
 
         <Grid item container className={classes.videoButtons} lg={4}>
