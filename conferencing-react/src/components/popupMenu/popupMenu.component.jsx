@@ -26,7 +26,7 @@ export default function PopUpMenu(){
   
 
   return(
-    <Grid container direction='column' className={classes.popupMenuContainer}>
+    <Grid container direction='column' className={classes.popupMenuContainer} xd={12}>
       <Grid container item className={classes.tabsBar}>
         <Grid item
           className={classes.tabItem} 

@@ -7,7 +7,15 @@ export default makeStyles((theme => ({
     width: '400px',
     bottom: '110px',
     left: '15px',
-    borderRadius: '15px'
+    borderRadius: '15px',
+    boxSizing: 'border-box',
+
+    [theme.breakpoints.down('xs')]: {
+      width: '90%',
+      textAlign: 'center',
+      left: '5%',
+      right: '5%'
+    }
   },
   tabItem: {
     padding: '0.75em',
