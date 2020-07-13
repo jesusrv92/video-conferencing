@@ -81,6 +81,10 @@ export default makeStyles((theme) => ({
   joinButton: {
     padding: '1.1em',
     width: '17.5em',
-    backgroundColor: '#29ab87'
+    backgroundColor: '#29ab87',
+    [theme.breakpoints.down("xs")]: {
+      padding: '1em',
+      width: '14.8em',
+    }
   }
 }));

@@ -1,7 +1,7 @@
 import {
   SET_PAGE,
-  TOOGLE_MIC,
-  TOOGLE_VIDEO,
+  TOGGLE_MIC,
+  TOGGLE_VIDEO,
   ADD_USER,
   REMOVE_USER,
   UPDATE_USERS
@@ -12,13 +12,13 @@ export const setPage = (page) => ({
   payload: page
 });
 
-export const toogleMic = (status) => ({
-  type: TOOGLE_MIC,
+export const toggleMic = (status) => ({
+  type: TOGGLE_MIC,
   payload: status
 });
 
-export const toogleVideo = (status) => ({
-  type: TOOGLE_VIDEO,
+export const toggleVideo = (status) => ({
+  type: TOGGLE_VIDEO,
   payload: status
 });
 
