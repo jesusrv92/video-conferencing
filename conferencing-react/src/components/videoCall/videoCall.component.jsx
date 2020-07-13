@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MicIcon from '@material-ui/icons/Mic';
@@ -14,6 +15,7 @@ import AddIcon from '@material-ui/icons/Add';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import StopIcon from '@material-ui/icons/Stop';
 import PopUpMenu from '../popupMenu/popupMenu.component';
+import SettingsMenu from '../../components/settingsMenu/settingsMenu.component';
 // import CommentIcon from '@material-ui/icons/Comment';
 import GroupIcon from '@material-ui/icons/Group';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -24,7 +26,7 @@ import useStyles from './videoCall.styles';
 
 //State Managment
 import { Context } from '../../App.js';
-import { setPage, toogleMic, toogleVideo, addUser } from '../../utils/actions';
+import { setPage, toggleMic, toggleVideo, addUser } from '../../utils/actions';
 
 
 export default function VideoCall(){
@@ -35,6 +37,7 @@ export default function VideoCall(){
 
   const [ record, setRecord ] = React.useState(false);
   const [ detailsMenuOpen, setDetailsMenuOpen ] = React.useState(false);
+  const [ settingsMenuOpen, setSettingsMenuOpen ] = React.useState(false);
   const theme = useTheme();
 
   const matchSM = useMediaQuery(theme.breakpoints.down('sm'));
@@ -58,12 +61,12 @@ export default function VideoCall(){
     dispatch(setPage('join'));
   };
 
-  const toogleMicrophone = () => {
-    dispatch(toogleMic(!micro));
+  const toggleMicrophone = () => {
+    dispatch(toggleMic(!micro));
   };
 
-  const toogleCamera = () => {
-    dispatch(toogleVideo(!video));
+  const toggleCamera = () => {
+    dispatch(toggleVideo(!video));
   };
 
   const handleRecord = () => {
@@ -160,7 +163,7 @@ export default function VideoCall(){
           <Grid item>
             <IconButton 
               className={ micro ? classes.circleButton : classes.circleButtonRed}
-              onClick={ toogleMicrophone }  
+              onClick={ toggleMicrophone }  
             >
               {
                 micro ? <MicIcon className={classes.buttonIcon} /> : <MicOffIcon className={classes.buttonIconOff} />
@@ -178,34 +181,40 @@ export default function VideoCall(){
           <Grid item>
             <IconButton 
               className={ video ? classes.circleButton : classes.circleButtonRed}
-              onClick={ toogleCamera }
+              onClick={ toggleCamera }
             >
               {
                 video ? <VideocamIcon className={classes.buttonIcon} /> : <VideocamOffIcon className={classes.buttonIconOff} />
               }
             </IconButton>
           </Grid>
-          <Grid item>
-            <IconButton 
-              className={classes.circleButton}
-              onClick={ handleRecord }
-            >
-              {
-                record ? <StopIcon className={classes.menuIcon}/> : <FiberManualRecordIcon className={classes.recordIcon} />
-              }
-            </IconButton>
-          </Grid>
+          <Hidden smDown>
+            <Grid item>
+              <IconButton 
+                className={classes.circleButton}
+                onClick={ handleRecord }
+              >
+                {
+                  record ? <StopIcon className={classes.menuIcon}/> : <FiberManualRecordIcon className={classes.recordIcon} />
+                }
+              </IconButton>
+            </Grid>
+          </Hidden>
         </Grid>
 
         <Grid item container className={classes.videoMenu} xs={3} lg={4}>
           <IconButton onClick={ addParticipant }>
             <AddIcon className={classes.menuIcon} />
           </IconButton>
-          <IconButton >
+          <IconButton 
+            onClick={() => setSettingsMenuOpen(!settingsMenuOpen) }
+          >
             <MoreVertIcon className={classes.menuIcon} />
           </IconButton>
         </Grid>
-
+        {
+          settingsMenuOpen ? <SettingsMenu/> : null
+        }
       </Grid>
     </Grid>
   )

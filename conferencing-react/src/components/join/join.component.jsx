@@ -13,7 +13,7 @@ import useStyles from './join.styles.js';
 
 //State managment
 import { Context } from '../../App.js';
-import { setPage, toogleMic, toogleVideo } from '../../utils/actions';
+import { setPage, toggleMic, toggleVideo } from '../../utils/actions';
 
 export default function Join() {
 
@@ -33,7 +33,7 @@ export default function Join() {
       window.localeStream = stream;
       localVideoRef.current.srcObject = stream;
       pc.addStream(stream);
-      dispatch(toogleVideo(!video));
+      dispatch(toggleVideo(!video));
     })
     .catch(error => console.log("getUserMedia Error: ", error));
   }
@@ -42,20 +42,20 @@ export default function Join() {
     dispatch(setPage('video'));
   };
 
-  const toogleMicrophone = () => {
-    dispatch(toogleMic(!micro));
+  const toggleMicrophone = () => {
+    dispatch(toggleMic(!micro));
   };
 
   return(
     <Grid item container direction="row" className={classes.joinContainer}>
-      <Grid item className={classes.videoContainer} xs={12} md={7}>
+      <Grid item className={classes.videoContainer} xs={12} md={8} lg={7}>
         <Grid item>
           <video className={classes.video} ref={localVideoRef} autoPlay>
           </video>
         </Grid>
         <Grid item container direction='row' className={classes.videoButtonsContainer}> 
           <Grid item>
-            <Fab onClick={toogleMicrophone} 
+            <Fab onClick={toggleMicrophone} 
               className={classes.videoButton}
               style={{
                 backgroundColor: micro ? "#337ab7" : "#e52b50",
@@ -78,7 +78,7 @@ export default function Join() {
           </Grid>
         </Grid>
       </Grid> 
-      <Grid item container direction="column" className={classes.detailsContainer} xs={12} md={5}>
+      <Grid item container direction="column" className={classes.detailsContainer} xs={12} md={4} lg={5}>
         <Grid item>
           <Typography className={classes.title}>Meeting ready</Typography>
         </Grid>
