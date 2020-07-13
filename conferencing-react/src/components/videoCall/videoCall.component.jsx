@@ -14,14 +14,18 @@ import AddIcon from '@material-ui/icons/Add';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import StopIcon from '@material-ui/icons/Stop';
 import PopUpMenu from '../popupMenu/popupMenu.component';
+// import CommentIcon from '@material-ui/icons/Comment';
+import GroupIcon from '@material-ui/icons/Group';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
 
 //Styles
 import useStyles from './videoCall.styles';
-import userImg from '../../assets/images/user.png';
 
-//State MAnagment
+//State Managment
 import { Context } from '../../App.js';
 import { setPage, toogleMic, toogleVideo, addUser } from '../../utils/actions';
+
 
 export default function VideoCall(){
   
@@ -31,15 +35,23 @@ export default function VideoCall(){
 
   const [ record, setRecord ] = React.useState(false);
   const [ detailsMenuOpen, setDetailsMenuOpen ] = React.useState(false);
+  const theme = useTheme();
+
+  const matchSM = useMediaQuery(theme.breakpoints.down('sm'));
 
   const addParticipant = () => {
     dispatch(addUser([
       ...users,
         {
-          name: 'user 1',
-          key: new Date()
+          name: `User ${users.length}`,
+          id: users.length,
+          micro: false,
+          video: false,
+          imageUrl: Math.floor(Math.random()*Math.floor(4))
         }
-    ]))
+    ]));
+
+    console.log(users);
   }
 
   const endCall = () => {
@@ -94,14 +106,14 @@ export default function VideoCall(){
             <Grid container direction='row' className={classes.participantsContainer}>
               {users.map(user => (
                 <Grid item
-                  key={user.key}
+                  key={user.id}
                   lg={calculateSize()}
                   style={{
                     height: `${calculateHeight()}%`,
                   }}
                 >
                   <img 
-                    src={userImg} 
+                    src={require(`../../assets/images/${user.imageUrl}.jpg`)}
                     alt="video-user-component" 
                     className={classes.userVideoComponent}
                     style={{
@@ -118,20 +130,33 @@ export default function VideoCall(){
       </Grid>
       <Grid item container direction='row' className={classes.buttonsContainer}>
 
-        <Grid item container className={classes.videoDetails} lg={4}>
-          <Button
-            endIcon={ detailsMenuOpen ? <ExpandMoreIcon/> : <ExpandLessIcon />}
-            disableRipple
-            onClick={() => setDetailsMenuOpen(!detailsMenuOpen) }
-          >
-            Meeting Details
-          </Button>
+        <Grid item container className={classes.videoDetails} xs={3} lg={4}>
+          {
+            matchSM ? (
+              <Button
+                endIcon={ detailsMenuOpen ? <ExpandMoreIcon/> : <ExpandLessIcon />}
+                disableRipple
+                onClick={() => setDetailsMenuOpen(!detailsMenuOpen) }
+              >
+              <GroupIcon className={classes.groupIcon}/>
+              </Button>
+              )
+            :(
+              <Button
+                endIcon={ detailsMenuOpen ? <ExpandMoreIcon/> : <ExpandLessIcon />}
+                disableRipple
+                onClick={() => setDetailsMenuOpen(!detailsMenuOpen) }
+              >
+                Meeting Details
+              </Button>
+            )
+          }
           {
             detailsMenuOpen ? <PopUpMenu/> : null
           }
         </Grid>
 
-        <Grid item container className={classes.videoButtons} lg={4}>
+        <Grid item container className={classes.videoButtons} xs={6} lg={4}>
           <Grid item>
             <IconButton 
               className={ micro ? classes.circleButton : classes.circleButtonRed}
@@ -172,7 +197,7 @@ export default function VideoCall(){
           </Grid>
         </Grid>
 
-        <Grid item container className={classes.videoMenu} lg={4}>
+        <Grid item container className={classes.videoMenu} xs={3} lg={4}>
           <IconButton onClick={ addParticipant }>
             <AddIcon className={classes.menuIcon} />
           </IconButton>

@@ -2,7 +2,9 @@ import {
   SET_PAGE,
   TOOGLE_MIC,
   TOOGLE_VIDEO,
-  ADD_USER
+  ADD_USER,
+  REMOVE_USER,
+  UPDATE_USERS,
 } from './actionTypes';
 
 export default function reducer( state, action){
@@ -15,6 +17,10 @@ export default function reducer( state, action){
       return Object.assign({}, state, { video: action.payload });
     case ADD_USER:
       return Object.assign({}, state, { users: action.payload });
+    case REMOVE_USER:
+        return Object.assign({}, state, { users: action.payload });
+    case UPDATE_USERS:
+          return Object.assign({}, state, { users: action.payload });
     default:
       throw new Error("Invalid action type");
   }

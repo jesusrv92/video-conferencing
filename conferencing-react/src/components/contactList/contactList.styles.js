@@ -18,6 +18,16 @@ export default makeStyles((theme => ({
     }
   },
   mediaIconOFF: {
+    color: 'rgba(76,76,76, 0.3)',
+    marginLeft: '0.2em',
+    marginRight: '0.2em',
+    cursor: 'pointer',
+
+    '&:hover': {
+      color: 'rgba(76,76,76, 0.8)',
+    }
+  },
+  endCallIcon: {
     color: 'rgb(255,104,135)',
     marginLeft: '0.2em',
     marginRight: '0.2em',
