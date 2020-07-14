@@ -19,7 +19,7 @@ import { setPage, toggleMic, toggleVideo } from '../../utils/actions';
 import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import getUserMedia from '../../modules/getUserMedia-async';
-const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
+const OPENVIDU_SERVER_URL = 'https://34.234.174.140:4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 export default function Join() {
@@ -127,7 +127,7 @@ export default function Join() {
 
       try {
         await session.connect(token, { clientData: state.myUserName });
-        let publisher = OV.initPublisher(undefined, {
+        let publisher = await OV.initPublisher(undefined, {
           audioSource: undefined, // The source of audio. If undefined default microphone
           videoSource: undefined, // The source of video. If undefined default webcam
           publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
@@ -137,8 +137,10 @@ export default function Join() {
           insertMode: 'APPEND',   // How the video is inserted in the target element 'video-container'
           mirror: false           // Whether to mirror your local video or not
         });
+        console.log("REF: ", localVideoRef);
+        console.log("STREAM: ", publisher.stream.mediaStream)
         localVideoRef.current.srcObject = publisher.stream.mediaStream;
-        dispatch(toggleVideo(video));
+        dispatch(toggleVideo(!video));
         session.publish(publisher)
         console.log('Publisher', publisher);
       }
@@ -151,7 +153,7 @@ export default function Join() {
         session.disconnect();
       }
     }
-    return init();
+    init();
     // eslint-disable-next-line
   }, [])
 
@@ -184,7 +186,7 @@ export default function Join() {
         </Grid>
         <Grid item container direction='row' className={classes.videoButtonsContainer}> 
           <Grid item>
-            <Fab onClick={toogleMicrophone}
+            <Fab onClick={toggleMicrophone}
               className={classes.videoButton}
               style={{
                 backgroundColor: micro ? "#337ab7" : "#e52b50",

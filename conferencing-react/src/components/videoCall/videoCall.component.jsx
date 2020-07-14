@@ -11,6 +11,7 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CommentOutlinedIcon from '@material-ui/icons/CommentOutlined';
 import AddIcon from '@material-ui/icons/Add';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import StopIcon from '@material-ui/icons/Stop';
@@ -20,7 +21,6 @@ import SettingsMenu from '../../components/settingsMenu/settingsMenu.component';
 import GroupIcon from '@material-ui/icons/Group';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
 
 //Styles
 import useStyles from './videoCall.styles';
@@ -212,13 +212,13 @@ export default function VideoCall(){
               <IconButton 
                 onClick={() => setSettingsMenuOpen(!settingsMenuOpen) }
               >
-                <MoreVertIcon className={classes.menuIcon} />
+                <MoreVertIcon className={classes.menuIcon} />  
               </IconButton>
             ):(
               <IconButton 
-                onClick={ console.log("Hola") }
+                onClick={() => setSettingsMenuOpen(!settingsMenuOpen) }
               >
-                <ChatOutlinedIcon className={classes.menuIcon} />
+                <CommentOutlinedIcon className={classes.menuIcon} />
               </IconButton>
             )
           }
