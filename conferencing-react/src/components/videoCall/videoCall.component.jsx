@@ -11,6 +11,7 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CommentOutlinedIcon from '@material-ui/icons/CommentOutlined';
 import AddIcon from '@material-ui/icons/Add';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import StopIcon from '@material-ui/icons/Stop';
@@ -206,11 +207,21 @@ export default function VideoCall(){
           <IconButton onClick={ addParticipant }>
             <AddIcon className={classes.menuIcon} />
           </IconButton>
-          <IconButton 
-            onClick={() => setSettingsMenuOpen(!settingsMenuOpen) }
-          >
-            <MoreVertIcon className={classes.menuIcon} />
-          </IconButton>
+          {
+            matchSM ? (
+              <IconButton 
+                onClick={() => setSettingsMenuOpen(!settingsMenuOpen) }
+              >
+                <MoreVertIcon className={classes.menuIcon} />  
+              </IconButton>
+            ):(
+              <IconButton 
+                onClick={() => setSettingsMenuOpen(!settingsMenuOpen) }
+              >
+                <CommentOutlinedIcon className={classes.menuIcon} />
+              </IconButton>
+            )
+          }
         </Grid>
         {
           settingsMenuOpen ? <SettingsMenu/> : null
