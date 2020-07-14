@@ -17,6 +17,8 @@ export default makeStyles((theme => ({
     borderRadius: '10px',
     width: '100%',
     height: '37.7em',
+    objectFit: 'cover' ,
+    
     [theme.breakpoints.down("sm")]: {
       // backgroundColor: 'rgb(255, 0, 0)',
     },

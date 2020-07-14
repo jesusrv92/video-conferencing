@@ -20,6 +20,7 @@ import SettingsMenu from '../../components/settingsMenu/settingsMenu.component';
 import GroupIcon from '@material-ui/icons/Group';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+import ChatOutlinedIcon from '@material-ui/icons/ChatOutlined';
 
 //Styles
 import useStyles from './videoCall.styles';
@@ -206,11 +207,21 @@ export default function VideoCall(){
           <IconButton onClick={ addParticipant }>
             <AddIcon className={classes.menuIcon} />
           </IconButton>
-          <IconButton 
-            onClick={() => setSettingsMenuOpen(!settingsMenuOpen) }
-          >
-            <MoreVertIcon className={classes.menuIcon} />
-          </IconButton>
+          {
+            matchSM ? (
+              <IconButton 
+                onClick={() => setSettingsMenuOpen(!settingsMenuOpen) }
+              >
+                <MoreVertIcon className={classes.menuIcon} />
+              </IconButton>
+            ):(
+              <IconButton 
+                onClick={ console.log("Hola") }
+              >
+                <ChatOutlinedIcon className={classes.menuIcon} />
+              </IconButton>
+            )
+          }
         </Grid>
         {
           settingsMenuOpen ? <SettingsMenu/> : null

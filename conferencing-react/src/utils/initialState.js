@@ -1,5 +1,5 @@
 export default {
-  page: 'home',
+  page: 'video',
   micro: false,
   video: false,
   users: []

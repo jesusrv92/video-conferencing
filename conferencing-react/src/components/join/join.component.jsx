@@ -50,7 +50,7 @@ export default function Join() {
     <Grid item container direction="row" className={classes.joinContainer}>
       <Grid item className={classes.videoContainer} xs={12} md={8} lg={7}>
         <Grid item>
-          <video className={classes.video} ref={localVideoRef} autoPlay>
+          <video className={classes.video}   ref={localVideoRef} autoPlay>
           </video>
         </Grid>
         <Grid item container direction='row' className={classes.videoButtonsContainer}> 
