@@ -19,7 +19,7 @@ import { setPage, toggleMic, toggleVideo } from '../../utils/actions';
 import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import getUserMedia from '../../modules/getUserMedia-async';
-const OPENVIDU_SERVER_URL = 'https://34.234.174.140:4443';
+const OPENVIDU_SERVER_URL = 'https://localhost:4443' //'https://34.234.174.140:4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 export default function Join() {
