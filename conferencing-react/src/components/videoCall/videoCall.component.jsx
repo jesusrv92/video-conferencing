@@ -17,6 +17,7 @@ import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import StopIcon from '@material-ui/icons/Stop';
 import PopUpMenu from '../popupMenu/popupMenu.component';
 import SettingsMenu from '../../components/settingsMenu/settingsMenu.component';
+import SideBar from '../sideBar/sideBar.component';
 // import CommentIcon from '@material-ui/icons/Comment';
 import GroupIcon from '@material-ui/icons/Group';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -39,6 +40,7 @@ export default function VideoCall(){
   const [ record, setRecord ] = React.useState(false);
   const [ detailsMenuOpen, setDetailsMenuOpen ] = React.useState(false);
   const [ settingsMenuOpen, setSettingsMenuOpen ] = React.useState(false);
+  const [ sideBarOpen, setSideBarOpen ] = React.useState(false);
   const theme = useTheme();
 
   const matchSM = useMediaQuery(theme.breakpoints.down('sm'));
@@ -216,7 +218,7 @@ export default function VideoCall(){
               </IconButton>
             ):(
               <IconButton 
-                onClick={() => setSettingsMenuOpen(!settingsMenuOpen) }
+                onClick={() => setSideBarOpen(!sideBarOpen) }
               >
                 <CommentOutlinedIcon className={classes.menuIcon} />
               </IconButton>
@@ -225,6 +227,9 @@ export default function VideoCall(){
         </Grid>
         {
           settingsMenuOpen ? <SettingsMenu/> : null
+        }
+        {
+          sideBarOpen ? <SideBar/> : null
         }
       </Grid>
     </Grid>
