@@ -17,10 +17,7 @@ import { setPage, toggleMic, toggleVideo } from '../../utils/actions';
 
 //Stream manager
 import { OpenVidu } from 'openvidu-browser';
-import axios from 'axios';
-import getUserMedia from '../../modules/getUserMedia-async';
-const OPENVIDU_SERVER_URL = process.env.OPENVIDU_SERVER_URL;
-const OPENVIDU_SERVER_SECRET = process.env.OPENVIDU_SERVER_SECRET;
+import getToken from './getToken';
 
 export default function Join() {
 
@@ -31,131 +28,68 @@ export default function Join() {
   
   const localVideoRef = React.createRef();
 
-  function createToken(sessionId) {
-    return new Promise((resolve, reject) => {
-      var data = JSON.stringify({ session: sessionId });
-      axios
-        .post(OPENVIDU_SERVER_URL + '/api/tokens', data, {
-          headers: {
-            Authorization: 'Basic ' + btoa('OPENVIDUAPP:' + OPENVIDU_SERVER_SECRET),
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((response) => {
-          console.log('TOKEN', response);
-          resolve(response.data.token);
-        })
-        .catch((error) => reject(error));
-    });
-  }
+  React.useEffect(() => {
+    const init = async () => {
+      const OV = new OpenVidu();
+      console.log(OV);
 
-  function createSession(sessionId) {
-    return new Promise((resolve, reject) => {
-      var data = JSON.stringify({ customSessionId: sessionId });
-      axios
-        .post(OPENVIDU_SERVER_URL + '/api/sessions', data, {
-          headers: {
-            Authorization: 'Basic ' + btoa('OPENVIDUAPP:' + OPENVIDU_SERVER_SECRET),
-            'Content-Type': 'application/json',
-          },
-        })
-        .then((response) => {
-          console.log('CREATE SESION', response);
-          resolve(response.data.id);
-        })
-        .catch((response) => {
-          var error = Object.assign({}, response);
-          if (error.response.status === 409) {
-            resolve(sessionId);
-          } else {
-            console.log(error);
-            console.warn(
-              'No connection to OpenVidu Server. This may be a certificate error at ' +
-              OPENVIDU_SERVER_URL,
-            );
-            if (
-              window.confirm(
-                'No connection to OpenVidu Server. This may be a certificate error at "' +
-                OPENVIDU_SERVER_URL +
-                '"\n\nClick OK to navigate and accept it. ' +
-                'If no certificate warning is shown, then check that your OpenVidu Server is up and running at "' +
-                OPENVIDU_SERVER_URL +
-                '"',
-              )
-            ) {
-              window.location.assign(OPENVIDU_SERVER_URL + '/accept-certificate');
-            }
-          }
+      let session = OV.initSession();
+      console.log(session);
+
+      let subscribers = [];
+
+      session.on('streamCreated', event => {
+
+        let subscriber = session.subscribe(event.stream, undefined);
+        console.log('Adding stream', subscriber);
+
+        subscribers.push(subscriber);
+        console.log(subscribers)
+      });
+
+      session.on('streamDestroyed', event => {
+        event.preventDefault();
+        let removedStream = event.stream.streamManager
+        console.log('Removing stream', removedStream)
+
+        subscribers = subscribers.filter(subscriber => removedStream !== subscriber);
+        console.log(subscribers)
+      });
+
+      let token = await getToken(state.openVidu.mySessionID);
+      console.log('Token', token)
+
+      try {
+        await session.connect(token, { clientData: state.openVidu.myUserName });
+        let publisher = await OV.initPublisher(undefined, {
+          audioSource: undefined, // The source of audio. If undefined default microphone
+          videoSource: undefined, // The source of video. If undefined default webcam
+          publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
+          publishVideo: true,     // Whether you want to start publishing with your video enabled or not
+          resolution: '640x480',  // The resolution of your video
+          frameRate: 30,          // The frame rate of your video
+          insertMode: 'APPEND',   // How the video is inserted in the target element 'video-container'
+          mirror: false           // Whether to mirror your local video or not
         });
-    });
-  }
+        console.log("REF: ", localVideoRef);
+        console.log("STREAM: ", publisher.stream.mediaStream)
+        localVideoRef.current.srcObject = publisher.stream.mediaStream;
+        dispatch(toggleVideo(!video));
+        session.publish(publisher)
+        console.log('Publisher', publisher);
+      }
+      catch (error) {
+        console.log('There was an error connecting to the session:', error.code, error.message);
+      }
 
-  function getToken() {
-    return createSession(state.mySessionId).then((sessionId) => createToken(sessionId));
-  }
-
-  // React.useEffect(() => {
-  //   const init = async () => {
-  //     const OV = new OpenVidu();
-  //     console.log(OV);
-
-  //     let session = OV.initSession();
-  //     console.log(session);
-
-  //     let subscribers = [];
-
-  //     session.on('streamCreated', event => {
-
-  //       let subscriber = session.subscribe(event.stream, undefined);
-  //       console.log('Adding stream', subscriber);
-
-  //       subscribers.push(subscriber);
-  //       console.log(subscribers)
-  //     });
-
-  //     session.on('streamDestroyed', event => {
-  //       event.preventDefault();
-  //       let removedStream = event.stream.streamManager
-  //       console.log('Removing stream', removedStream)
-
-  //       subscribers = subscribers.filter(subscriber => removedStream !== subscriber);
-  //       console.log(subscribers)
-  //     });
-
-  //     let token = await getToken();
-  //     console.log('Token', token)
-
-  //     try {
-  //       await session.connect(token, { clientData: state.myUserName });
-  //       let publisher = await OV.initPublisher(undefined, {
-  //         audioSource: undefined, // The source of audio. If undefined default microphone
-  //         videoSource: undefined, // The source of video. If undefined default webcam
-  //         publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
-  //         publishVideo: true,     // Whether you want to start publishing with your video enabled or not
-  //         resolution: '640x480',  // The resolution of your video
-  //         frameRate: 30,          // The frame rate of your video
-  //         insertMode: 'APPEND',   // How the video is inserted in the target element 'video-container'
-  //         mirror: false           // Whether to mirror your local video or not
-  //       });
-  //       console.log("REF: ", localVideoRef);
-  //       console.log("STREAM: ", publisher.stream.mediaStream)
-  //       localVideoRef.current.srcObject = publisher.stream.mediaStream;
-  //       dispatch(toggleVideo(!video));
-  //       session.publish(publisher)
-  //       console.log('Publisher', publisher);
-  //     }
-  //     catch (error) {
-  //       console.log('There was an error connecting to the session:', error.code, error.message);
-  //     }
-
-  //     return function leaveSession() {
-  //       console.log('Disconnecting')
-  //       session.disconnect();
-  //     }
-  //   }
-  //   init();
-  //   // eslint-disable-next-line
-  // }, [])
+      return function leaveSession() {
+        console.log('Disconnecting')
+        session.disconnect();
+      }
+    }
+    init();
+    // eslint-disable-next-line
+  }, [])
 
   const startCamera = async () => {
   //   try {
