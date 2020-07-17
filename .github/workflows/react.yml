@@ -32,3 +32,5 @@ jobs:
           args: deploy 
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_REACT }}
+          OPENVIDU_SERVER_SECRET: ${{ secrets.OPENVIDU_SERVER_SECRET }}
+          OPENVIDU_SERVER_URL: ${{ secrets.OPENVIDU_SERVER_URL }}
