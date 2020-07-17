@@ -4,7 +4,7 @@ export default makeStyles((theme => ({
   settingsMenuContainer: {
     position: 'absolute',
     backgroundColor: '#ffffff',
-    width: '400px',
+    width: '200px',
     bottom: '110px',
     right: '15px',
     borderRadius: '15px',
@@ -24,16 +24,17 @@ export default makeStyles((theme => ({
     cursor: 'pointer',
     width: '100%'
   },
-  tabsContent: {
-    padding: '1em',
+  optionsContainer: {
+    alignItems: 'center',
+    padding: '0.5em'
   },
-  detailsTitle: {
-    marginTop: '0.5em',
-    marginBottom: '0.5em',
-    fontWeight: 'bold'
+  itemOption: {
+    paddingTop: '0.5em'
   },
-  detailsConent: {
-    marginTop: '0.5em',
-    marginBottom: '0.5em',
+  itemButton: {
+    color: '#000000'
+  },
+  itemIcon: {
+    color: '#ff0038'
   }
 })));

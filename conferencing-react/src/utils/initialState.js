@@ -1,7 +1,11 @@
 export default {
-  page: 'home',
+  page: 'video',
   micro: false,
   video: false,
+  record: false,
+  detailsMenu: false,
+  optionsMenu: false,
+  sidebar: false,
   users: [],
   openVidu: {
     mySessionID: 'SessionA',

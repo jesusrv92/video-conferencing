@@ -1,6 +1,10 @@
 export const SET_PAGE = 'SET_PAGE';
 export const TOGGLE_MIC = 'TOGGLE_MIC';
 export const TOGGLE_VIDEO = 'TOGGLE_VIDEO';
+export const TOGGLE_RECORD = 'TOGGLE_RECORD';
+export const TOGGLE_DETAILS_MENU = 'TOGGLE_DETAILS_MENU';
+export const TOGGLE_OPTIONS_MENU = 'TOGGLE_OPTIONS_MENU';
+export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 export const ADD_USER = 'ADD_USER';
 export const REMOVE_USER = 'REMOVE_USER';
 export const UPDATE_USERS = 'UPDATE_USERS';

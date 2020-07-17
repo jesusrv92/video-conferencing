@@ -5,6 +5,10 @@ import {
   ADD_USER,
   REMOVE_USER,
   UPDATE_USERS,
+  TOGGLE_RECORD,
+  TOGGLE_DETAILS_MENU,
+  TOGGLE_OPTIONS_MENU,
+  TOGGLE_SIDEBAR
 } from './actionTypes';
 
 export default function reducer( state, action){
@@ -15,12 +19,23 @@ export default function reducer( state, action){
       return Object.assign({}, state, { micro: action.payload });
     case TOGGLE_VIDEO:
       return Object.assign({}, state, { video: action.payload });
+    case TOGGLE_RECORD:
+      return Object.assign({}, state, { record: action.payload });
     case ADD_USER:
       return Object.assign({}, state, { users: action.payload });
     case REMOVE_USER:
-        return Object.assign({}, state, { users: action.payload });
+      return Object.assign({}, state, { users: action.payload });
     case UPDATE_USERS:
-          return Object.assign({}, state, { users: action.payload });
+      return Object.assign({}, state, { users: action.payload });
+    case TOGGLE_DETAILS_MENU:
+      return Object.assign({}, state, { detailsMenu: action.payload });
+    case TOGGLE_OPTIONS_MENU:
+      return Object.assign({}, state, { optionsMenu: action.payload });
+    case TOGGLE_SIDEBAR:
+      return Object.assign({}, state, { 
+        sidebar: action.payload,
+        optionsMenu: false
+      });
     default:
       throw new Error("Invalid action type");
   }

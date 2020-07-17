@@ -28,19 +28,15 @@ import useStyles from './videoCall.styles';
 
 //State Managment
 import { Context } from '../../App.js';
-import { setPage, toggleMic, toggleVideo, addUser } from '../../utils/actions';
+import { setPage, toggleMic, toggleVideo, toggleRecord, addUser, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar } from '../../utils/actions';
 
 
 export default function VideoCall(){
   
   const classes = useStyles();
   const { state, dispatch } = React.useContext(Context);
-  const { video, micro, users } = state;
+  const { video, micro, users, record, detailsMenu, optionsMenu, sidebar } = state;
 
-  const [ record, setRecord ] = React.useState(false);
-  const [ detailsMenuOpen, setDetailsMenuOpen ] = React.useState(false);
-  const [ settingsMenuOpen, setSettingsMenuOpen ] = React.useState(false);
-  const [ sideBarOpen, setSideBarOpen ] = React.useState(false);
   const theme = useTheme();
 
   const matchSM = useMediaQuery(theme.breakpoints.down('sm'));
@@ -73,8 +69,24 @@ export default function VideoCall(){
   };
 
   const handleRecord = () => {
-    setRecord(!record);
-  }
+    dispatch(toggleRecord(!record));
+  };
+
+  const toggleMenu = (type) => {
+    switch(type){
+      case 'details':
+        dispatch(toggleDetailsMenu(!detailsMenu));
+        break;
+      case 'options':
+        dispatch(toggleOptionsMenu(!optionsMenu));
+        break;
+      case 'sidebar':
+        dispatch(toggleSidebar(!sidebar));
+        break;
+      default:
+        break;
+    }
+  };
 
   const calculateSize = () => {
     let n;
@@ -140,25 +152,25 @@ export default function VideoCall(){
           {
             matchSM ? (
               <Button
-                endIcon={ detailsMenuOpen ? <ExpandMoreIcon/> : <ExpandLessIcon />}
+                endIcon={ detailsMenu ? <ExpandMoreIcon/> : <ExpandLessIcon />}
                 disableRipple
-                onClick={() => setDetailsMenuOpen(!detailsMenuOpen) }
+                onClick={() => toggleMenu('details') }
               >
               <GroupIcon className={classes.groupIcon}/>
               </Button>
               )
             :(
               <Button
-                endIcon={ detailsMenuOpen ? <ExpandMoreIcon/> : <ExpandLessIcon />}
+                endIcon={ detailsMenu ? <ExpandMoreIcon/> : <ExpandLessIcon />}
                 disableRipple
-                onClick={() => setDetailsMenuOpen(!detailsMenuOpen) }
+                onClick={() => toggleMenu('details') }
               >
                 Meeting Details
               </Button>
             )
           }
           {
-            detailsMenuOpen ? <PopUpMenu/> : null
+            detailsMenu ? <PopUpMenu/> : null
           }
         </Grid>
 
@@ -212,13 +224,13 @@ export default function VideoCall(){
           {
             matchSM ? (
               <IconButton 
-                onClick={() => setSettingsMenuOpen(!settingsMenuOpen) }
+                onClick={() => toggleMenu('options') }
               >
                 <MoreVertIcon className={classes.menuIcon} />  
               </IconButton>
             ):(
               <IconButton 
-                onClick={() => setSideBarOpen(!sideBarOpen) }
+                onClick={() => toggleMenu('sidebar') }
               >
                 <CommentOutlinedIcon className={classes.menuIcon} />
               </IconButton>
@@ -226,10 +238,10 @@ export default function VideoCall(){
           }
         </Grid>
         {
-          settingsMenuOpen ? <SettingsMenu/> : null
+          optionsMenu ? <SettingsMenu/> : null
         }
         {
-          sideBarOpen ? <SideBar/> : null
+          sidebar ? <SideBar/> : null
         }
       </Grid>
     </Grid>

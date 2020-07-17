@@ -13,5 +13,11 @@ export default makeStyles((theme => ({
     [theme.breakpoints.down('xs')]: {
       width: '100%',
     }
+  },
+  closeIcon: {
+    position: 'absolute',
+    top: '2px',
+    right: '2px',
+    cursor: 'pointer'
   }
 })));
