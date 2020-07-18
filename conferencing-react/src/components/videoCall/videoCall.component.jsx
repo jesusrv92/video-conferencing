@@ -18,6 +18,8 @@ import StopIcon from '@material-ui/icons/Stop';
 import PopUpMenu from '../popupMenu/popupMenu.component';
 import SettingsMenu from '../../components/settingsMenu/settingsMenu.component';
 import SideBar from '../sideBar/sideBar.component';
+import Video from '../video/video.component';
+
 // import CommentIcon from '@material-ui/icons/Comment';
 import GroupIcon from '@material-ui/icons/Group';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -28,7 +30,7 @@ import useStyles from './videoCall.styles';
 
 //State Managment
 import { Context } from '../../App.js';
-import { setPage, toggleMic, toggleVideo, toggleRecord, addUser, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar } from '../../utils/actions';
+import { setPage, toggleMic, toggleVideo, toggleRecord, addUser, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar, openDetailsMenu, openOptionsMenu } from '../../utils/actions';
 
 
 export default function VideoCall(){
@@ -40,6 +42,7 @@ export default function VideoCall(){
   const theme = useTheme();
 
   const matchSM = useMediaQuery(theme.breakpoints.down('sm'));
+  const matchXS = useMediaQuery(theme.breakpoints.down('xs'));
 
   const addParticipant = () => {
     dispatch(addUser([
@@ -75,10 +78,10 @@ export default function VideoCall(){
   const toggleMenu = (type) => {
     switch(type){
       case 'details':
-        dispatch(toggleDetailsMenu(!detailsMenu));
+        matchSM ? dispatch(openDetailsMenu(!detailsMenu)) : dispatch(toggleDetailsMenu(!detailsMenu))
         break;
       case 'options':
-        dispatch(toggleOptionsMenu(!optionsMenu));
+        matchSM ? dispatch(openOptionsMenu(!optionsMenu)) : dispatch(toggleOptionsMenu(!optionsMenu))
         break;
       case 'sidebar':
         dispatch(toggleSidebar(!sidebar));
@@ -130,14 +133,9 @@ export default function VideoCall(){
                     height: `${calculateHeight()}%`,
                   }}
                 >
-                  <img 
-                    src={require(`../../assets/images/${user.imageUrl}.jpg`)}
-                    alt="video-user-component" 
-                    className={classes.userVideoComponent}
-                    style={{
-                      width: `${100}%`,
-                      height: `${100}%`,
-                    }}
+                  <Video
+                    imageURL={require(`../../assets/images/${user.imageUrl}.jpg`)}
+                    user={user}
                   />
                 </Grid>
               ))}

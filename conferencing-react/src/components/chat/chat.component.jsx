@@ -9,7 +9,8 @@ import useStyles from './chat.styles';
 
 export default function Chat(){
 
-  const testMessages = [
+  const [message, setMessage] = React.useState('');
+  const [messages, setMessages] = React.useState([
     {
       name: 'You',
       message: 'Hi',
@@ -41,9 +42,23 @@ export default function Chat(){
       datetime: '3:56',
       id:6
     }
-  ]
+  ]);
 
   const classes = useStyles();
+
+  const sendMessage = () => {
+    let d = new Date();
+    setMessages([
+      ...messages,
+      {
+        name: 'You',
+        message: message,
+        datetime: `${d.getHours()}:${d.getMinutes()}`,
+        id: messages.length + 1
+      }
+    ]);
+    setMessage('');
+  };
 
   return(
     <Grid container
@@ -57,7 +72,7 @@ export default function Chat(){
       </Grid>
       <Grid item className={classes.messagesContainer}>
         {
-          testMessages.map( message => (
+          messages.map( message => (
             <Grid container direction='column' className={classes.messageItem} key={message.id}>
               <Grid item container>
                 <Typography className={classes.messageName} style={{color: message.name==='You' ? '#2e8b57' : '#0067a5'}}>{message.name}</Typography>
@@ -73,12 +88,19 @@ export default function Chat(){
       <Grid item container className={classes.messageInputContainer} >
         <Grid item xs={11}>
           <Input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => {if(e.keyCode === 13) sendMessage()}}
             placeholder="Type a message"
             className={classes.messageInput}
           />
         </Grid>
         <Grid item xs={1}>
-          <IconButton color="primary" className={classes.sendIconButton}>
+          <IconButton 
+            color="primary" 
+            className={classes.sendIconButton}
+            onClick={ sendMessage }
+          >
             <SendIcon />
           </IconButton>
         </Grid>
