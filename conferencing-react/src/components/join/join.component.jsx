@@ -91,16 +91,8 @@ export default function Join() {
     // eslint-disable-next-line
   }, [])
 
-  const startCamera = async () => {
-  //   try {
-  //     let stream = await getUserMedia();
-  //     window.localeStream = stream;
-  //     localVideoRef.current.srcObject = stream;
-      dispatch(toggleVideo(!video));
-  //   }
-  //   catch (error) {
-  //     console.log("getUserMedia Error: ", error)
-  //   }
+  const toggleCamera = async () => {
+    dispatch(toggleVideo(!video));
   }
 
   const joinNow = () => {
@@ -131,7 +123,7 @@ export default function Join() {
             </Fab>
           </Grid>
           <Grid item>
-            <Fab onClick={startCamera}
+            <Fab onClick={toggleCamera}
               className={classes.videoButton}
               style={{
                 backgroundColor: video ? "#337ab7" : "#e52b50",
