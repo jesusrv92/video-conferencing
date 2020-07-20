@@ -24,7 +24,6 @@ export default function ContacList(){
         current.micro = !current.micro
       return current;
     });
-    //HERE
     dispatch(updateUsers(newUsers));
   };
 
@@ -49,7 +48,7 @@ export default function ContacList(){
               </Grid>
               <Grid item>
                 {
-                  user.micro === false ? (
+                  user.micro === true ? (
                     <MicIcon 
                       className={classes.mediaIconON}
                       onClick={ () => toogleMic(user) }
