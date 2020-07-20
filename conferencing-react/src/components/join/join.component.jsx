@@ -140,7 +140,7 @@ export default function Join() {
           <Typography className={classes.title}>Meeting ready</Typography>
         </Grid>
         <Grid item>
-          <Typography className={classes.meetingCode}>Code: XXXYYYXXX</Typography>
+            <Typography className={classes.meetingCode}>Code: {state.openVidu.mySessionID}</Typography>
         </Grid>
         <Grid item>
           <Button
