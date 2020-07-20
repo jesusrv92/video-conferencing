@@ -5,12 +5,35 @@ import IconButton from '@material-ui/core/IconButton';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
+import { removeUser, updateUsers } from '../../utils/actions';
+import Tooltip from '@material-ui/core/Tooltip';
 
+
+//Styles
 import useStyles from './video.styles';
+
+//State Managment
+import { Context } from '../../App.js';
 
 export default function Video({imageURL, user, height}){
 
   const classes = useStyles();
+  const { state, dispatch } = React.useContext(Context);
+  const { users } = state;
+
+  const toogleMic = (user) => {
+    const newUsers = users.map(current => {
+      if(current.id === user.id)
+        current.micro = !current.micro
+      return current;
+    });
+    dispatch(updateUsers(newUsers));
+  };
+
+  const handleRemoveUser = (user) => {
+    const newUsers = users.filter(current => current.id !== user.id);
+    dispatch(removeUser(newUsers));
+  };
 
   return(
     <React.Fragment>
@@ -29,14 +52,39 @@ export default function Video({imageURL, user, height}){
           <Grid item className={classes.buttonsContainer}>
             <Grid container className={classes.innerButtonsContainer}>
               <Grid item>
-                <IconButton className={classes.micButton} style={{ backgroundColor: user.micro === true ? '#ff2052' : '#89cff0'}}>
-                  <MicIcon className={classes.icon}/>
-                </IconButton>
+                {
+                  user.micro === true ? (
+                    <Tooltip title="Mute">
+                      <IconButton 
+                        className={classes.micButton} 
+                        style={{ backgroundColor: '#89cff0', color: '#ffffff'}}
+                        onClick={() => toogleMic(user)}
+                      >
+                        <MicIcon className={classes.icon}/>
+                      </IconButton>
+                    </Tooltip>
+                  ):(
+                    <Tooltip title="Unmute">
+                      <IconButton 
+                        className={classes.micButton} 
+                        style={{ backgroundColor: '#e32636', color: '#ffffff'}}
+                        onClick={() => toogleMic(user)}
+                      >
+                        <MicOffIcon/>
+                      </IconButton>
+                    </Tooltip>
+                  )
+                }
               </Grid>
               <Grid item>
-                <IconButton className={classes.hangButton}>
-                  <CallEndIcon className={classes.icon}/>
-                </IconButton>
+                <Tooltip title="End Call">
+                  <IconButton 
+                    className={classes.hangButton}
+                    onClick={ () => handleRemoveUser(user) }
+                  >
+                    <CallEndIcon className={classes.icon}/>
+                  </IconButton>
+                </Tooltip>
               </Grid>
             </Grid>
           </Grid>

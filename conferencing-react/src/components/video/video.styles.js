@@ -17,21 +17,29 @@ export default makeStyles((theme => ({
     paddingRight: '0.5em'
   },
   hangButton: {
-    backgroundColor: 'rgb(255, 0, 0)',
+    backgroundColor: 'rgb(227, 38, 54)',
     width: '0.75em',
     height: '0.75em',
+    opacity: '0.7',
 
     '&:hover': {
-      backgroundColor: 'rgb(255, 0, 0)',
+      backgroundColor: 'rgb(227, 38, 54)',
+      opacity: '1',
     }
   },
   micButton: {
     width: '0.75em',
     height: '0.75em',
-    marginRight: '0.5em'
+    marginRight: '0.7em',
+    opacity: '0.7',
+
+    '&:hover': {
+      backgroundColor: 'rgb(255, 0, 0)',
+      opacity: '1'
+    }
   },
   icon: {
     color: 'rgb(255, 255, 255)',
-    fontSize: '0.75em'
+    padding: '0.2em'
   },
 })));
