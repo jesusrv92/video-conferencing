@@ -49,7 +49,7 @@ export default function ContacList(){
               </Grid>
               <Grid item>
                 {
-                  user.micro === true ? (
+                  user.micro === false ? (
                     <MicIcon 
                       className={classes.mediaIconON}
                       onClick={ () => toogleMic(user) }

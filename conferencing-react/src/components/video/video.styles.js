@@ -1,0 +1,37 @@
+import { makeStyles } from '@material-ui/core/styles';
+
+export default makeStyles((theme => ({
+  userInfo: {
+    marginTop: '-4.85em',
+    justifyContent: 'space-between',
+    padding: '0.5em',
+  },
+  username: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    color: 'rgb(255, 255, 255)',
+    padding: '1em'
+  },
+  innerButtonsContainer: {
+    height: '100%',
+    alignItems: 'center',
+    paddingRight: '0.5em'
+  },
+  hangButton: {
+    backgroundColor: 'rgb(255, 0, 0)',
+    width: '0.75em',
+    height: '0.75em',
+
+    '&:hover': {
+      backgroundColor: 'rgb(255, 0, 0)',
+    }
+  },
+  micButton: {
+    width: '0.75em',
+    height: '0.75em',
+    marginRight: '0.5em'
+  },
+  icon: {
+    color: 'rgb(255, 255, 255)',
+    fontSize: '0.75em'
+  },
+})));

@@ -7,7 +7,9 @@ import {
   UPDATE_USERS,
   TOGGLE_RECORD,
   TOGGLE_DETAILS_MENU,
+  OPEN_DETAILS_MENU,
   TOGGLE_OPTIONS_MENU,
+  OPEN_OPTIONS_MENU,
   TOGGLE_SIDEBAR
 } from './actionTypes';
 
@@ -36,8 +38,18 @@ export const toggleDetailsMenu = (status) => ({
   payload: status
 });
 
+export const openDetailsMenu = (status) => ({
+  type: OPEN_DETAILS_MENU,
+  payload: status
+});
+
 export const toggleOptionsMenu = (status) => ({
   type: TOGGLE_OPTIONS_MENU,
+  payload: status
+});
+
+export const openOptionsMenu = (status) => ({
+  type: OPEN_OPTIONS_MENU,
   payload: status
 });
 

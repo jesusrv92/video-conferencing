@@ -32,9 +32,9 @@ export default makeStyles((theme => ({
     paddingTop: '0.5em'
   },
   itemButton: {
-    color: '#000000'
+    color: '#0d98ba'
   },
   itemIcon: {
-    color: '#ff0038'
+    color: '#0d98ba'
   }
 })));

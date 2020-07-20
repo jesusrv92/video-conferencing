@@ -7,7 +7,9 @@ import {
   UPDATE_USERS,
   TOGGLE_RECORD,
   TOGGLE_DETAILS_MENU,
+  OPEN_DETAILS_MENU,
   TOGGLE_OPTIONS_MENU,
+  OPEN_OPTIONS_MENU,
   TOGGLE_SIDEBAR
 } from './actionTypes';
 
@@ -29,8 +31,12 @@ export default function reducer( state, action){
       return Object.assign({}, state, { users: action.payload });
     case TOGGLE_DETAILS_MENU:
       return Object.assign({}, state, { detailsMenu: action.payload });
+    case OPEN_DETAILS_MENU:
+      return Object.assign({}, state, { detailsMenu: action.payload, optionsMenu: false, sidebar: false });
     case TOGGLE_OPTIONS_MENU:
       return Object.assign({}, state, { optionsMenu: action.payload });
+    case OPEN_OPTIONS_MENU:
+      return Object.assign({}, state, { optionsMenu: action.payload, detailsMenu: false, sidebar: false });
     case TOGGLE_SIDEBAR:
       return Object.assign({}, state, { 
         sidebar: action.payload,
