@@ -3,10 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import SideBar from '../sideBar/sideBar.component';
 import MessageOutlinedIcon from '@material-ui/icons/MessageOutlined';
-import VideocamIcon from '@material-ui/icons/Videocam';
 import StopIcon from '@material-ui/icons/Stop';
 import Brightness1Icon from '@material-ui/icons/Brightness1';
 

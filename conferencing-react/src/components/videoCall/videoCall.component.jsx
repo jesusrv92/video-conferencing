@@ -42,7 +42,6 @@ export default function VideoCall(){
   const theme = useTheme();
 
   const matchSM = useMediaQuery(theme.breakpoints.down('sm'));
-  const matchXS = useMediaQuery(theme.breakpoints.down('xs'));
 
   const addParticipant = () => {
     dispatch(addUser([
