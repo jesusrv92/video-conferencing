@@ -54,8 +54,6 @@ export default function VideoCall(){
           imageUrl: Math.floor(Math.random()*Math.floor(4))
         }
     ]));
-
-    console.log(users);
   }
 
   const endCall = () => {
