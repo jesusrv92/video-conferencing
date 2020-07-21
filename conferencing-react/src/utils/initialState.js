@@ -10,7 +10,7 @@ export default {
   sidebar: false,
   users: [],
   openVidu: {
-    mySessionID: `${shortid.generate()}-${shortid.generate()}`,
+    mySessionID: `${shortid.generate()}${shortid.generate()}`,
     myUserName: 'Participant' + Math.floor(Math.random() * 100),
     session: undefined,
     mainStreamManager: undefined, // Main video of the page, will be 'publisher' or one of the 'subscribers',
