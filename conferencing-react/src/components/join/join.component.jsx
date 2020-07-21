@@ -15,11 +15,13 @@ import useStyles from './join.styles.js';
 
 //State managment
 import { Context } from '../../App.js';
-import { setPage, toggleMic, toggleVideo } from '../../utils/actions';
+import { setPage, toggleMic, toggleVideo, setOpenVidu } from '../../utils/actions';
 
 //Stream manager
 import { OpenVidu } from 'openvidu-browser';
 import getToken from './getToken';
+
+let { location } = window;
 
 export default function Join() {
 
@@ -27,18 +29,17 @@ export default function Join() {
 
   const { state, dispatch } = React.useContext(Context);
   const { video, micro } = state;
-  
-  const localVideoRef = React.createRef();
 
   React.useEffect(() => {
     const init = async () => {
       const OV = new OpenVidu();
       console.log(OV);
-
+      let { openVidu } = state;
       let session = OV.initSession();
+      openVidu.session = session;
       console.log(session);
 
-      let subscribers = [];
+      let { subscribers } = openVidu;
 
       session.on('streamCreated', event => {
 
@@ -46,6 +47,7 @@ export default function Join() {
         console.log('Adding stream', subscriber);
 
         subscribers.push(subscriber);
+        dispatch(setOpenVidu(openVidu));
         console.log(subscribers)
       });
 
@@ -55,15 +57,16 @@ export default function Join() {
         console.log('Removing stream', removedStream)
 
         subscribers = subscribers.filter(subscriber => removedStream !== subscriber);
+        dispatch(setOpenVidu(openVidu));
         console.log(subscribers)
       });
 
-      let token = await getToken(state.openVidu.mySessionID);
+      let token = await getToken(openVidu.mySessionID);
       console.log('Token', token)
 
       try {
-        await session.connect(token, { clientData: state.openVidu.myUserName });
-        let publisher = await OV.initPublisher(undefined, {
+        await session.connect(token, { clientData: openVidu.myUserName });
+        let publisher = OV.initPublisher(undefined, {
           audioSource: undefined, // The source of audio. If undefined default microphone
           videoSource: undefined, // The source of video. If undefined default webcam
           publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
@@ -73,23 +76,25 @@ export default function Join() {
           insertMode: 'APPEND',   // How the video is inserted in the target element 'video-container'
           mirror: false           // Whether to mirror your local video or not
         });
-        console.log("REF: ", localVideoRef);
         console.log("STREAM: ", publisher.stream.mediaStream)
-        localVideoRef.current.srcObject = publisher.stream.mediaStream;
-        dispatch(toggleVideo(!video));
-        session.publish(publisher)
+        await session.publish(publisher);
+        openVidu.mainStreamManager = publisher;
+        openVidu.publisher = publisher;
         console.log('Publisher', publisher);
+        dispatch(setOpenVidu(openVidu));
+        dispatch(toggleVideo(!video));
+        dispatch(toggleMic(!micro));
       }
       catch (error) {
         console.log('There was an error connecting to the session:', error.code, error.message);
       }
 
-      return function leaveSession() {
-        console.log('Disconnecting')
-        session.disconnect();
-      }
     }
     init();
+    return function leaveSession() {
+      console.log('Disconnecting')
+      state.openVidu.session.disconnect();
+    }
     // eslint-disable-next-line
   }, [])
 
@@ -105,14 +110,21 @@ export default function Join() {
     dispatch(toggleMic(!micro));
   };
 
-  return(
+  return (
     <Grid item container direction="row" className={classes.joinContainer}>
       <Grid item className={classes.videoContainer} xs={12} md={8} lg={7}>
         <Grid item>
-          <video className={classes.video}   ref={localVideoRef} autoPlay>
+          <video className={classes.video} ref={video => {
+            if (!video) return
+            if (state.openVidu.publisher) {
+              video.srcObject = state.openVidu.publisher.stream.mediaStream;
+              video.volume = 0;
+              video.muted = true;
+            }
+          }} autoPlay playsInline>
           </video>
         </Grid>
-        <Grid item container direction='row' className={classes.videoButtonsContainer}> 
+        <Grid item container direction='row' className={classes.videoButtonsContainer}>
           <Grid item>
             <Fab onClick={toggleMicrophone}
               className={classes.videoButton}
@@ -136,21 +148,21 @@ export default function Join() {
             </Fab>
           </Grid>
         </Grid>
-      </Grid> 
+      </Grid>
       <Grid item container direction="column" className={classes.detailsContainer} xs={12} md={5}>
         <Grid item>
           <Typography className={classes.title}>Meeting ready</Typography>
         </Grid>
         <Grid item>
-            <Typography className={classes.meetingCode}>Code: {state.openVidu.mySessionID}</Typography>
+          <Typography className={classes.meetingCode}>Code: {state.openVidu.mySessionID}</Typography>
         </Grid>
         <Grid item>
-          <Clipboard 
-            data-clipboard-text="I'll be copied"
+          <Clipboard
+            data-clipboard-text={`${location.href}#${state.openVidu.mySessionID}`}
             className={classes.clipboardButton}
           >
-          <Typography className={classes.buttonText} >COPY CODE</Typography>
-          <LibraryAddCheckIcon className={classes.buttonIcon}/>
+            <Typography className={classes.buttonText} >COPY CODE</Typography>
+            <LibraryAddCheckIcon className={classes.buttonIcon} />
           </Clipboard>
         </Grid>
         <Grid item>
