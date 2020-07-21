@@ -51,10 +51,43 @@ export default makeStyles((theme => ({
     fontWeight: '300',
     fontFamily: 'Quicksand',
     marginTop: '2em',
-    marginBottom: '3em',
+    marginBottom: '2em',
     [theme.breakpoints.down("xs")]: {
       marginTop: '0.5em',
       marginBottom: '1em',
     }
   },
+  clipboardButton: {
+    backgroundColor: 'rgb(255, 255, 255)',
+    padding: '0.65em',
+    color: 'rgb(51, 122, 183)',
+    borderColor: 'rgb(51, 122, 183)',
+    border: '1px solid',
+    marginBottom: '2em',
+
+    '&:hover': {
+      cursor: 'pointer'
+    },
+
+    root: {
+      '&:focus': {
+        borderColor: 'rgb(51, 122, 183)',
+      },
+    }
+  },
+  buttonText: {
+    display: 'inline-flex',
+    verticalAlign: 'middle',
+    fontSize:'1em'
+  },
+  buttonIcon: {
+    display: 'inline-flex',
+    verticalAlign: 'middle',
+    fontSize: '1.4em',
+    marginLeft: '0.25em'
+  },
+  joinButton: {
+    width: '8.5em',
+    borderRadius: '0'
+  }
 })));

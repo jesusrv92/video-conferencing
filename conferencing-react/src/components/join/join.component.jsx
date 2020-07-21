@@ -7,6 +7,8 @@ import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
+import Clipboard from 'react-clipboard.js';
+import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
 
 //Styles
 import useStyles from './join.styles.js';
@@ -143,10 +145,20 @@ export default function Join() {
             <Typography className={classes.meetingCode}>Code: {state.openVidu.mySessionID}</Typography>
         </Grid>
         <Grid item>
+          <Clipboard 
+            data-clipboard-text="I'll be copied"
+            className={classes.clipboardButton}
+          >
+          <Typography className={classes.buttonText} >COPY CODE</Typography>
+          <LibraryAddCheckIcon className={classes.buttonIcon}/>
+          </Clipboard>
+        </Grid>
+        <Grid item>
           <Button
             variant="contained"
             color="primary"
             onClick={joinNow}
+            className={classes.joinButton}
           >
             Join now
           </Button>
