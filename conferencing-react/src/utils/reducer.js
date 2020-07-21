@@ -10,7 +10,8 @@ import {
   OPEN_DETAILS_MENU,
   TOGGLE_OPTIONS_MENU,
   OPEN_OPTIONS_MENU,
-  TOGGLE_SIDEBAR
+  TOGGLE_SIDEBAR,
+  SET_OPENVIDU,
 } from './actionTypes';
 
 export default function reducer( state, action){
@@ -42,6 +43,8 @@ export default function reducer( state, action){
         sidebar: action.payload,
         optionsMenu: false
       });
+    case SET_OPENVIDU:
+      return Object.assign({}, state, { openVidu: action.payload});
     default:
       throw new Error("Invalid action type");
   }

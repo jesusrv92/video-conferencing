@@ -10,7 +10,8 @@ import {
   OPEN_DETAILS_MENU,
   TOGGLE_OPTIONS_MENU,
   OPEN_OPTIONS_MENU,
-  TOGGLE_SIDEBAR
+  TOGGLE_SIDEBAR,
+  SET_OPENVIDU,
 } from './actionTypes';
 
 export const setPage = (page) => ({
@@ -71,4 +72,9 @@ export const removeUser = (users) => ({
 export const updateUsers = (users) => ({
   type: UPDATE_USERS,
   payload: users
+});
+
+export const setOpenVidu = (openVidu) => ({
+  type: SET_OPENVIDU,
+  payload: openVidu
 });
