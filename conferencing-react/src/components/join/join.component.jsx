@@ -102,14 +102,14 @@ export default function Join() {
     dispatch(toggleVideo(!video));
   }
 
-  const joinNow = () => {
-    dispatch(setPage('video'));
-  };
-
   const toggleMicrophone = () => {
     dispatch(toggleMic(!micro));
   };
-
+  
+  const joinNow = () => {
+    dispatch(setPage('video'));
+  };
+  
   return (
     <Grid item container direction="row" className={classes.joinContainer}>
       <Grid item className={classes.videoContainer} xs={12} md={8} lg={7}>
