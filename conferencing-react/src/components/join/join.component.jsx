@@ -98,18 +98,20 @@ export default function Join() {
     // eslint-disable-next-line
   }, [])
 
-  const toggleCamera = async () => {
+  const toggleCamera = () => {
+    state.openVidu.publisher.publishVideo(!video);
     dispatch(toggleVideo(!video));
   }
 
   const toggleMicrophone = () => {
+    state.openVidu.publisher.publishAudio(!micro);
     dispatch(toggleMic(!micro));
   };
-  
+
   const joinNow = () => {
     dispatch(setPage('video'));
   };
-  
+
   return (
     <Grid item container direction="row" className={classes.joinContainer}>
       <Grid item className={classes.videoContainer} xs={12} md={8} lg={7}>
