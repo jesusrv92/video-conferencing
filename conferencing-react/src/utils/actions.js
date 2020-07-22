@@ -12,6 +12,7 @@ import {
   OPEN_OPTIONS_MENU,
   TOGGLE_SIDEBAR,
   SET_OPENVIDU,
+  SET_DISPLAY_NAME
 } from './actionTypes';
 
 export const setPage = (page) => ({
@@ -77,4 +78,9 @@ export const updateUsers = (users) => ({
 export const setOpenVidu = (openVidu) => ({
   type: SET_OPENVIDU,
   payload: openVidu
+});
+
+export const setDisplayName = (displayName) => ({
+  type: SET_DISPLAY_NAME,
+  payload: displayName
 });

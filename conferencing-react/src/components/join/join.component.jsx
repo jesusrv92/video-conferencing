@@ -9,13 +9,15 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import Clipboard from 'react-clipboard.js';
 import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
+import TextField from '@material-ui/core/TextField';
+
 
 //Styles
 import useStyles from './join.styles.js';
 
 //State managment
 import { Context } from '../../App.js';
-import { setPage, toggleMic, toggleVideo, setOpenVidu } from '../../utils/actions';
+import { setPage, toggleMic, toggleVideo, setOpenVidu, setDisplayName } from '../../utils/actions';
 
 //Stream manager
 import { OpenVidu } from 'openvidu-browser';
@@ -29,6 +31,7 @@ export default function Join() {
 
   const { state, dispatch } = React.useContext(Context);
   const { video, micro } = state;
+  const [ userName, setUserName ] = React.useState('');
 
   React.useEffect(() => {
     const init = async () => {
@@ -110,6 +113,7 @@ export default function Join() {
 
   const joinNow = () => {
     dispatch(setPage('video'));
+    dispatch(setDisplayName(userName));
   };
 
   return (
@@ -154,6 +158,15 @@ export default function Join() {
       <Grid item container direction="column" className={classes.detailsContainer} xs={12} md={5}>
         <Grid item>
           <Typography className={classes.title}>Meeting ready</Typography>
+        </Grid>
+        <Grid item>
+          <TextField 
+            className={classes.displayNameInput} 
+            label="Display Name" 
+            variant="outlined" 
+            value={ userName }
+            onChange={(e) => setUserName(e.target.value)}
+          />
         </Grid>
         <Grid item>
           <Typography className={classes.meetingCode}>Code: {state.openVidu.mySessionID}</Typography>
