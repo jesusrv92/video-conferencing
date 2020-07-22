@@ -46,6 +46,9 @@ export default makeStyles((theme => ({
     fontWeight: '300',
     fontFamily: 'Quicksand',
   },
+  displayNameInput: {
+    marginTop: '2em',
+  },
   meetingCode: {
     fontSize: '1em',
     fontWeight: '300',
