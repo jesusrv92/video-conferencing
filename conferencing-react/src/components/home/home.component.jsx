@@ -12,15 +12,19 @@ import useStyles from './home.styles';
 import intekGlobalLogo from '../../assets/images/logo.png';
 
 import { Context } from '../../App.js';
-import { setPage } from '../../utils/actions';
+import { setPage,setOpenVidu } from '../../utils/actions';
 
 export default function Home(){
 
   const classes = useStyles();
   const [ meetingCode, setMeetingCode ] = React.useState('');
-  const { dispatch } = React.useContext(Context)
+  const { state, dispatch } = React.useContext(Context)
 
   const joinMeeting = () => {
+    if(meetingCode) {
+      state.openVidu.mySessionID = meetingCode;
+      dispatch(setOpenVidu(state.openVidu));
+    }
     dispatch(setPage('join'));
   };
 
