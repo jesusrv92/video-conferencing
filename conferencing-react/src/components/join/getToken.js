@@ -22,7 +22,11 @@ function createToken(sessionId) {
 
 function createSession(sessionId) {
     return new Promise((resolve, reject) => {
-        var data = JSON.stringify({ customSessionId: sessionId });
+        var data = JSON.stringify({
+            customSessionId: sessionId,
+            recordingMode: "MANUAL",
+            defaultOutputMode : "INDIVIDUAL",
+        });
         axios
             .post(OPENVIDU_SERVER_URL + '/api/sessions', data, {
                 headers: {
