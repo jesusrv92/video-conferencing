@@ -1,0 +1,160 @@
+version: '3.7'
+
+services:
+    # App developed by openvidu. Used to test if server is working correctly
+    # app:
+    #     image: openvidu/openvidu-call:2.15.0
+    #     deploy:
+    #         resources:
+    #             limits:
+    #                 cpus: '0.25'
+    #                 memory: 200M
+    #         restart_policy:
+    #             condition: any
+    #             delay: 5s
+    #             max_attempts: 10
+    #             window: 120s
+    #     networks:
+    #         - hostnet
+    #     environment: 
+    #         - SERVER_PORT=5442
+    #         - OPENVIDU_URL=http://localhost:5443
+    #         - OPENVIDU_SECRET=MY_SECRET
+    #         - CALL_OPENVIDU_CERTTYPE=selfsigned
+    openvidu-server:
+        image: openvidu/openvidu-server:2.15.0
+        env_file:
+            - .env
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.25'
+                    memory: 200M
+            restart_policy:
+                condition: any
+                delay: 5s
+                max_attempts: 10
+                window: 120s
+        networks: 
+            - hostnet
+        entrypoint: ['/bin/bash', '-c', 'export COTURN_IP=`/usr/local/bin/discover_my_public_ip.sh`; /usr/local/bin/entrypoint.sh']
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock"
+            - recording:/opt/openvidu/recordings
+            - custom-layout:/opt/openvidu/custom-layout
+            - cdr:/opt/openvidu/cdr
+        environment:
+            - DOMAIN_OR_PUBLIC_IP=34.234.174.140
+            - OPENVIDU_SECRET=MY_SECRET
+            - OPENVIDU_RECORDING=true
+            - SERVER_SSL_ENABLED=false
+            - SERVER_PORT=5443
+            - KMS_URIS=["ws://localhost:8888/kurento"]
+            - COTURN_REDIS_IP=127.0.0.1
+            - COTURN_REDIS_PASSWORD=MY_SECRET
+
+    kms:
+        image: ${KMS_IMAGE:-kurento/kurento-media-server:6.14.0}
+        # env_file:
+        #     - .env
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.25'
+                    memory: 200M
+            restart_policy:
+                condition: any
+                delay: 5s
+                max_attempts: 10
+                window: 120s
+        networks:
+            - hostnet
+        volumes:
+            - /opt/openvidu/kms-crashes:/opt/openvidu/kms-crashes
+            - recording:/opt/openvidu/recordings
+        environment:
+            - KMS_MIN_PORT=40000
+            - KMS_MAX_PORT=57000
+            - GST_DEBUG
+
+    redis:
+        image: openvidu/openvidu-redis:1.0.0
+        # env_file:
+            # - .env
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.25'
+                    memory: 200M
+            restart_policy:
+                condition: any
+                delay: 5s
+                max_attempts: 10
+                window: 120s
+        networks:
+            - hostnet
+        environment:
+            - REDIS_PASSWORD=MY_SECRET
+
+    coturn:
+        image: openvidu/openvidu-coturn:1.0.0
+    #     env_file:
+    #         - .env
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.25'
+                    memory: 200M
+            restart_policy:
+                condition: any
+                delay: 5s
+                max_attempts: 10
+                window: 120s
+        networks: 
+            - hostnet
+        environment:
+            - REDIS_IP=127.0.0.1
+            - TURN_LISTEN_PORT=3478
+            - DB_NAME=0
+            - DB_PASSWORD=MY_SECRET
+            - MIN_PORT=57001
+            - MAX_PORT=65535
+
+    nginx:
+        image: openvidu/openvidu-proxy:3.0.0
+        # env_file:
+        #     - .env
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.25'
+                    memory: 200M
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+                max_attempts: 10
+                window: 120s
+        networks: 
+            - hostnet
+        volumes:
+            - "./certificates:/etc/letsencrypt"
+            - "./owncert:/owncert"
+            - custom-layout:/opt/openvidu/custom-layout
+        environment:
+            - DOMAIN_OR_PUBLIC_IP=34.234.174.140
+            - CERTIFICATE_TYPE=selfsigned
+            - LETSENCRYPT_EMAIL=user@example.com
+            - PROXY_HTTP_PORT=4443
+            - PROXY_HTTPS_PORT=4443
+            - PROXY_MODE=CE
+            - WITH_APP=true
+
+networks:
+    hostnet:
+        external: true
+        name: host
+
+volumes:
+    cdr:
+    recording:
+    custom-layout:
