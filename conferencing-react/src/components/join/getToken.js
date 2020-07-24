@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const OPENVIDU_SERVER_URL = process.env.REACT_APP_OPENVIDU_SERVER_URL;
-const OPENVIDU_SERVER_SECRET = process.env.REACT_APP_OPENVIDU_SERVER_SECRET;
+import { OPENVIDU_SERVER_SECRET, OPENVIDU_SERVER_URL } from '../../utils/openViduConfig'
 
 function createToken(sessionId) {
     return new Promise((resolve, reject) => {
