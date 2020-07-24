@@ -98,10 +98,6 @@ export default function Join() {
 
     }
     init();
-    return function leaveSession() {
-      console.log('Disconnecting')
-      state.openVidu.session.disconnect();
-    }
     // eslint-disable-next-line
   }, [])
 
