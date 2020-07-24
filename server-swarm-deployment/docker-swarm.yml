@@ -1,15 +1,39 @@
 version: '3.7'
 
 services:
+    # App developed by openvidu. Used to test if server is working correctly
+    # app:
+    #     image: openvidu/openvidu-call:2.15.0
+    #     deploy:
+    #         resources:
+    #             limits:
+    #                 cpus: '0.25'
+    #                 memory: 200M
+    #         restart_policy:
+    #             condition: any
+    #             delay: 5s
+    #             max_attempts: 10
+    #             window: 120s
+    #     networks:
+    #         - hostnet
+    #     environment: 
+    #         - SERVER_PORT=5442
+    #         - OPENVIDU_URL=http://localhost:5443
+    #         - OPENVIDU_SECRET=MY_SECRET
+    #         - CALL_OPENVIDU_CERTTYPE=selfsigned
     openvidu-server:
         image: openvidu/openvidu-server:2.15.0
         env_file:
             - .env
         deploy:
+            resources:
+                limits:
+                    cpus: '0.25'
+                    memory: 200M
             restart_policy:
-                condition: on-failure
+                condition: any
                 delay: 5s
-                max_attempts: 3
+                max_attempts: 10
                 window: 120s
         networks: 
             - hostnet
@@ -34,10 +58,14 @@ services:
         # env_file:
         #     - .env
         deploy:
+            resources:
+                limits:
+                    cpus: '0.25'
+                    memory: 200M
             restart_policy:
                 condition: any
                 delay: 5s
-                max_attempts: 3
+                max_attempts: 10
                 window: 120s
         networks:
             - hostnet
@@ -54,10 +82,14 @@ services:
         # env_file:
             # - .env
         deploy:
+            resources:
+                limits:
+                    cpus: '0.25'
+                    memory: 200M
             restart_policy:
                 condition: any
                 delay: 5s
-                max_attempts: 3
+                max_attempts: 10
                 window: 120s
         networks:
             - hostnet
@@ -69,10 +101,14 @@ services:
     #     env_file:
     #         - .env
         deploy:
+            resources:
+                limits:
+                    cpus: '0.25'
+                    memory: 200M
             restart_policy:
                 condition: any
                 delay: 5s
-                max_attempts: 3
+                max_attempts: 10
                 window: 120s
         networks: 
             - hostnet
@@ -89,10 +125,14 @@ services:
         # env_file:
         #     - .env
         deploy:
+            resources:
+                limits:
+                    cpus: '0.25'
+                    memory: 200M
             restart_policy:
                 condition: on-failure
                 delay: 5s
-                max_attempts: 3
+                max_attempts: 10
                 window: 120s
         networks: 
             - hostnet
