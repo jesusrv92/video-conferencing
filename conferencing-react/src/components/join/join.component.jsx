@@ -64,6 +64,10 @@ export default function Join() {
         console.log(subscribers)
       });
 
+      session.on('signal:removed', () => {
+        session.disconnect();
+      });
+
       let token = await getToken(openVidu.mySessionID);
       console.log('Token', token)
 
