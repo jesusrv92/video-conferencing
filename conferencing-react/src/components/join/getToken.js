@@ -35,7 +35,13 @@ function createSession(sessionId) {
                 resolve(response.data.id);
             })
             .catch((response) => {
+                // The response has to be assigned to an object
+                // otherwise we can't acces the response status
                 var error = Object.assign({}, response);
+                // We need to access the response status to verify it
+                // because if the response is a 409, it means the session was already created
+                // and there's no need to create it again
+                // https://docs.openvidu.io/en/2.15.0/reference-docs/REST-API/#post-apisessions
                 if (error.response.status === 409) {
                     resolve(sessionId);
                 } else {
