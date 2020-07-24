@@ -1,7 +1,7 @@
 import shortid from 'shortid'
 
 export default {
-  page: 'join',
+  page: 'home',
   micro: false,
   video: false,
   record: false,
