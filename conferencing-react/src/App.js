@@ -19,6 +19,13 @@ function App() {
 
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
 
+  React.useEffect(() => function leaveSession() {
+    if (state.openVidu.session) {
+      console.log('Disconnecting')
+      state.openVidu.session.disconnect();
+    }
+  },[]);
+  
   return (
     <ThemeProvider theme={theme}>
       <Context.Provider value={{ state, dispatch }}>
