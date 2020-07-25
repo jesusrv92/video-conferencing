@@ -24,6 +24,7 @@ function App() {
       console.log('Disconnecting')
       state.openVidu.session.disconnect();
     }
+    // eslint-disable-next-line
   },[]);
   
   return (
