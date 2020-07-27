@@ -43,6 +43,12 @@ export default function VideoCall(){
 
   const matchSM = useMediaQuery(theme.breakpoints.down('sm'));
 
+  React.useEffect(() => {
+    console.log("--------------------");
+    console.log("THE STATE IS: ", state);
+    console.log("--------------------");
+  }, [state])
+
   const addParticipant = () => {
     dispatch(addUser([
       ...users,
@@ -120,19 +126,18 @@ export default function VideoCall(){
     <Grid container className={classes.videoCallcontainer} direction='column'>
       <Grid item className={classes.videosConatiner}>
         {
-          users.length > 0 ? (
+          state.openVidu.subscribers.length > 0 ? (
             <Grid container direction='row' className={classes.participantsContainer}>
-              {users.map(user => (
+              {state.openVidu.subscribers.map(user => (
                 <Grid item
-                  key={user.id}
+                  key={user.stream.streamId}
                   lg={calculateSize()}
                   style={{
                     height: `${calculateHeight()}%`,
                   }}
                 >
                   <Video
-                    imageURL={require(`../../assets/images/${user.imageUrl}.jpg`)}
-                    user={user}
+                  streamManager={user}
                   />
                 </Grid>
               ))}
