@@ -36,36 +36,35 @@ export default function Join() {
   React.useEffect(() => {
     const init = async () => {
       const OV = new OpenVidu();
-      console.log(OV);
+      // console.log(OV);
       let { openVidu } = state;
       let session = OV.initSession();
       openVidu.session = session;
-      console.log(session);
+      // console.log(session);
 
       let { subscribers } = openVidu;
 
       session.on('streamCreated', event => {
 
         let subscriber = session.subscribe(event.stream, undefined);
-        console.log('Adding stream', subscriber);
+        // console.log('Adding stream', subscriber);
 
-        subscribers.push(subscriber);
-        dispatch(setOpenVidu(openVidu));
-        console.log(subscribers)
+        openVidu.subscribers.push(subscriber);
+        dispatch(setOpenVidu(Object.assign({}, openVidu)));
+        // console.log(subscribers)
       });
 
       session.on('streamDestroyed', event => {
         event.preventDefault();
         let removedStream = event.stream.streamManager
-        console.log('Removing stream', removedStream)
+        // console.log('Removing stream', removedStream)
 
         subscribers = subscribers.filter(subscriber => removedStream !== subscriber);
         dispatch(setOpenVidu(openVidu));
-        console.log(subscribers)
+        // console.log(subscribers)
       });
 
       let token = await getToken(openVidu.mySessionID);
-      console.log('Token', token)
 
       try {
         await session.connect(token, { clientData: openVidu.myUserName });
@@ -79,11 +78,10 @@ export default function Join() {
           insertMode: 'APPEND',   // How the video is inserted in the target element 'video-container'
           mirror: false           // Whether to mirror your local video or not
         });
-        console.log("STREAM: ", publisher.stream.mediaStream)
         await session.publish(publisher);
         openVidu.mainStreamManager = publisher;
         openVidu.publisher = publisher;
-        console.log('Publisher', publisher);
+        // console.log('Publisher', publisher);
         dispatch(setOpenVidu(openVidu));
         dispatch(toggleVideo(!video));
         dispatch(toggleMic(!micro));
@@ -94,10 +92,11 @@ export default function Join() {
 
     }
     init();
-    return function leaveSession() {
-      console.log('Disconnecting')
-      state.openVidu.session.disconnect();
-    }
+    //Comment clean up function
+    // return function leaveSession() {
+    //   console.log('Disconnecting')
+    //   state.openVidu.session.disconnect();
+    // }
     // eslint-disable-next-line
   }, [])
 

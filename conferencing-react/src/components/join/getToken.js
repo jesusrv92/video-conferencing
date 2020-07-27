@@ -14,7 +14,7 @@ function createToken(sessionId) {
                 },
             })
             .then((response) => {
-                console.log('TOKEN', response);
+                // console.log('TOKEN', response);
                 resolve(response.data.token);
             })
             .catch((error) => reject(error));
@@ -32,7 +32,7 @@ function createSession(sessionId) {
                 },
             })
             .then((response) => {
-                console.log('CREATE SESION', response);
+                // console.log('CREATE SESION', response);
                 resolve(response.data.id);
             })
             .catch((response) => {
@@ -40,7 +40,7 @@ function createSession(sessionId) {
                 if (error.response.status === 409) {
                     resolve(sessionId);
                 } else {
-                    console.log(error);
+                    // console.log(error);
                     console.warn(
                         'No connection to OpenVidu Server. This may be a certificate error at ' +
                         OPENVIDU_SERVER_URL,

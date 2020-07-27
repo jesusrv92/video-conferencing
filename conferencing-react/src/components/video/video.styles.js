@@ -42,4 +42,12 @@ export default makeStyles((theme => ({
     color: 'rgb(255, 255, 255)',
     padding: '0.2em'
   },
+  streamComponent: {
+    position: 'absolute',
+    backgroundColor: '#f8f8f8',
+    paddingLeft: '5px',
+    paddingRight: '5px',
+    color: '#777777',
+    fontWeight: 'bold'
+  }
 })));
