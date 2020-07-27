@@ -321,7 +321,7 @@ Resources:
                   # Set recording to true and set path
                   sed -i "s/OPENVIDU_RECORDING=/OPENVIDU_RECORDING=true/" $WORKINGDIR/.env
                   sed -i "s/OPENVIDU_RECORDING_PATH=/OPENVIDU_RECORDING_PATH=s3://recordings/" $WORKINGDIR/.env
-                  sed -i "s/:\${OPENVIDU_RECORDING_PATH}=/:/opt/openvidu/recordings/" $WORKINGDIR/docker-compose.yml
+                  sed -i "s/:\${!OPENVIDU_RECORDING_PATH}=/:/opt/openvidu/recordings/" $WORKINGDIR/docker-compose.yml
                 fi
 
                 # Replace domain name
