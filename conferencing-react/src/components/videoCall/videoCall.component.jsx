@@ -30,8 +30,9 @@ import useStyles from './videoCall.styles';
 
 //State Managment
 import { Context } from '../../App.js';
-import { setPage, toggleMic, toggleVideo, toggleRecord, addUser, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar, openDetailsMenu, openOptionsMenu } from '../../utils/actions';
+import { setPage, toggleMic, toggleVideo, toggleRecord, addUser, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar, openDetailsMenu, openOptionsMenu, setOpenVidu } from '../../utils/actions';
 
+import { recordCall, stopRecording } from './recordCall'
 
 export default function VideoCall(){
   
@@ -74,7 +75,18 @@ export default function VideoCall(){
     dispatch(toggleVideo(!video));
   };
 
-  const handleRecord = () => {
+  const handleRecord = async () => {
+    if(!record){
+      const { mySessionID } = state.openVidu;
+      const recording = await recordCall(mySessionID);
+      state.openVidu.recordingID = recording.id;
+      dispatch(setOpenVidu(state.openVidu));
+    } 
+    else {
+      await stopRecording(response.id);
+      state.openVidu.recordingID = '';
+      dispatch(setOpenVidu(state.openVidu));
+    }
     dispatch(toggleRecord(!record));
   };
 
