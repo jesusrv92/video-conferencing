@@ -35,7 +35,7 @@ import { setPage, toggleMic, toggleVideo, toggleRecord, addUser, toggleDetailsMe
 import { recordCall, stopRecording } from './recordCall'
 
 export default function VideoCall(){
-  
+
   const classes = useStyles();
   const { state, dispatch } = React.useContext(Context);
   const { video, micro, users, record, detailsMenu, optionsMenu, sidebar } = state;
@@ -83,7 +83,7 @@ export default function VideoCall(){
       dispatch(setOpenVidu(state.openVidu));
     } 
     else {
-      await stopRecording(response.id);
+      await stopRecording(state.openVidu.recordingID);
       state.openVidu.recordingID = '';
       dispatch(setOpenVidu(state.openVidu));
     }
