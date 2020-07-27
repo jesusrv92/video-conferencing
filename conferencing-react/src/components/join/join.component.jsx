@@ -64,6 +64,10 @@ export default function Join() {
         // console.log(subscribers)
       });
 
+      session.on('signal:removed', () => {
+        session.disconnect();
+      });
+
       let token = await getToken(openVidu.mySessionID);
 
       try {
@@ -92,11 +96,6 @@ export default function Join() {
 
     }
     init();
-    //Comment clean up function
-    // return function leaveSession() {
-    //   console.log('Disconnecting')
-    //   state.openVidu.session.disconnect();
-    // }
     // eslint-disable-next-line
   }, [])
 

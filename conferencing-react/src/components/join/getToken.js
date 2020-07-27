@@ -1,7 +1,6 @@
 import axios from 'axios'
 
-const OPENVIDU_SERVER_URL = process.env.REACT_APP_OPENVIDU_SERVER_URL;
-const OPENVIDU_SERVER_SECRET = process.env.REACT_APP_OPENVIDU_SERVER_SECRET;
+import { OPENVIDU_SERVER_SECRET, OPENVIDU_SERVER_URL } from '../../utils/openViduConfig'
 
 function createToken(sessionId) {
     return new Promise((resolve, reject) => {
@@ -23,7 +22,11 @@ function createToken(sessionId) {
 
 function createSession(sessionId) {
     return new Promise((resolve, reject) => {
-        var data = JSON.stringify({ customSessionId: sessionId });
+        var data = JSON.stringify({
+            customSessionId: sessionId,
+            recordingMode: "MANUAL",
+            defaultOutputMode : "INDIVIDUAL",
+        });
         axios
             .post(OPENVIDU_SERVER_URL + '/api/sessions', data, {
                 headers: {
@@ -36,7 +39,13 @@ function createSession(sessionId) {
                 resolve(response.data.id);
             })
             .catch((response) => {
+                // The response has to be assigned to an object
+                // otherwise we can't acces the response status
                 var error = Object.assign({}, response);
+                // We need to access the response status to verify it
+                // because if the response is a 409, it means the session was already created
+                // and there's no need to create it again
+                // https://docs.openvidu.io/en/2.15.0/reference-docs/REST-API/#post-apisessions
                 if (error.response.status === 409) {
                     resolve(sessionId);
                 } else {
