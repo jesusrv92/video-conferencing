@@ -50,6 +50,14 @@ Parameters:
     NoEcho: true
     ConstraintDescription: OpenVidu Secret is mandatory
 
+  Recording:
+    Description: "Choose if you want to be able to record calls"
+    Type: String
+    AllowedValues:
+      - true
+      - false
+    Default: true
+
   # EC2 Instance configuration
 
   InstanceType:
@@ -174,6 +182,7 @@ Metadata:
           default: OpenVidu configuration
         Parameters:
           - OpenViduSecret
+          - Recording
       - Label:
           default: EC2 Instance configuration
         Parameters:
@@ -202,6 +211,8 @@ Metadata:
       # OpenVidu configuration
       OpenViduSecret:
         default: "Openvidu Secret"
+      Recording:
+        default: "Able to record calls"
       # EC2 Instance configuration
       InstanceType:
         default: "Instance type"
@@ -216,8 +227,51 @@ Metadata:
 Conditions:
     WhichCertPresent: !Not [ !Equals [!Ref WhichCert, ""] ]
     PublicElasticIPPresent: !Not [ !Equals [!Ref PublicElasticIP, ""] ]
+    CreateRecordingResources: !Equals [!Ref Recording, "true"]
     
 Resources:
+  RecordingsBucket:
+    Type: AWS::S3::Bucket
+    Condition: CreateRecordingResources
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: recordings
+    DependsOn:
+      - OpenviduServer
+
+  RootInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: /
+      Roles:
+        - !Ref S3WritableRole
+
+  S3WritableRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+
+  RolePolicies:
+    Type: AWS::IAM::Policy
+    DependsOn:
+      - OpenviduServer
+    Properties:
+      PolicyName: OpenviduServerInstancePolicy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: 's3:*'
+            Resource: '*'
+      Roles:
+        - !Ref S3WritableRole
 
   OpenviduServer:
     Type: 'AWS::EC2::Instance'
@@ -263,6 +317,12 @@ Resources:
                 
                 # Replace secret
                 sed -i "s/OPENVIDU_SECRET=/OPENVIDU_SECRET=${OpenViduSecret}/" $WORKINGDIR/.env
+                if ["${Recording}" == "true"]; then
+                  # Set recording to true and set path
+                  sed -i "s/OPENVIDU_RECORDING=/OPENVIDU_RECORDING=true/" $WORKINGDIR/.env
+                  sed -i "s/OPENVIDU_RECORDING_PATH=/OPENVIDU_RECORDING_PATH=s3://recordings/" $WORKINGDIR/.env
+                  sed -i "s/:\${OPENVIDU_RECORDING_PATH}=/:/opt/openvidu/recordings/" $WORKINGDIR/docker-compose.yml
+                fi
 
                 # Replace domain name
                 if [[ "${MyDomainName}" != ''  && "${PublicElasticIP}" != '' ]]; then
@@ -316,6 +376,7 @@ Resources:
               owner: "root"
               group: "root"
     Properties:
+      IamInstanceProfile: !Ref RootInstanceProfile
       ImageId: !FindInMap [OVAMIMAP, !Ref 'AWS::Region', AMI]
       InstanceType: !Ref InstanceType
       SecurityGroups:
@@ -368,7 +429,7 @@ Resources:
             VolumeType: io1
             Iops: 200
             DeleteOnTermination: true
-            VolumeSize: 100
+            VolumeSize: 30
 
   MyEIP:
     Type: 'AWS::EC2::EIPAssociation'
