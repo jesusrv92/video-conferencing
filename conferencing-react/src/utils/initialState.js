@@ -16,5 +16,6 @@ export default {
     mainStreamManager: undefined, // Main video of the page, will be 'publisher' or one of the 'subscribers',
     publisher: undefined, // local webstream
     subscribers: [], // active streams from other users
+    recordingID: '', // keeps track of the ID if the call is being recorded.
   }
 }
