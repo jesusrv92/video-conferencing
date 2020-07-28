@@ -7,6 +7,8 @@ import ContacList from '../contactList/contactList.component';
 //styles
 import useStyles from './popupMenu.styles';
 
+let { location } = window;
+
 export default function PopUpMenu(){
   
   const classes = useStyles();
@@ -16,7 +18,7 @@ export default function PopUpMenu(){
   const DetailsInfo = () => (
     <Grid container>
       <Typography className={classes.detailsTitle} >Joining Info</Typography>
-      <Typography className={classes.detailsConent} >https://viceochat.app.com/byd-azgu-uvn</Typography>
+      <Typography className={classes.detailsConent} >{location.href}</Typography>
     </Grid>
   );
 
