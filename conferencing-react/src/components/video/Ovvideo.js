@@ -1,35 +1,28 @@
 import React from 'react';
+import useStyles from './Ovvideo.styles';
 
-export default class OpenViduVideoComponent extends React.Component{
+export default function OpenViduVideoComponent(props){
+    
+  const videoRef = React.createRef();
+  const classes = useStyles();
 
-  constructor(props){
-    super(props);
-    this.videoRef = React.createRef();
-  };
-
-  componentDidUpdate(props){
-    if(props && !!this.videoRef){
-      this.props.streamManager.addVideoElement(this.videoRef.current);
+  React.useEffect(() => {
+    if(props && !!videoRef){
+      props.streamManager.addVideoElement(videoRef.current);
     }
-  };
+  });
 
-  componentDidMount(){
-    if(this.props && !!this.videoRef){
-      this.props.streamManager.addVideoElement(this.videoRef.current);
-    }
-  };
+  React.useEffect(() => {
+    if(props && !!videoRef)
+      props.streamManager.addVideoElement(videoRef.current)
+  }, []);
 
-  render() {
-    return <video 
-      style={{
-        width: '100%',
-        height: 'auto',
-        float: 'left',
-        cursor: 'pointer'
-      }} 
+  return (
+    <video 
       autoPlay={true} 
-      ref={this.videoRef}
+      ref={videoRef}
+      className={ props.type === 'own' ? classes.publisher : classes.subscriber }
     />
-  };
+  );
 
 };

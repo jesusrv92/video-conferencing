@@ -9,6 +9,22 @@ export default makeStyles((theme => ({
     height: '90vh',
     backgroundColor: '#000000',
   },
+  ownVideo: {
+    position: 'absolute',
+    top: '1em',
+    right: '1em',
+    width: '7.5em',
+    height: '5em',
+    border: '1px solid',
+    borderColor: 'rgb(137,207,240)',
+    objectFit: 'cover',
+    cursor: 'pointer',
+
+    '&:hover': {
+      width: '15em',
+      height: '10em',
+    }
+  },
   participantsContainer: {
     boxSizing: 'border-box',
     height: '100%',

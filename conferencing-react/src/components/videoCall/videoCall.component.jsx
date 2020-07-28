@@ -38,7 +38,7 @@ export default function VideoCall(){
 
   const classes = useStyles();
   const { state, dispatch } = React.useContext(Context);
-  const { video, micro, users, record, detailsMenu, optionsMenu, sidebar } = state;
+  const { video, micro, users, record, detailsMenu, optionsMenu, sidebar, openVidu } = state;
 
   const theme = useTheme();
 
@@ -137,6 +137,24 @@ export default function VideoCall(){
   return(
     <Grid container className={classes.videoCallcontainer} direction='column'>
       <Grid item className={classes.videosConatiner}>
+        { openVidu.publisher ? (
+        //   <video
+        //   className={classes.ownVideo}
+        //   autoPlay 
+        //   playsInline
+        //   ref={video => {
+        //     if (openVidu.publisher) {
+        //       video.srcObject = state.openVidu.publisher.stream.mediaStream;
+        //       video.volume = 0;
+        //       video.muted = true;
+        //     }
+        //   }}
+        // />
+        <Video
+          type="own"
+          streamManager={openVidu.publisher}
+        />
+        ):(<div>Loadding</div>) }
         {
           state.openVidu.subscribers.length > 0 ? (
             <Grid container direction='row' className={classes.participantsContainer}>
