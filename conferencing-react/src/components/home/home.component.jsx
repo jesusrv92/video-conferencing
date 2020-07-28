@@ -14,10 +14,19 @@ import intekGlobalLogo from '../../assets/images/logo.png';
 import { Context } from '../../App.js';
 import { setPage,setOpenVidu } from '../../utils/actions';
 
+let { location } = window;
+
 export default function Home(){
 
+  let meetingCodeInvitation = '';
+
+  if(location.href.includes('#')){
+    // This gives the href value after the url
+    meetingCodeInvitation = location.href.split('#')[1];
+  }
+
   const classes = useStyles();
-  const [ meetingCode, setMeetingCode ] = React.useState('');
+  const [ meetingCode, setMeetingCode ] = React.useState(meetingCodeInvitation);
   const { state, dispatch } = React.useContext(Context)
 
   const joinMeeting = () => {
