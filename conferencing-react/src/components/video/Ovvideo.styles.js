@@ -15,7 +15,7 @@ export default makeStyles((theme => ({
     width: '15em',
     height: '10em',
     top: '0.75em',
-    left: '0',
+    right: '10em',
     cursor: 'pointer'
     },
   }
