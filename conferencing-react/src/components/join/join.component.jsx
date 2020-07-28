@@ -24,6 +24,7 @@ import { OpenVidu } from 'openvidu-browser';
 import getToken from './getToken';
 
 let { location } = window;
+const OV = new OpenVidu();
 
 export default function Join() {
 
@@ -34,13 +35,11 @@ export default function Join() {
   const [ userName, setUserName ] = React.useState('');
 
   React.useEffect(() => {
+    location.href = location.origin + '#' + state.openVidu.mySessionID;
     const init = async () => {
-      const OV = new OpenVidu();
-      // console.log(OV);
       let { openVidu } = state;
       let session = OV.initSession();
       openVidu.session = session;
-      // console.log(session);
 
       let { subscribers } = openVidu;
 
@@ -171,7 +170,7 @@ export default function Join() {
         </Grid>
         <Grid item>
           <Clipboard
-            data-clipboard-text={`${location.href}#${state.openVidu.mySessionID}`}
+            data-clipboard-text={`${location.href}`}
             className={classes.clipboardButton}
           >
             <Typography className={classes.buttonText} >COPY CODE</Typography>
