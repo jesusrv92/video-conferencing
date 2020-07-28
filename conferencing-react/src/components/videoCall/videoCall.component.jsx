@@ -138,20 +138,8 @@ export default function VideoCall(){
     <Grid container className={classes.videoCallcontainer} direction='column'>
       <Grid item className={classes.videosConatiner}>
         { openVidu.publisher ? (
-        //   <video
-        //   className={classes.ownVideo}
-        //   autoPlay 
-        //   playsInline
-        //   ref={video => {
-        //     if (openVidu.publisher) {
-        //       video.srcObject = state.openVidu.publisher.stream.mediaStream;
-        //       video.volume = 0;
-        //       video.muted = true;
-        //     }
-        //   }}
-        // />
         <Video
-          type="own"
+          type="publisher"
           streamManager={openVidu.publisher}
         />
         ):(<div>Loadding</div>) }
