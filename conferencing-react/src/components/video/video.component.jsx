@@ -14,7 +14,7 @@ import useStyles from './video.styles';
 import OpenViduVideoComponent from './Ovvideo';
 
 
-const VideoComponent = ({ streamManager }) => {
+const VideoComponent = ({ streamManager, type }) => {
 
   const classes = useStyles();
 
@@ -26,8 +26,9 @@ const VideoComponent = ({ streamManager }) => {
     <div>
       {
         streamManager !== undefined ? (
-          <div className={classes.streamComponent}>
-            <OpenViduVideoComponent streamManager={streamManager} />
+          <div>
+            {/*<div className={classes.streamComponent}>*/}
+            <OpenViduVideoComponent streamManager={streamManager} type={type} />
             <Typography>{getUsername()}</Typography>
           </div>
         ): null
