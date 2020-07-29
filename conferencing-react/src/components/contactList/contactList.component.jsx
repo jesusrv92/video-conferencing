@@ -14,9 +14,19 @@ import { removeUser, updateUsers } from '../../utils/actions';
 export default function ContacList(){
 
   const { state, dispatch } = React.useContext(Context);
-  const { users } = state;
+  const { users, openVidu } = state;
+  const { subscribers } = openVidu;
 
   const classes = useStyles();
+
+  React.useEffect(() => {
+    console.log("SUBSCRIBERS: ", subscribers);
+    if(subscribers.length > 0){
+      subscribers.map(subscriber => {
+        console.log(subscriber.stream.connection);
+      });
+    }
+  }, [])
 
   const toogleMic = (user) => {
     const newUsers = users.map(current => {
@@ -35,16 +45,16 @@ export default function ContacList(){
   return (
     <Grid container direction='column'>
       {
-        (users.length > 0) ? (
-          users.map(user => (
+        (subscribers.length > 0) ? (
+          subscribers.map(user => (
             <Grid item container 
-              key={user.id}
+              key={user.stream.connection.connectionId}
               direction='row'
               className={classes.participantContainer}
               justify='space-between'
             >
               <Grid item>
-                <Typography className={classes.participantName}>{user.name}</Typography>
+                <Typography className={classes.participantName}>{JSON.parse(user.stream.connection.data).clientData}</Typography>
               </Grid>
               <Grid item>
                 {
