@@ -34,6 +34,13 @@ const VideoComponent = (props) => {
     return JSON.parse(props.streamManager.stream.connection.data).clientData;
   };
 
+  const handleMicButton = () => {
+    // TODO: ADD FUNCTIONALITY TO MUTE USER
+  };
+  const handleHangButton = () => {
+    // TODO: ADD FUNCTIONALITY TO REMOVE USER
+  };
+
   return(
     <React.Fragment>
       {
@@ -52,13 +59,13 @@ const VideoComponent = (props) => {
                     <IconButton 
                       className={classes.micButton} 
                       style={{ backgroundColor: '#89cff0', color: '#ffffff'}}
-                      onClick={() => console.log("Click on micro button")}
+                      onClick={handleMicButton}
                     >
                       <MicIcon className={classes.icon}/>
                     </IconButton>
                     <IconButton 
                       className={classes.hangButton}
-                      onClick={ () => console.log("Click on end call button") }
+                      onClick={handleHangButton}
                     >
                       <CallEndIcon className={classes.icon}/>
                     </IconButton>
