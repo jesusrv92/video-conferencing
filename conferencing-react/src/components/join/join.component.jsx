@@ -32,11 +32,41 @@ export default function Join() {
 
   const { state, dispatch } = React.useContext(Context);
   const { video, micro } = state;
-  const [ userName, setUserName ] = React.useState('');
+  const [userName, setUserName] = React.useState(state.openVidu.myUserName);
+  const [mediastream, setMediastream] = React.useState();
 
   React.useEffect(() => {
     location.href = location.origin + '#' + state.openVidu.mySessionID;
     const init = async () => {
+      const response = await OV.getUserMedia({
+        audioSource: undefined, // The source of audio. If undefined default microphone
+        videoSource: undefined, // The source of video. If undefined default webcam
+        publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
+        publishVideo: true,     // Whether you want to start publishing with your video enabled or not
+        resolution: '640x480',  // The resolution of your video
+        frameRate: 15,          // The frame rate of your video
+        mirror: false           // Whether to mirror your local video or not
+      });
+      setMediastream(response);
+      dispatch(toggleVideo(!video));
+      dispatch(toggleMic(!micro));
+    }
+    init();
+    // eslint-disable-next-line
+  }, [])
+
+  const toggleCamera = () => {
+    if (state.openVidu.publisher) state.openVidu.publisher.publishVideo(!video);
+    dispatch(toggleVideo(!video));
+  }
+
+  const toggleMicrophone = () => {
+    if (state.openVidu.publisher) state.openVidu.publisher.publishAudio(!micro);
+    dispatch(toggleMic(!micro));
+  };
+
+  const joinNow = () => {
+    const connect = async () => {
       let { openVidu } = state;
       let session = OV.initSession();
       openVidu.session = session;
@@ -69,46 +99,34 @@ export default function Join() {
 
       let token = await getToken(openVidu.mySessionID);
 
+      const [audio] = await mediastream.getAudioTracks();
+      const [video] = await mediastream.getVideoTracks();
+
+      openVidu.myUserName = userName;
+
       try {
         await session.connect(token, { clientData: openVidu.myUserName });
         let publisher = OV.initPublisher(undefined, {
-          audioSource: undefined, // The source of audio. If undefined default microphone
-          videoSource: undefined, // The source of video. If undefined default webcam
+          audioSource: audio,     // The source of audio. If undefined default microphone
+          videoSource: video,     // The source of video. If undefined default webcam
           publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
           publishVideo: true,     // Whether you want to start publishing with your video enabled or not
           resolution: '640x480',  // The resolution of your video
-          frameRate: 30,          // The frame rate of your video
+          frameRate: 15,          // The frame rate of your video
           insertMode: 'APPEND',   // How the video is inserted in the target element 'video-container'
           mirror: false           // Whether to mirror your local video or not
         });
         await session.publish(publisher);
         openVidu.mainStreamManager = publisher;
         openVidu.publisher = publisher;
-        // console.log('Publisher', publisher);
         dispatch(setOpenVidu(openVidu));
-        dispatch(toggleVideo(!video));
-        dispatch(toggleMic(!micro));
       }
       catch (error) {
         console.log('There was an error connecting to the session:', error.code, error.message);
       }
 
     }
-    init();
-    // eslint-disable-next-line
-  }, [])
-
-  const toggleCamera = () => {
-    state.openVidu.publisher.publishVideo(!video);
-    dispatch(toggleVideo(!video));
-  }
-
-  const toggleMicrophone = () => {
-    state.openVidu.publisher.publishAudio(!micro);
-    dispatch(toggleMic(!micro));
-  };
-
-  const joinNow = () => {
+    connect();
     dispatch(setPage('video'));
     dispatch(setDisplayName(userName));
   };
@@ -121,9 +139,11 @@ export default function Join() {
             if (!video) return
             if (state.openVidu.publisher) {
               video.srcObject = state.openVidu.publisher.stream.mediaStream;
-              video.volume = 0;
-              video.muted = true;
+            } else if (mediastream) {
+              video.srcObject = mediastream;
             }
+            video.volume = 0;
+            video.muted = true;
           }} autoPlay playsInline>
           </video>
         </Grid>
@@ -157,11 +177,11 @@ export default function Join() {
           <Typography className={classes.title}>Meeting ready</Typography>
         </Grid>
         <Grid item>
-          <TextField 
-            className={classes.displayNameInput} 
-            label="Display Name" 
-            variant="outlined" 
-            value={ userName }
+          <TextField
+            className={classes.displayNameInput}
+            label="Display Name"
+            variant="outlined"
+            value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
         </Grid>

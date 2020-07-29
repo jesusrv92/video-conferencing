@@ -36,6 +36,10 @@ export default function Home(){
     }
     dispatch(setPage('join'));
   };
+  
+  const startMeeting = () => {
+    dispatch(setPage('join'));
+  };
 
   return(
     <Grid item container direction="column" className={classes.homeContainer}>
@@ -53,7 +57,7 @@ export default function Home(){
               color="primary"
               startIcon={<VideocamIcon/>}
               className={classes.startButton}
-              onClick={ joinMeeting }
+              onClick={ startMeeting }
             >
                 Start a meeting
             </Button>
