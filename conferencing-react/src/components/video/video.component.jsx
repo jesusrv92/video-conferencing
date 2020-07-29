@@ -1,5 +1,5 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
+// import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CallEndIcon from '@material-ui/icons/CallEnd';
@@ -28,7 +28,7 @@ const VideoComponent = (props) => {
   React.useEffect(() => {
     if(props && !!videoRef)
       props.streamManager.addVideoElement(videoRef.current)
-  }, []);
+  }, [props, videoRef]);
 
   const getUsername = () => {
     return JSON.parse(props.streamManager.stream.connection.data).clientData;

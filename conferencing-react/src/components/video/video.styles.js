@@ -69,21 +69,23 @@ export default makeStyles((theme => ({
   },
   publisherDetails: {
     position: 'absolute',
-    top: '8.80em',
+    top: '8.5em',
     right: '1.25em',
   },
   publisherName: {
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    color: 'rgb(255, 255, 255)'
+    color: 'rgb(255, 255, 255)',
+    padding: '0.25em 0.5em',
   },
   subscriberDetails: {
     display: 'flex',
-    marginTop: '-2em',
+    marginTop: '-2.5em',
     marginLeft: '0.25em',
   },
   subscriberName: {
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
     color: 'rgb(255, 255, 255)',
+    padding: '0.25em 0.5em',
     position: 'relative',
     marginRight: '1em',
     width: 'fit-content',
