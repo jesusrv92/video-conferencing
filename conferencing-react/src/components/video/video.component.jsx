@@ -11,29 +11,44 @@ import Typography from '@material-ui/core/Typography';
 
 //Styles
 import useStyles from './video.styles';
-import OpenViduVideoComponent from './Ovvideo';
+// import OpenViduVideoComponent from './Ovvideo';
 
 
-const VideoComponent = ({ streamManager, type }) => {
+const VideoComponent = (props) => {
 
   const classes = useStyles();
+  const videoRef = React.createRef();
+
+  React.useEffect(() => {
+    if(props && !!videoRef){
+      props.streamManager.addVideoElement(videoRef.current);
+    }
+  });
+
+  React.useEffect(() => {
+    if(props && !!videoRef)
+      props.streamManager.addVideoElement(videoRef.current)
+  }, []);
 
   const getUsername = () => {
-    return JSON.parse(streamManager.stream.connection.data).clientData;
+    return JSON.parse(props.streamManager.stream.connection.data).clientData;
   };
 
   return(
-    <div>
+    <React.Fragment>
       {
-        streamManager !== undefined ? (
-          <div>
-            {/*<div className={classes.streamComponent}>*/}
-            <OpenViduVideoComponent streamManager={streamManager} type={type} />
-            <Typography>{getUsername()}</Typography>
+        props.streamManager !== undefined ? (
+          <div className={ props.type !== 'publisher' ? classes.publisherContainer : undefined } >
+            <video 
+              autoPlay={true} 
+              ref={videoRef}
+              className={ (props.type === 'publisher') ? classes.publisher : classes.subscriber }
+            />
+            <Typography className={ props.type === 'publisher' ? classes.publisherName : classes.subscriberName } >{getUsername()}</Typography>
           </div>
         ): null
       }
-    </div>
+    </React.Fragment>
   );
 
 };

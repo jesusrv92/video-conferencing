@@ -8,6 +8,7 @@ export default makeStyles((theme => ({
   videosConatiner: {
     height: '90vh',
     backgroundColor: '#000000',
+    padding: '2em'
   },
   ownVideo: {
     position: 'absolute',
@@ -28,7 +29,9 @@ export default makeStyles((theme => ({
   participantsContainer: {
     boxSizing: 'border-box',
     height: '100%',
-    alignContent: 'center'
+    alignContent: 'center',
+    border: '1px solid',
+    borderColor: '#00ffff'
   },
   buttonsContainer: {
     height: '10vh',
@@ -115,6 +118,10 @@ export default makeStyles((theme => ({
   },
   recordIcon: {
     color: '#fe6f5e',
+    fontSize: '1.3em'
+  },
+  recordIconStop: {
+    color: '#ffffff',
     fontSize: '1.3em'
   },
   menuIcon: {

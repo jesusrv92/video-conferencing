@@ -21,7 +21,7 @@ export default function OpenViduVideoComponent(props){
     <video 
       autoPlay={true} 
       ref={videoRef}
-      className={ props.type === 'publisher' ? classes.publisher : classes.subscriber }
+      className={ (props.type === 'publisher') ? classes.publisher : classes.subscriber }
     />
   );
 

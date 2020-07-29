@@ -49,5 +49,29 @@ export default makeStyles((theme => ({
     paddingRight: '5px',
     color: '#777777',
     fontWeight: 'bold'
+  },
+  publisherContainer : {
+    height: '100%'
+  },
+  publisherName: {
+    position: 'absolute',
+    top: '8.75em',
+    right: '8em',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    color: 'rgb(255, 255, 255)'
+  },
+  publisher: {
+    position: 'absolute',
+    width: '15em',
+    height: '10em',
+    top: '0.75em',
+    right: '0',
+    cursor: 'pointer'
+  },
+  subscriber: {
+    cursor: 'pointer',
+    width: '100%',
+    height:'100%',
+    objectFit: 'cover'
   }
 })));

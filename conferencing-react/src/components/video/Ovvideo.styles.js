@@ -10,13 +10,8 @@ export default makeStyles((theme => ({
     cursor: 'pointer'
   },
   subscriber: {
-    publisher: {
-    position: 'absolute',
-    width: '15em',
-    height: '10em',
-    top: '0.75em',
-    right: '10em',
+    width: '100px',
+    height: '100px',
     cursor: 'pointer'
-    },
   }
 })))

@@ -108,28 +108,30 @@ export default function VideoCall(){
 
   const calculateSize = () => {
     let n;
-    if(users.length === 1)
+    const { subscribers } = openVidu;
+    if(subscribers.length === 1)
       n = 12;
-    else if(users.length > 1 && users.length < 5)
+    else if(subscribers.length > 1 && subscribers.length < 5)
       n = 6;
-    else if(users.length > 1 && users.length < 7)
+    else if(subscribers.length > 1 && subscribers.length < 7)
       n = 4;
-    else if(users.length < 10)
+    else if(subscribers.length < 10)
       n = 4;
-    else if(users.length < 17)
+    else if(subscribers.length < 17)
       n = 3;
     return n;
   };
 
   const calculateHeight = () => {
     let height;
-    if(users.length === 1)
+    const { subscribers } = openVidu;
+    if(subscribers.length === 1)
       height = 100;
-    else if(users.length > 1 && users.length < 7)
+    else if(subscribers.length > 1 && subscribers.length < 7)
       height = 50;
-    else if(users.length < 13)
+    else if(subscribers.length < 13)
       height = 100/3;
-    else if(users.length < 17)
+    else if(subscribers.length < 17)
       height = 25;
     return height;
   }
@@ -142,7 +144,7 @@ export default function VideoCall(){
           type="publisher"
           streamManager={openVidu.publisher}
         />
-        ):(<div>Loadding</div>) }
+        ):(<div>Loading</div>) }
         {
           state.openVidu.subscribers.length > 0 ? (
             <Grid container direction='row' className={classes.participantsContainer}>
@@ -152,9 +154,12 @@ export default function VideoCall(){
                   lg={calculateSize()}
                   style={{
                     height: `${calculateHeight()}%`,
+                    border: '1px solid',
+                    borderColor: 'rgb(255, 0, 0)'
                   }}
                 >
                   <Video
+                  type='subscriber'
                   streamManager={user}
                   />
                 </Grid>
@@ -224,11 +229,11 @@ export default function VideoCall(){
           <Hidden smDown>
             <Grid item>
               <IconButton 
-                className={classes.circleButton}
+                className={ record ? classes.circleButtonRed : classes.circleButton}
                 onClick={ handleRecord }
               >
                 {
-                  record ? <StopIcon className={classes.menuIcon}/> : <FiberManualRecordIcon className={classes.recordIcon} />
+                  record ? <StopIcon className={classes.recordIconStop}/> : <FiberManualRecordIcon className={classes.recordIcon} />
                 }
               </IconButton>
             </Grid>
