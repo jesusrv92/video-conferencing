@@ -53,13 +53,6 @@ export default makeStyles((theme => ({
   publisherContainer : {
     height: '100%'
   },
-  publisherName: {
-    position: 'absolute',
-    top: '8.75em',
-    right: '8em',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    color: 'rgb(255, 255, 255)'
-  },
   publisher: {
     position: 'absolute',
     width: '15em',
@@ -73,5 +66,27 @@ export default makeStyles((theme => ({
     width: '100%',
     height:'100%',
     objectFit: 'cover'
-  }
+  },
+  publisherDetails: {
+    position: 'absolute',
+    top: '8.80em',
+    right: '1.25em',
+  },
+  publisherName: {
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    color: 'rgb(255, 255, 255)'
+  },
+  subscriberDetails: {
+    display: 'flex',
+    marginTop: '-2em',
+    marginLeft: '0.25em',
+  },
+  subscriberName: {
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    color: 'rgb(255, 255, 255)',
+    position: 'relative',
+    marginRight: '1em',
+    width: 'fit-content',
+    zIndex: '3'
+  },
 })));

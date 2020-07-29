@@ -1,9 +1,9 @@
 import React from 'react';
-// import Grid from '@material-ui/core/Grid';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-// import IconButton from '@material-ui/core/IconButton';
-// import CallEndIcon from '@material-ui/icons/CallEnd';
-// import MicIcon from '@material-ui/icons/Mic';
+import IconButton from '@material-ui/core/IconButton';
+import CallEndIcon from '@material-ui/icons/CallEnd';
+import MicIcon from '@material-ui/icons/Mic';
 // import MicOffIcon from '@material-ui/icons/MicOff';
 // import { removeUser, updateUsers } from '../../utils/actions';
 // import Tooltip from '@material-ui/core/Tooltip';
@@ -44,7 +44,28 @@ const VideoComponent = (props) => {
               ref={videoRef}
               className={ (props.type === 'publisher') ? classes.publisher : classes.subscriber }
             />
-            <Typography className={ props.type === 'publisher' ? classes.publisherName : classes.subscriberName } >{getUsername()}</Typography>
+            <div className={ props.type === 'publisher' ? classes.publisherDetails : classes.subscriberDetails }>
+              <Typography className={ props.type === 'publisher' ? classes.publisherName : classes.subscriberName } >{getUsername()}</Typography>
+              { 
+                props.type === 'subscriber' ? (
+                  <React.Fragment>
+                    <IconButton 
+                      className={classes.micButton} 
+                      style={{ backgroundColor: '#89cff0', color: '#ffffff'}}
+                      onClick={() => console.log("Click on micro button")}
+                    >
+                      <MicIcon className={classes.icon}/>
+                    </IconButton>
+                    <IconButton 
+                      className={classes.hangButton}
+                      onClick={ () => console.log("Click on end call button") }
+                    >
+                      <CallEndIcon className={classes.icon}/>
+                    </IconButton>
+                  </React.Fragment>
+                ) : null
+              }
+            </div>
           </div>
         ): null
       }
