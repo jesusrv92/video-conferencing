@@ -21,9 +21,9 @@ docker run -p 4443:4443 --rm \
     -e OPENVIDU_SECRET=MY_SECRET \
     -e DOMAIN_OR_PUBLIC_IP=*DOCKER-MACHINE IP, USUALLY 192.168.99.100* \
     -e OPENVIDU_RECORDING=true \
-    -e OPENVIDU_RECORDING_PATH=*/PATH/TO/VIDEO/FILES* \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v */PATH/TO/VIDEO/FILES*:*/PATH/TO/VIDEO/FILES* \
+    -e OPENVIDU_RECORDING_PATH=/opt/openvidu/recordings \
+    -v //var/run/docker.sock:/var/run/docker.sock \
+    -v //opt/openvidu/recordings:/opt/openvidu/recordings \
 openvidu/openvidu-server-kms:2.15.0
 ```
 
