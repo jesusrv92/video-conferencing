@@ -60,7 +60,7 @@ export default function reducer(state, action){
         }
       }
     case RESET_STATE:
-      state.openVidu.session.disconnect();
+      if(state.openVidu.session) state.openVidu.session.disconnect();
       return initialState;
     default:
       throw new Error("Invalid action type");
