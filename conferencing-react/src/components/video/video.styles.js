@@ -89,6 +89,5 @@ export default makeStyles((theme => ({
     position: 'relative',
     marginRight: '1em',
     width: 'fit-content',
-    zIndex: '3'
   },
 })));

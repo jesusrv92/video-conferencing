@@ -13,22 +13,32 @@ import { removeUser } from '../../utils/actions';
 
 export default function ContacList(){
 
+  const [muted, setMuted] = React.useState(false);
   const { state, dispatch } = React.useContext(Context);
   const { users, openVidu } = state;
-  const { subscribers } = openVidu;
+  const { subscribers, session } = openVidu;
 
   const classes = useStyles();
 
-  const toggleMic = (user) => {
-    let muted = false;
-    return ()=> {
-      user.subscribeToAudio(muted);
-      muted = !muted;
+  React.useEffect(() => {
+    console.log("SESSION: ", session);
+    if(subscribers.length > 0){
+      subscribers.map(subscriber => {
+        console.log(subscriber.stream.connection);
+      });
     }
+  }, [])
+
+  const handleMicButton = (user) => {
+    console.log("Inside toggleMic");
+    console.log("USER BEFORE: ", user);
+    user.subscribeToAudio(muted);
+    setMuted(!muted);
+    console.log("USER AFTER: ", user);
   };
 
-  const handleRemoveUser = (user) => {
-    dispatch(removeUser(user));
+  const handleHangButton = (user) => {
+    removeUser(session, user);
   };
 
   return (
@@ -50,18 +60,18 @@ export default function ContacList(){
                   user.micro === true ? (
                     <MicIcon 
                       className={classes.mediaIconON}
-                      onClick={ toggleMic(user) }
+                      onClick={ () => handleMicButton(user) }
                     />
                   ):(
                     <MicOffIcon 
                       className={classes.mediaIconOFF}
-                      onClick={ toggleMic(user) }
+                      onClick={ () => handleMicButton(user) }
                     />
                   )
                 }
                 <RemoveCircleOutlineIcon 
                   className={classes.endCallIcon}
-                  onClick={ () => handleRemoveUser(user) }
+                  onClick={ () => handleHangButton(user) }
                   />
               </Grid>
             </Grid>
