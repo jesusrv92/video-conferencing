@@ -9,12 +9,12 @@ import useStyles from './contactList.styles.js';
 
 //State Managment
 import { Context } from '../../App.js';
-import { removeUser } from '../../utils/removeUser';
+import removeUser from '../../utils/removeUser';
 
 export default function ContacList(){
 
   const [muted, setMuted] = React.useState(false);
-  const { state, dispatch } = React.useContext(Context);
+  const { state } = React.useContext(Context);
   const { users, openVidu } = state;
   const { subscribers, session } = openVidu;
 
