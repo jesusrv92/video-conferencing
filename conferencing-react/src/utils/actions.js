@@ -12,7 +12,8 @@ import {
   OPEN_OPTIONS_MENU,
   TOGGLE_SIDEBAR,
   SET_OPENVIDU,
-  SET_DISPLAY_NAME
+  SET_DISPLAY_NAME,
+  RESET_STATE
 } from './actionTypes';
 
 export const setPage = (page) => ({
@@ -83,4 +84,8 @@ export const setOpenVidu = (openVidu) => ({
 export const setDisplayName = (displayName) => ({
   type: SET_DISPLAY_NAME,
   payload: displayName
+});
+
+export const resetState = () => ({
+  type: RESET_STATE
 });
