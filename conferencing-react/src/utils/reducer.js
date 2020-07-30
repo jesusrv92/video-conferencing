@@ -15,7 +15,7 @@ import {
   SET_DISPLAY_NAME
 } from './actionTypes';
 
-export default function reducer( state, action){
+export default function reducer(state, action){
   switch(action.type){
     case SET_PAGE:
       return Object.assign({}, state, { page: action.payload });
@@ -26,9 +26,11 @@ export default function reducer( state, action){
     case TOGGLE_RECORD:
       return Object.assign({}, state, { record: action.payload });
     case ADD_USER:
-      return Object.assign({}, state, { users: action.payload });
+      let newUsers = [...state.users, action.payload];
+      return Object.assign({}, state, { users: newUsers });
     case REMOVE_USER:
-      return Object.assign({}, state, { users: action.payload });
+      let filteredUsers = state.users.filter(user => action.payload !== user);
+      return Object.assign({}, state, { users: filteredUsers });
     case UPDATE_USERS:
       return Object.assign({}, state, { users: action.payload });
     case TOGGLE_DETAILS_MENU:
