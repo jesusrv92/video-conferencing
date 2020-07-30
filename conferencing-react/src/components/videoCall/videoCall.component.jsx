@@ -30,7 +30,7 @@ import useStyles from './videoCall.styles';
 
 //State Managment
 import { Context } from '../../App.js';
-import { setPage, toggleMic, toggleVideo, toggleRecord, addUser, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar, openDetailsMenu, openOptionsMenu, setOpenVidu } from '../../utils/actions';
+import { resetState, toggleMic, toggleVideo, toggleRecord, addUser, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar, openDetailsMenu, openOptionsMenu, setOpenVidu } from '../../utils/actions';
 
 import { recordCall, stopRecording } from './recordCall'
 
@@ -64,7 +64,7 @@ export default function VideoCall(){
   }
 
   const endCall = () => {
-    dispatch(setPage('join'));
+    dispatch(resetState());
   };
 
   const toggleCamera = () => {
