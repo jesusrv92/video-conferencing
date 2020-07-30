@@ -13,10 +13,6 @@ export const Context = React.createContext(null);
 
 function App() {
 
-  const [ video, setVideo ] = React.useState(false);
-  const [ micro, setMicro ] = React.useState(false);
-  const [users, setUsers] = React.useState([]);
-
   const [ state, dispatch ] = React.useReducer(reducer, initialState);
 
   React.useEffect(() => function leaveSession() {
@@ -34,21 +30,9 @@ function App() {
           state.page === "home" ? (
             <Home />
           ): state.page === "join" ? (
-            <Join 
-              video = {video}
-              setVideo = {setVideo}
-              micro = {micro}
-              setMicro = {setMicro}
-            />
+            <Join />
           ):(
-            <VideoCall 
-              video = {video}
-              setVideo = {setVideo}
-              micro = {micro}
-              setMicro = {setMicro}
-              users = {users}
-              setUsers = {setUsers}
-            />
+            <VideoCall />
           )
         }
       </Context.Provider>
