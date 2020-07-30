@@ -97,30 +97,28 @@ export default function VideoCall(){
 
   const calculateSize = () => {
     let n;
-    const { subscribers } = openVidu;
-    if(subscribers.length === 1)
+    if(users.length === 1)
       n = 12;
-    else if(subscribers.length > 1 && subscribers.length < 5)
+    else if(users.length > 1 && users.length < 5)
       n = 6;
-    else if(subscribers.length > 1 && subscribers.length < 7)
+    else if(users.length > 1 && users.length < 7)
       n = 4;
-    else if(subscribers.length < 10)
+    else if(users.length < 10)
       n = 4;
-    else if(subscribers.length < 17)
+    else if(users.length < 17)
       n = 3;
     return n;
   };
 
   const calculateHeight = () => {
     let height;
-    const { subscribers } = openVidu;
-    if(subscribers.length === 1)
+    if(users.length === 1)
       height = 100;
-    else if(subscribers.length > 1 && subscribers.length < 7)
+    else if(users.length > 1 && users.length < 7)
       height = 50;
-    else if(subscribers.length < 13)
+    else if(users.length < 13)
       height = 100/3;
-    else if(subscribers.length < 17)
+    else if(users.length < 17)
       height = 25;
     return height;
   }
