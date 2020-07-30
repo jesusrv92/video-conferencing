@@ -12,12 +12,13 @@ import MicIcon from '@material-ui/icons/Mic';
 //Styles
 import useStyles from './video.styles';
 // import OpenViduVideoComponent from './Ovvideo';
-
+import removeUser from './removeUser'
 
 const VideoComponent = (props) => {
 
   const classes = useStyles();
   const videoRef = React.createRef();
+  const [muted, setMuted] = React.useState(false) 
 
   React.useEffect(() => {
     if(props && !!videoRef){
@@ -32,6 +33,14 @@ const VideoComponent = (props) => {
 
   const getUsername = () => {
     return JSON.parse(props.streamManager.stream.connection.data).clientData;
+  };
+
+  const handleMicButton = () => {
+    props.streamManager.subscribeToAudio(muted);
+    setMuted(!muted);
+  };
+  const handleHangButton = () => {
+    removeUser(props.session, props.streamManager);
   };
 
   return(
@@ -52,13 +61,13 @@ const VideoComponent = (props) => {
                     <IconButton 
                       className={classes.micButton} 
                       style={{ backgroundColor: '#89cff0', color: '#ffffff'}}
-                      onClick={() => console.log("Click on micro button")}
+                      onClick={handleMicButton}
                     >
                       <MicIcon className={classes.icon}/>
                     </IconButton>
                     <IconButton 
                       className={classes.hangButton}
-                      onClick={ () => console.log("Click on end call button") }
+                      onClick={handleHangButton}
                     >
                       <CallEndIcon className={classes.icon}/>
                     </IconButton>

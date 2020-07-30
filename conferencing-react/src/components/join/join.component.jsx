@@ -89,12 +89,13 @@ export default function Join() {
         // console.log('Removing stream', removedStream)
 
         subscribers = subscribers.filter(subscriber => removedStream !== subscriber);
-        dispatch(setOpenVidu(openVidu));
+        dispatch(setOpenVidu(Object.assign({}, openVidu)));
         // console.log(subscribers)
       });
 
       session.on('signal:removed', () => {
         session.disconnect();
+        dispatch(setPage('home'));
       });
 
       let token = await getToken(openVidu.mySessionID);

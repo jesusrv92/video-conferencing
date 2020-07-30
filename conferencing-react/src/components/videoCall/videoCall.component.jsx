@@ -162,6 +162,7 @@ export default function VideoCall(){
                 >
                   <Video
                   type='subscriber'
+                  session={state.openVidu.session}
                   streamManager={user}
                   />
                 </Grid>
