@@ -12,7 +12,7 @@ import MicIcon from '@material-ui/icons/Mic';
 //Styles
 import useStyles from './video.styles';
 // import OpenViduVideoComponent from './Ovvideo';
-import removeUser from './removeUser'
+import removeUser from '../../utils/removeUser';
 
 const VideoComponent = (props) => {
 
