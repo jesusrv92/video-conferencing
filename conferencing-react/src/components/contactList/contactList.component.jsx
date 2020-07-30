@@ -9,7 +9,7 @@ import useStyles from './contactList.styles.js';
 
 //State Managment
 import { Context } from '../../App.js';
-import { removeUser } from '../../utils/actions';
+import { removeUser } from '../../utils/removeUser';
 
 export default function ContacList(){
 
