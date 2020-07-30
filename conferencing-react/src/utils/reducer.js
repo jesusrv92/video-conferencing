@@ -12,8 +12,11 @@ import {
   OPEN_OPTIONS_MENU,
   TOGGLE_SIDEBAR,
   SET_OPENVIDU,
-  SET_DISPLAY_NAME
+  SET_DISPLAY_NAME,
+  RESET_STATE
 } from './actionTypes';
+
+import initialState from './initialState'
 
 export default function reducer(state, action){
   switch(action.type){
@@ -56,6 +59,9 @@ export default function reducer(state, action){
           myUserName: action.payload
         }
       }
+    case RESET_STATE:
+      state.openVidu.session.disconnect();
+      return initialState;
     default:
       throw new Error("Invalid action type");
   }
