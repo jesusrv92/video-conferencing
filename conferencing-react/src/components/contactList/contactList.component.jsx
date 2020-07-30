@@ -9,7 +9,7 @@ import useStyles from './contactList.styles.js';
 
 //State Managment
 import { Context } from '../../App.js';
-import { removeUser, updateUsers } from '../../utils/actions';
+import { removeUser } from '../../utils/actions';
 
 export default function ContacList(){
 
@@ -19,34 +19,23 @@ export default function ContacList(){
 
   const classes = useStyles();
 
-  React.useEffect(() => {
-    console.log("SUBSCRIBERS: ", subscribers);
-    if(subscribers.length > 0){
-      subscribers.map(subscriber => {
-        console.log(subscriber.stream.connection);
-      });
+  const toggleMic = (user) => {
+    let muted = false;
+    return ()=> {
+      user.subscribeToAudio(muted);
+      muted = !muted;
     }
-  }, [])
-
-  const toogleMic = (user) => {
-    const newUsers = users.map(current => {
-      if(current.id === user.id)
-        current.micro = !current.micro
-      return current;
-    });
-    dispatch(updateUsers(newUsers));
   };
 
   const handleRemoveUser = (user) => {
-    const newUsers = users.filter(current => current.id !== user.id);
-    dispatch(removeUser(newUsers));
+    dispatch(removeUser(user));
   };
 
   return (
     <Grid container direction='column'>
       {
-        (subscribers.length > 0) ? (
-          subscribers.map(user => (
+        (users.length > 0) ? (
+          users.map(user => (
             <Grid item container 
               key={user.stream.connection.connectionId}
               direction='row'
@@ -61,12 +50,12 @@ export default function ContacList(){
                   user.micro === true ? (
                     <MicIcon 
                       className={classes.mediaIconON}
-                      onClick={ () => toogleMic(user) }
+                      onClick={ toggleMic(user) }
                     />
                   ):(
                     <MicOffIcon 
                       className={classes.mediaIconOFF}
-                      onClick={ () => toogleMic(user) }
+                      onClick={ toggleMic(user) }
                     />
                   )
                 }
