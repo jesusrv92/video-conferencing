@@ -12,12 +12,13 @@ import MicIcon from '@material-ui/icons/Mic';
 //Styles
 import useStyles from './video.styles';
 // import OpenViduVideoComponent from './Ovvideo';
-
+import removeUser from './removeUser'
 
 const VideoComponent = (props) => {
 
   const classes = useStyles();
   const videoRef = React.createRef();
+  const [muted, setMuted] = React.useState(false) 
 
   React.useEffect(() => {
     if(props && !!videoRef){
@@ -35,10 +36,11 @@ const VideoComponent = (props) => {
   };
 
   const handleMicButton = () => {
-    // TODO: ADD FUNCTIONALITY TO MUTE USER
+    props.streamManager.subscribeToAudio(muted);
+    setMuted(!muted);
   };
   const handleHangButton = () => {
-    // TODO: ADD FUNCTIONALITY TO REMOVE USER
+    removeUser(props.session, props.streamManager);
   };
 
   return(
