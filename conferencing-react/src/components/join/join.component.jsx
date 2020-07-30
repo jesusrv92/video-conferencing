@@ -71,28 +71,15 @@ export default function Join() {
       let session = OV.initSession();
       openVidu.session = session;
 
-      let { subscribers } = openVidu;
-
       session.on('streamCreated', event => {
-
         let subscriber = session.subscribe(event.stream, undefined);
-        // console.log('Adding stream', subscriber);
-
-        subscribers.push(subscriber);
         dispatch(addUser(subscriber));
-        dispatch(setOpenVidu(Object.assign({}, openVidu)));
-        // console.log(subscribers)
       });
 
       session.on('streamDestroyed', event => {
         event.preventDefault();
         let removedStream = event.stream.streamManager
-        // console.log('Removing stream', removedStream)
-
-        subscribers = subscribers.filter(subscriber => removedStream !== subscriber);
         dispatch(removeUser(removedStream));
-        dispatch(setOpenVidu(Object.assign({}, openVidu)));
-        // console.log(subscribers)
       });
 
       session.on('signal:removed', () => {
