@@ -67,12 +67,14 @@ export default function VideoCall(){
     dispatch(setPage('join'));
   };
 
-  const toggleMicrophone = () => {
-    dispatch(toggleMic(!micro));
-  };
-
   const toggleCamera = () => {
+    if (state.openVidu.publisher) state.openVidu.publisher.publishVideo(!video);
     dispatch(toggleVideo(!video));
+  }
+
+  const toggleMicrophone = () => {
+    if (state.openVidu.publisher) state.openVidu.publisher.publishAudio(!micro);
+    dispatch(toggleMic(!micro));
   };
 
   const handleRecord = async () => {
