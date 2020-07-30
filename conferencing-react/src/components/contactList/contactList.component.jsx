@@ -13,14 +13,15 @@ import { removeUser, updateUsers } from '../../utils/actions';
 
 export default function ContacList(){
 
+  const [muted, setMuted] = React.useState(false);
   const { state, dispatch } = React.useContext(Context);
   const { users, openVidu } = state;
-  const { subscribers } = openVidu;
+  const { subscribers, session } = openVidu;
 
   const classes = useStyles();
 
   React.useEffect(() => {
-    console.log("SUBSCRIBERS: ", subscribers);
+    console.log("SESSION: ", session);
     if(subscribers.length > 0){
       subscribers.map(subscriber => {
         console.log(subscriber.stream.connection);
@@ -28,18 +29,16 @@ export default function ContacList(){
     }
   }, [])
 
-  const toogleMic = (user) => {
-    const newUsers = users.map(current => {
-      if(current.id === user.id)
-        current.micro = !current.micro
-      return current;
-    });
-    dispatch(updateUsers(newUsers));
+  const handleMicButton = (user) => {
+    console.log("Inside toggleMic");
+    console.log("USER BEFORE: ", user);
+    user.subscribeToAudio(muted);
+    setMuted(!muted);
+    console.log("USER AFTER: ", user);
   };
 
-  const handleRemoveUser = (user) => {
-    const newUsers = users.filter(current => current.id !== user.id);
-    dispatch(removeUser(newUsers));
+  const handleHangButton = (user) => {
+    removeUser(session, user);
   };
 
   return (
@@ -61,18 +60,18 @@ export default function ContacList(){
                   user.micro === true ? (
                     <MicIcon 
                       className={classes.mediaIconON}
-                      onClick={ () => toogleMic(user) }
+                      onClick={ () => handleMicButton(user) }
                     />
                   ):(
                     <MicOffIcon 
                       className={classes.mediaIconOFF}
-                      onClick={ () => toogleMic(user) }
+                      onClick={ () => handleMicButton(user) }
                     />
                   )
                 }
                 <RemoveCircleOutlineIcon 
                   className={classes.endCallIcon}
-                  onClick={ () => handleRemoveUser(user) }
+                  onClick={ () => handleHangButton(user) }
                   />
               </Grid>
             </Grid>
