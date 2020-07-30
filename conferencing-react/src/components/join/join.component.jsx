@@ -107,7 +107,6 @@ export default function Join() {
           mirror: false           // Whether to mirror your local video or not
         });
         await session.publish(publisher);
-        openVidu.mainStreamManager = publisher;
         openVidu.publisher = publisher;
         dispatch(setOpenVidu(openVidu));
       }
