@@ -12,10 +12,13 @@ import {
   OPEN_OPTIONS_MENU,
   TOGGLE_SIDEBAR,
   SET_OPENVIDU,
-  SET_DISPLAY_NAME
+  SET_DISPLAY_NAME,
+  RESET_STATE
 } from './actionTypes';
 
-export default function reducer( state, action){
+import initialState from './initialState'
+
+export default function reducer(state, action){
   switch(action.type){
     case SET_PAGE:
       return Object.assign({}, state, { page: action.payload });
@@ -26,9 +29,11 @@ export default function reducer( state, action){
     case TOGGLE_RECORD:
       return Object.assign({}, state, { record: action.payload });
     case ADD_USER:
-      return Object.assign({}, state, { users: action.payload });
+      let newUsers = [...state.users, action.payload];
+      return Object.assign({}, state, { users: newUsers });
     case REMOVE_USER:
-      return Object.assign({}, state, { users: action.payload });
+      let filteredUsers = state.users.filter(user => action.payload !== user);
+      return Object.assign({}, state, { users: filteredUsers });
     case UPDATE_USERS:
       return Object.assign({}, state, { users: action.payload });
     case TOGGLE_DETAILS_MENU:
@@ -54,6 +59,9 @@ export default function reducer( state, action){
           myUserName: action.payload
         }
       }
+    case RESET_STATE:
+      if(state.openVidu.session) state.openVidu.session.disconnect();
+      return initialState;
     default:
       throw new Error("Invalid action type");
   }

@@ -9,12 +9,12 @@ import useStyles from './contactList.styles.js';
 
 //State Managment
 import { Context } from '../../App.js';
-import { removeUser, updateUsers } from '../../utils/actions';
+import removeUser from '../../utils/removeUser';
 
 export default function ContacList(){
 
   const [muted, setMuted] = React.useState(false);
-  const { state, dispatch } = React.useContext(Context);
+  const { state } = React.useContext(Context);
   const { users, openVidu } = state;
   const { subscribers, session } = openVidu;
 
@@ -44,8 +44,8 @@ export default function ContacList(){
   return (
     <Grid container direction='column'>
       {
-        (subscribers.length > 0) ? (
-          subscribers.map(user => (
+        (users.length > 0) ? (
+          users.map(user => (
             <Grid item container 
               key={user.stream.connection.connectionId}
               direction='row'

@@ -30,7 +30,7 @@ import useStyles from './videoCall.styles';
 
 //State Managment
 import { Context } from '../../App.js';
-import { setPage, toggleMic, toggleVideo, toggleRecord, addUser, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar, openDetailsMenu, openOptionsMenu, setOpenVidu } from '../../utils/actions';
+import { resetState, toggleMic, toggleVideo, toggleRecord, addUser, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar, openDetailsMenu, openOptionsMenu, setOpenVidu } from '../../utils/actions';
 
 import { recordCall, stopRecording } from './recordCall'
 
@@ -50,21 +50,8 @@ export default function VideoCall(){
     console.log("--------------------");
   }, [state])
 
-  const addParticipant = () => {
-    dispatch(addUser([
-      ...users,
-        {
-          name: `User ${users.length}`,
-          id: users.length,
-          micro: false,
-          video: false,
-          imageUrl: Math.floor(Math.random()*Math.floor(4))
-        }
-    ]));
-  }
-
   const endCall = () => {
-    dispatch(setPage('join'));
+    dispatch(resetState());
   };
 
   const toggleCamera = () => {
@@ -148,9 +135,9 @@ export default function VideoCall(){
         />
         ):(<div>Loading</div>) }
         {
-          state.openVidu.subscribers.length > 0 ? (
+          users.length > 0 ? (
             <Grid container direction='row' className={classes.participantsContainer}>
-              {state.openVidu.subscribers.map(user => (
+              {users.map(user => (
                 <Grid item
                   key={user.stream.streamId}
                   lg={calculateSize()}
@@ -244,7 +231,7 @@ export default function VideoCall(){
         </Grid>
 
         <Grid item container className={classes.videoMenu} xs={3} lg={4}>
-          <IconButton onClick={ addParticipant }>
+          <IconButton onClick={ ()=>{} }>
             <AddIcon className={classes.menuIcon} />
           </IconButton>
           {

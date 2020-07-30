@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import ContacList from '../contactList/contactList.component';
+import ContactList from '../contactList/contactList.component';
 
 //styles
 import useStyles from './popupMenu.styles';
@@ -47,7 +47,7 @@ export default function PopUpMenu(){
       </Grid>
       <Grid container item direction='column' className={classes.tabsContent}>
         {
-          tabSelected === 'details' ? <DetailsInfo/> : <ContacList/>
+          tabSelected === 'details' ? <DetailsInfo/> : <ContactList/>
         }  
       </Grid>
     </Grid>

@@ -17,7 +17,7 @@ import useStyles from './join.styles.js';
 
 //State managment
 import { Context } from '../../App.js';
-import { setPage, toggleMic, toggleVideo, setOpenVidu, setDisplayName } from '../../utils/actions';
+import { setPage, toggleMic, toggleVideo, setOpenVidu, setDisplayName, addUser, removeUser } from '../../utils/actions';
 
 //Stream manager
 import { OpenVidu } from 'openvidu-browser';
@@ -78,7 +78,8 @@ export default function Join() {
         let subscriber = session.subscribe(event.stream, undefined);
         // console.log('Adding stream', subscriber);
 
-        openVidu.subscribers.push(subscriber);
+        subscribers.push(subscriber);
+        dispatch(addUser(subscriber));
         dispatch(setOpenVidu(Object.assign({}, openVidu)));
         // console.log(subscribers)
       });
@@ -89,6 +90,7 @@ export default function Join() {
         // console.log('Removing stream', removedStream)
 
         subscribers = subscribers.filter(subscriber => removedStream !== subscriber);
+        dispatch(removeUser(removedStream));
         dispatch(setOpenVidu(Object.assign({}, openVidu)));
         // console.log(subscribers)
       });
