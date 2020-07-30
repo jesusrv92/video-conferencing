@@ -22,6 +22,7 @@ export default function ContacList(){
 
   React.useEffect(() => {
     console.log("SESSION: ", session);
+    console.log("SUBSCRIBERS: ", subscribers);
     if(subscribers.length > 0){
       subscribers.map(subscriber => {
         console.log(subscriber.stream.connection);
@@ -31,10 +32,9 @@ export default function ContacList(){
 
   const handleMicButton = (user) => {
     console.log("Inside toggleMic");
-    console.log("USER BEFORE: ", user);
     user.subscribeToAudio(muted);
     setMuted(!muted);
-    console.log("USER AFTER: ", user);
+    console.log("USER STREAM: ", user.stream);
   };
 
   const handleHangButton = (user) => {
@@ -57,7 +57,7 @@ export default function ContacList(){
               </Grid>
               <Grid item>
                 {
-                  user.micro === true ? (
+                  user.stream.audioActive === true ? (
                     <MicIcon 
                       className={classes.mediaIconON}
                       onClick={ () => handleMicButton(user) }
