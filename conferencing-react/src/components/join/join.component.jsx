@@ -71,28 +71,15 @@ export default function Join() {
       let session = OV.initSession();
       openVidu.session = session;
 
-      let { subscribers } = openVidu;
-
       session.on('streamCreated', event => {
-
         let subscriber = session.subscribe(event.stream, undefined);
-        // console.log('Adding stream', subscriber);
-
-        subscribers.push(subscriber);
         dispatch(addUser(subscriber));
-        dispatch(setOpenVidu(Object.assign({}, openVidu)));
-        // console.log(subscribers)
       });
 
       session.on('streamDestroyed', event => {
         event.preventDefault();
         let removedStream = event.stream.streamManager
-        // console.log('Removing stream', removedStream)
-
-        subscribers = subscribers.filter(subscriber => removedStream !== subscriber);
         dispatch(removeUser(removedStream));
-        dispatch(setOpenVidu(Object.assign({}, openVidu)));
-        // console.log(subscribers)
       });
 
       session.on('signal:removed', () => {
@@ -120,7 +107,6 @@ export default function Join() {
           mirror: false           // Whether to mirror your local video or not
         });
         await session.publish(publisher);
-        openVidu.mainStreamManager = publisher;
         openVidu.publisher = publisher;
         dispatch(setOpenVidu(openVidu));
       }
@@ -134,21 +120,23 @@ export default function Join() {
     dispatch(setDisplayName(userName));
   };
 
+  const renderVideo = React.useMemo(()=>{
+    return <video className={classes.video} ref={video => {
+      if (!video) return
+      if (mediastream) {
+        video.srcObject = mediastream;
+      }
+      video.volume = 0;
+      video.muted = true;
+    }} autoPlay playsInline>
+    </video>
+  },[mediastream, classes.video]);
+  
   return (
     <Grid item container direction="row" className={classes.joinContainer}>
       <Grid item className={classes.videoContainer} xs={12} md={8} lg={7}>
         <Grid item>
-          <video className={classes.video} ref={video => {
-            if (!video) return
-            if (state.openVidu.publisher) {
-              video.srcObject = state.openVidu.publisher.stream.mediaStream;
-            } else if (mediastream) {
-              video.srcObject = mediastream;
-            }
-            video.volume = 0;
-            video.muted = true;
-          }} autoPlay playsInline>
-          </video>
+          {renderVideo}
         </Grid>
         <Grid item container direction='row' className={classes.videoButtonsContainer}>
           <Grid item>
