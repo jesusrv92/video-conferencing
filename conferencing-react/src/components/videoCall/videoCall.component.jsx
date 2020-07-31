@@ -12,7 +12,6 @@ import CallEndIcon from '@material-ui/icons/CallEnd';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CommentOutlinedIcon from '@material-ui/icons/CommentOutlined';
-import AddIcon from '@material-ui/icons/Add';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import StopIcon from '@material-ui/icons/Stop';
 import PopUpMenu from '../popupMenu/popupMenu.component';
@@ -43,12 +42,6 @@ export default function VideoCall(){
   const theme = useTheme();
 
   const matchSM = useMediaQuery(theme.breakpoints.down('sm'));
-
-  React.useEffect(() => {
-    console.log("--------------------");
-    console.log("THE STATE IS: ", state);
-    console.log("--------------------");
-  }, [state])
 
   const endCall = () => {
     dispatch(resetState());
@@ -140,9 +133,7 @@ export default function VideoCall(){
                   key={user.stream.streamId}
                   xs={calculateSize()}
                   style={{
-                    height: `${calculateHeight()}%`,
-                    border: '1px solid',
-                    borderColor: 'rgb(255, 0, 0)'
+                    height: `${calculateHeight()}%`
                   }}
                 >
                   <Video
@@ -229,9 +220,6 @@ export default function VideoCall(){
         </Grid>
 
         <Grid item container className={classes.videoMenu} xs={3} lg={4}>
-          <IconButton onClick={ ()=>{} }>
-            <AddIcon className={classes.menuIcon} />
-          </IconButton>
           {
             matchSM ? (
               <IconButton 

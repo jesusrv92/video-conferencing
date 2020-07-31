@@ -20,20 +20,9 @@ export default function ContacList(){
 
   const classes = useStyles();
 
-  // React.useEffect(() => {
-  //   console.log("SESSION: ", session);
-  //   if(users.length > 0){
-  //     users.map(user => {
-  //       console.log(user.stream.connection);
-  //     });
-  //   }
-  // }, [])
-
   const handleMicButton = (user) => {
-    console.log("Inside toggleMic");
     user.subscribeToAudio(muted);
     setMuted(!muted);
-    console.log("USER STREAM: ", user.stream);
   };
 
   const handleHangButton = (user) => {

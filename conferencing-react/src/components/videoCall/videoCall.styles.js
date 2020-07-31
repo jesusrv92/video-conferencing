@@ -10,28 +10,10 @@ export default makeStyles((theme => ({
     backgroundColor: '#000000',
     padding: '2em'
   },
-  ownVideo: {
-    position: 'absolute',
-    top: '1em',
-    right: '1em',
-    width: '7.5em',
-    height: '5em',
-    border: '1px solid',
-    borderColor: 'rgb(137,207,240)',
-    objectFit: 'cover',
-    cursor: 'pointer',
-
-    '&:hover': {
-      width: '15em',
-      height: '10em',
-    }
-  },
   participantsContainer: {
     boxSizing: 'border-box',
     height: '100%',
-    alignContent: 'center',
-    border: '1px solid',
-    borderColor: '#00ffff'
+    alignContent: 'center'
   },
   buttonsContainer: {
     height: '10vh',
