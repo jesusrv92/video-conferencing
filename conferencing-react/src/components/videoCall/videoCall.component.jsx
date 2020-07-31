@@ -138,7 +138,7 @@ export default function VideoCall(){
               {users.map(user => (
                 <Grid item
                   key={user.stream.streamId}
-                  lg={calculateSize()}
+                  xs={calculateSize()}
                   style={{
                     height: `${calculateHeight()}%`,
                     border: '1px solid',
