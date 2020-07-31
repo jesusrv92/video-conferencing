@@ -14,9 +14,14 @@ import intekGlobalLogo from '../../assets/images/logo.png';
 import { Context } from '../../App.js';
 import { setPage,setOpenVidu } from '../../utils/actions';
 
+import testConnection from '../../utils/testOpenViduAPI'
+
 let { location } = window;
 
 export default function Home(){
+  React.useEffect(()=>{
+    testConnection();
+  },[])
 
   let meetingCodeInvitation = '';
 

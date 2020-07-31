@@ -46,7 +46,7 @@ function createSession(sessionId) {
                 // because if the response is a 409, it means the session was already created
                 // and there's no need to create it again
                 // https://docs.openvidu.io/en/2.15.0/reference-docs/REST-API/#post-apisessions
-                if (error.response.status === 409) {
+                if (error.response && error.response.status === 409) {
                     resolve(sessionId);
                 } else {
                     // console.log(error);
