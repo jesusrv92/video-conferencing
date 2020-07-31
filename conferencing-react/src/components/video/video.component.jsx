@@ -70,7 +70,7 @@ const VideoComponent = (props) => {
                       ):(
                         <IconButton 
                           className={classes.micButton} 
-                          style={{ backgroundColor: '#89cff0', color: '#ffffff'}}
+                          style={{ backgroundColor: '#e32636', color: '#ffffff'}}
                           onClick={handleMicButton}
                         >
                           <MicOffIcon className={classes.icon}/>
