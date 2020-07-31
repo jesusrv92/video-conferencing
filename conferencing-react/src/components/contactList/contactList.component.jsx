@@ -16,19 +16,9 @@ export default function ContacList(){
   const [muted, setMuted] = React.useState(false);
   const { state } = React.useContext(Context);
   const { users, openVidu } = state;
-  const { subscribers, session } = openVidu;
+  const { session } = openVidu;
 
   const classes = useStyles();
-
-  React.useEffect(() => {
-    console.log("SESSION: ", session);
-    console.log("SUBSCRIBERS: ", subscribers);
-    if(subscribers.length > 0){
-      subscribers.map(subscriber => {
-        console.log(subscriber.stream.connection);
-      });
-    }
-  }, [])
 
   const handleMicButton = (user) => {
     console.log("Inside toggleMic");

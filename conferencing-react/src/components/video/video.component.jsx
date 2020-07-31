@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import MicIcon from '@material-ui/icons/Mic';
-// import MicOffIcon from '@material-ui/icons/MicOff';
+import MicOffIcon from '@material-ui/icons/MicOff';
 // import { removeUser, updateUsers } from '../../utils/actions';
 // import Tooltip from '@material-ui/core/Tooltip';
 
@@ -58,13 +58,26 @@ const VideoComponent = (props) => {
               { 
                 props.type === 'subscriber' ? (
                   <React.Fragment>
-                    <IconButton 
-                      className={classes.micButton} 
-                      style={{ backgroundColor: '#89cff0', color: '#ffffff'}}
-                      onClick={handleMicButton}
-                    >
-                      <MicIcon className={classes.icon}/>
-                    </IconButton>
+                    {
+                      props.streamManager.stream.audioActive === true ?(
+                        <IconButton 
+                          className={classes.micButton} 
+                          style={{ backgroundColor: '#89cff0', color: '#ffffff'}}
+                          onClick={handleMicButton}
+                        >
+                          <MicIcon className={classes.icon}/>
+                        </IconButton>
+                      ):(
+                        <IconButton 
+                          className={classes.micButton} 
+                          style={{ backgroundColor: '#89cff0', color: '#ffffff'}}
+                          onClick={handleMicButton}
+                        >
+                          <MicOffIcon className={classes.icon}/>
+                        </IconButton>
+                      )
+                    }
+                    
                     <IconButton 
                       className={classes.hangButton}
                       onClick={handleHangButton}
