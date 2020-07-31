@@ -130,7 +130,8 @@ export default function Join() {
       video.muted = true;
     }} autoPlay playsInline>
     </video>
-  },[mediastream])
+  },[mediastream, classes.video]);
+  
   return (
     <Grid item container direction="row" className={classes.joinContainer}>
       <Grid item className={classes.videoContainer} xs={12} md={8} lg={7}>
