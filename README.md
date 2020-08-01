@@ -2,7 +2,7 @@
 
 This project uses [OpenVidu](https://openvidu.io/index) on the backend to handle the connection with peers; streaming directioning and storage of calls.
 
-To run a test environment, run the following command
+To run a backend server test environment, run the following command
 
 ```bash
 docker run -p 4443:4443 --rm \
