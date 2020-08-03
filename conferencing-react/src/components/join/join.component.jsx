@@ -89,16 +89,16 @@ export default function Join() {
 
       let token = await getToken(openVidu.mySessionID);
 
-      const [audio] = await mediastream.getAudioTracks();
-      const [video] = await mediastream.getVideoTracks();
+      const [audioTracks] = await mediastream.getAudioTracks();
+      const [videoTracks] = await mediastream.getVideoTracks();
 
       openVidu.myUserName = userName;
 
       try {
         await session.connect(token, { clientData: openVidu.myUserName });
         let publisher = OV.initPublisher(undefined, {
-          audioSource: audio,     // The source of audio. If undefined default microphone
-          videoSource: video,     // The source of video. If undefined default webcam
+          audioSource: audioTracks,     // The source of audio. If undefined default microphone
+          videoSource: videoTracks,     // The source of video. If undefined default webcam
           publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
           publishVideo: true,     // Whether you want to start publishing with your video enabled or not
           resolution: '640x480',  // The resolution of your video
