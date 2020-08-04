@@ -21,6 +21,10 @@ export default function ContacList(){
   const classes = useStyles();
 
   const handleMicButton = (user) => {
+    // Taking advantage of the OpenVidu Subscriber API to mute and unmute audio
+    // the subscribeToAudio method takes a boolean value;
+    // if true, you will receive audio from the subscriber,
+    // else you will stop receiving audio from the subscriber.
     user.subscribeToAudio(muted);
     setMuted(!muted);
   };
