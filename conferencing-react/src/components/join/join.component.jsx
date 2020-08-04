@@ -121,16 +121,16 @@ export default function Join() {
   };
 
   const renderVideo = React.useMemo(()=>{
-    return <video className={classes.video} ref={video => {
-      if (!video) return
+    return <video className={classes.video} ref={videoTag => {
+      if (!videoTag) return
       if (mediastream) {
-        video.srcObject = mediastream;
+        videoTag.srcObject = video ? mediastream : null;
       }
-      video.volume = 0;
-      video.muted = true;
+      videoTag.volume = 0;
+      videoTag.muted = true;
     }} autoPlay playsInline>
     </video>
-  },[mediastream, classes.video]);
+  },[mediastream, classes.video, video]);
   
   return (
     <Grid item container direction="row" className={classes.joinContainer}>
