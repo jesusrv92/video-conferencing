@@ -31,6 +31,10 @@ const VideoComponent = (props) => {
     return JSON.parse(props.streamManager.stream.connection.data).clientData;
   };
 
+  // Taking advantage of the OpenVidu Subscriber API to mute and unmute audio
+  // the subscribeToAudio method takes a boolean value;
+  // if true, you will receive audio from the subscriber,
+  // else you will stop receiving audio from the subscriber.
   const handleMicButton = () => {
     props.streamManager.subscribeToAudio(muted);
     setMuted(!muted);
