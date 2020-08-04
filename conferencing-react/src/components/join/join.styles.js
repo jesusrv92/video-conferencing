@@ -31,9 +31,25 @@ export default makeStyles((theme => ({
     justifyContent: 'center',
     marginTop: '-5em',
   },
-  videoButton: {
+  toggleButtonOn: {
     marginLeft: '1em',
     marginRight: '1em',
+    backgroundColor: '#337ab7',
+    color: '#ffffff',
+
+    '&:hover':{
+      backgroundColor: '#337ab7',
+    }
+  },
+  toggleButtonOff: {
+    marginLeft: '1em',
+    marginRight: '1em',
+    backgroundColor: '#e52b50',
+    color: '#ffffff',
+
+    '&:hover':{
+      backgroundColor: '#e52b50',
+    }
   },
   detailsContainer: {
     alignItems: 'center',

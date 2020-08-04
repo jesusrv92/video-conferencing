@@ -10,10 +10,8 @@ import KeyboardIcon from '@material-ui/icons/Keyboard';
 //Styles
 import useStyles from './home.styles';
 import intekGlobalLogo from '../../assets/images/logo.png';
-
 import { Context } from '../../App.js';
 import { setPage,setOpenVidu } from '../../utils/actions';
-
 import testConnection from '../../utils/testOpenViduAPI'
 
 let { location } = window;
@@ -101,5 +99,4 @@ export default function Home(){
       </Grid>
     </Grid>
   )
-
 }

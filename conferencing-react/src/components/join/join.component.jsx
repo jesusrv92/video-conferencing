@@ -11,7 +11,6 @@ import Clipboard from 'react-clipboard.js';
 import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
 import TextField from '@material-ui/core/TextField';
 
-
 //Styles
 import useStyles from './join.styles.js';
 
@@ -141,22 +140,14 @@ export default function Join() {
         <Grid item container direction='row' className={classes.videoButtonsContainer}>
           <Grid item>
             <Fab onClick={toggleMicrophone}
-              className={classes.videoButton}
-              style={{
-                backgroundColor: micro ? "#337ab7" : "#e52b50",
-                color: '#ffffff'
-              }}
+              className={ micro ? `${classes.toggleButtonOn}` : `${classes.toggleButtonOff}` }
             >
               {micro ? <MicIcon /> : <MicOffIcon />}
             </Fab>
           </Grid>
           <Grid item>
             <Fab onClick={toggleCamera}
-              className={classes.videoButton}
-              style={{
-                backgroundColor: video ? "#337ab7" : "#e52b50",
-                color: '#ffffff'
-              }}
+            className={ video ? `${classes.toggleButtonOn}` : `${classes.toggleButtonOff}` }
             >
               {video ? <VideocamIcon /> : <VideocamOffIcon />}
             </Fab>
