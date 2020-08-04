@@ -47,6 +47,10 @@ export default function VideoCall(){
     dispatch(resetState());
   };
 
+  // Using the OpenVidu Publisher API to mute and unmute audio/video
+  // the publishVideo/publishAudio methods take a boolean value;
+  // if true, you will send the stream,
+  // else you will stop sending the stream.
   const toggleCamera = () => {
     if (state.openVidu.publisher) state.openVidu.publisher.publishVideo(!video);
     dispatch(toggleVideo(!video));
@@ -58,6 +62,13 @@ export default function VideoCall(){
   };
 
   const handleRecord = async () => {
+    // If it isn't recording, it will start and save the recording ID on the
+    // recordingID property of state's openVidu object.
+    // Else, it will take the value stored on record and send the signal to the server
+    // to stop that recordingID and remove it from the state.
+    
+    // TODO: signal all participants that the call is being recorded OR
+    // just allow the creator of the session to record calls
     if(!record){
       const { mySessionID } = state.openVidu;
       const recording = await recordCall(mySessionID);
