@@ -4,7 +4,6 @@ import {
   TOGGLE_VIDEO,
   ADD_USER,
   REMOVE_USER,
-  UPDATE_USERS,
   TOGGLE_RECORD,
   TOGGLE_DETAILS_MENU,
   OPEN_DETAILS_MENU,
@@ -34,8 +33,6 @@ export default function reducer(state, action){
     case REMOVE_USER:
       let filteredUsers = state.users.filter(user => action.payload !== user);
       return Object.assign({}, state, { users: filteredUsers });
-    case UPDATE_USERS:
-      return Object.assign({}, state, { users: action.payload });
     case TOGGLE_DETAILS_MENU:
       return Object.assign({}, state, { detailsMenu: action.payload });
     case OPEN_DETAILS_MENU:

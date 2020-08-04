@@ -9,7 +9,6 @@ export const OPEN_OPTIONS_MENU = 'OPEN_OPTIONS_MENU';
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 export const ADD_USER = 'ADD_USER';
 export const REMOVE_USER = 'REMOVE_USER';
-export const UPDATE_USERS = 'UPDATE_USERS';
 export const SET_OPENVIDU = 'SET_OPENVIDU';
 export const SET_DISPLAY_NAME = 'SET_DISPLAY_NAME';
 export const RESET_STATE = 'RESET_STATE';

@@ -4,7 +4,6 @@ import {
   TOGGLE_VIDEO,
   ADD_USER,
   REMOVE_USER,
-  UPDATE_USERS,
   TOGGLE_RECORD,
   TOGGLE_DETAILS_MENU,
   OPEN_DETAILS_MENU,
@@ -68,11 +67,6 @@ export const addUser = (user) => ({
 
 export const removeUser = (users) => ({
   type: REMOVE_USER,
-  payload: users
-});
-
-export const updateUsers = (users) => ({
-  type: UPDATE_USERS,
   payload: users
 });
 
