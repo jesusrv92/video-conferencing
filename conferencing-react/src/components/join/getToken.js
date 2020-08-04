@@ -1,3 +1,10 @@
+/*
+To be able to join an OpenVidu session, you need to create a Token.
+First, we have to create the session on the server.
+Then, you create the token with the sessionID.
+Once you have the token you return it.
+This token will be used by the OpenVidu Session API object to connect to the session.
+*/
 import axios from 'axios'
 
 import { OPENVIDU_SERVER_SECRET, OPENVIDU_SERVER_URL } from '../../utils/openViduConfig'
@@ -13,7 +20,6 @@ function createToken(sessionId) {
                 },
             })
             .then((response) => {
-                // console.log('TOKEN', response);
                 resolve(response.data.token);
             })
             .catch((error) => reject(error));
@@ -23,10 +29,15 @@ function createToken(sessionId) {
 function createSession(sessionId) {
     return new Promise((resolve, reject) => {
         var data = JSON.stringify({
-            customSessionId: sessionId,
-            recordingMode: "MANUAL",
-            defaultOutputMode : "INDIVIDUAL",
+            customSessionId: sessionId, // REQUIRED
+            recordingMode: "MANUAL", // This can be either "MANUAL" or "ALWAYS".
+            defaultOutputMode : "INDIVIDUAL", // This can be "COMPOSED", "COMPOSED_QUICK_START" or "INDIVIDUAL"
         });
+        // If you set recording mode to "ALWAYS", the server will start recording as soon as a participant joins the call
+        // If you set recording mode to "MANUAL", you have to tell the server when to start recording
+        // Setting the defaultOutputMode to "INDIVIDUAL" will save each participant stream in their own file.
+        // All these settings can be overridden by the REST API call to /api/recording in the data parameters.
+        // For more info:https://docs.openvidu.io/en/2.15.0/reference-docs/REST-API/
         axios
             .post(OPENVIDU_SERVER_URL + '/api/sessions', data, {
                 headers: {
@@ -35,7 +46,6 @@ function createSession(sessionId) {
                 },
             })
             .then((response) => {
-                // console.log('CREATE SESION', response);
                 resolve(response.data.id);
             })
             .catch((response) => {
