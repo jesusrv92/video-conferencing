@@ -20,13 +20,15 @@ let { location } = window;
 
 export default function Home(){
   React.useEffect(()=>{
+    // Testing connection to server in case it's down or certificates aren't valid
     testConnection();
   },[])
 
   let meetingCodeInvitation = '';
 
   if(location.href.includes('#')){
-    // This gives the href value after the url
+    // The invitation is a URL with an href value of the SessionID
+    // This gives the href value
     meetingCodeInvitation = location.href.split('#')[1];
   }
 
@@ -35,10 +37,14 @@ export default function Home(){
   const { state, dispatch } = React.useContext(Context)
 
   const joinMeeting = () => {
+    // If the meeting code isn't blank, 
+    // set the OpenVidu session ID to the meeting code
     if(meetingCode) {
       state.openVidu.mySessionID = meetingCode;
       dispatch(setOpenVidu(state.openVidu));
     }
+    // If the meeting code is blank, 
+    // a session ID is generated randomly in the initial state
     dispatch(setPage('join'));
   };
   
