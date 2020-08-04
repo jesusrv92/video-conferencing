@@ -1,3 +1,10 @@
+/*
+This function tests the connection with the OpenVidu server. 
+If the server is down or it's running with invalid SSL certificates,
+it will display a confirmation window that will open a new tab where you can
+add the server certificates to your trusted certificates.
+*/
+
 import { OPENVIDU_SERVER_SECRET, OPENVIDU_SERVER_URL } from './openViduConfig';
 import axios from 'axios';
 
