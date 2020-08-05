@@ -102,9 +102,7 @@ export default function VideoCall(){
       n = 12;
     else if(users.length > 1 && users.length < 5)
       n = 6;
-    else if(users.length > 4 && users.length < 7)
-      n = 4;
-    else if(users.length < 10)
+    else if(users.length > 4 && users.length < 10)
       n = 4;
     else if(users.length < 17)
       n = 3;
@@ -253,5 +251,4 @@ export default function VideoCall(){
       </Grid>
     </Grid>
   )
-
 }

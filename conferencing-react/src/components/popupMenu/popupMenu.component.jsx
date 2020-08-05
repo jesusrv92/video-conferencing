@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-
 import ContactList from '../contactList/contactList.component';
 
 //styles
@@ -12,7 +11,6 @@ let { location } = window;
 export default function PopUpMenu(){
   
   const classes = useStyles();
-
   const [ tabSelected, setTabSelected ] = React.useState('details');
 
   const DetailsInfo = () => (
@@ -24,22 +22,20 @@ export default function PopUpMenu(){
 
   const handleTabClick = (value) => {
     setTabSelected(value);
-  }
+  };
   
 
   return(
     <Grid container direction='column' className={classes.popupMenuContainer}>
       <Grid container item className={classes.tabsBar}>
         <Grid item
-          className={classes.tabItem} 
-          style={{borderBottomColor: ` ${tabSelected === 'details' ? 'rgba(132, 176, 209, 0.9)' : 'rgba(132, 176, 209, 0.3)'}`}}
+          className={ `${classes.tabItem} ${tabSelected === 'details' ? classes.tabSelected : classes.tabNotSelected}`}
           onClick={() => handleTabClick('details')}
         >
           Details
         </Grid>
         <Grid item 
-          className={classes.tabItem}
-          style={{borderBottomColor: ` ${tabSelected === 'participants' ? 'rgba(132, 176, 209, 0.9)' : 'rgba(132, 176, 209, 0.3)'}`}}
+          className={ `${classes.tabItem} ${tabSelected === 'participants' ? classes.tabSelected : classes.tabNotSelected}`}
           onClick={() => handleTabClick('participants')}
         >
           Participants

@@ -31,7 +31,10 @@ export default makeStyles((theme => ({
   itemOption: {
     paddingTop: '0.5em'
   },
-  itemButton: {
+  recordActiveButton: {
+    color: '#ff0038'
+  },
+  regularButton: {
     color: '#0d98ba'
   },
   itemIcon: {

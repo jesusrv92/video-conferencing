@@ -61,16 +61,14 @@ const VideoComponent = (props) => {
                     {
                       props.streamManager.stream.audioActive === true ?(
                         <IconButton 
-                          className={classes.micButton} 
-                          style={{ backgroundColor: '#89cff0', color: '#ffffff'}}
+                          className={ `${classes.deviceButton} ${classes.deviceOn}` } 
                           onClick={handleMicButton}
                         >
                           <MicIcon className={classes.icon}/>
                         </IconButton>
                       ):(
                         <IconButton 
-                          className={classes.micButton} 
-                          style={{ backgroundColor: '#e32636', color: '#ffffff'}}
+                        className={ `${classes.deviceButton} ${classes.deviceOff}` } 
                           onClick={handleMicButton}
                         >
                           <MicOffIcon className={classes.icon}/>

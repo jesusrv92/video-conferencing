@@ -1,6 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme => ({
+  listContainer: {
+    minHeight: '5em'
+  },
   participantContainer: {
     padding: '0.5em',
   },
