@@ -12,7 +12,7 @@ export default makeStyles((theme => ({
       opacity: '1',
     }
   },
-  micButton: {
+  deviceButton: {
     width: '0.75em',
     height: '0.75em',
     marginRight: '0.7em',
@@ -22,6 +22,14 @@ export default makeStyles((theme => ({
       backgroundColor: 'rgb(255, 0, 0)',
       opacity: '1'
     }
+  },
+  deviceOn: {
+    backgroundColor: '#89cff0', 
+    color: '#ffffff'
+  },
+  deviceOff: {
+    backgroundColor: '#e32636',
+    color: '#ffffff'
   },
   icon: {
     color: 'rgb(255, 255, 255)',

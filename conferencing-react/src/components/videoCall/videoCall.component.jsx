@@ -30,7 +30,6 @@ import useStyles from './videoCall.styles';
 //State Managment
 import { Context } from '../../App.js';
 import { resetState, toggleMic, toggleVideo, toggleRecord, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar, openDetailsMenu, openOptionsMenu, setOpenVidu } from '../../utils/actions';
-
 import { recordCall, stopRecording } from './recordCall'
 
 export default function VideoCall(){
@@ -38,9 +37,7 @@ export default function VideoCall(){
   const classes = useStyles();
   const { state, dispatch } = React.useContext(Context);
   const { video, micro, users, record, detailsMenu, optionsMenu, sidebar, openVidu } = state;
-
   const theme = useTheme();
-
   const matchSM = useMediaQuery(theme.breakpoints.down('sm'));
 
   const endCall = () => {
@@ -54,7 +51,7 @@ export default function VideoCall(){
   const toggleCamera = () => {
     if (state.openVidu.publisher) state.openVidu.publisher.publishVideo(!video);
     dispatch(toggleVideo(!video));
-  }
+  };
 
   const toggleMicrophone = () => {
     if (state.openVidu.publisher) state.openVidu.publisher.publishAudio(!micro);
@@ -99,15 +96,13 @@ export default function VideoCall(){
     }
   };
 
-  const calculateSize = () => {
+  const calculateWidth = () => {
     let n;
     if(users.length === 1)
       n = 12;
     else if(users.length > 1 && users.length < 5)
       n = 6;
-    else if(users.length > 1 && users.length < 7)
-      n = 4;
-    else if(users.length < 10)
+    else if(users.length > 4 && users.length < 10)
       n = 4;
     else if(users.length < 17)
       n = 3;
@@ -142,7 +137,7 @@ export default function VideoCall(){
               {users.map(user => (
                 <Grid item
                   key={user.stream.streamId}
-                  xs={calculateSize()}
+                  xs={calculateWidth()}
                   style={{
                     height: `${calculateHeight()}%`
                   }}
@@ -256,5 +251,4 @@ export default function VideoCall(){
       </Grid>
     </Grid>
   )
-
 }

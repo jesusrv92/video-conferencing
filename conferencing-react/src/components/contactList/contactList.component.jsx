@@ -34,7 +34,7 @@ export default function ContacList(){
   };
 
   return (
-    <Grid container direction='column'>
+    <Grid container direction='column' className={classes.listContainer}>
       {
         (users.length > 0) ? (
           users.map(user => (

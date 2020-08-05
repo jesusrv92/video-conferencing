@@ -5,13 +5,14 @@ export default makeStyles((theme => ({
     position: 'absolute',
     backgroundColor: '#ffffff',
     width: '400px',
-    bottom: '97px',
+    bottom: '94px',
     top: '0',
     right: '0',
     boxSizing: 'border-box',
 
     [theme.breakpoints.down('xs')]: {
       width: '100%',
+      bottom: '82px',
     }
   },
   closeIcon: {

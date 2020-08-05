@@ -46,8 +46,7 @@ export default function SettingsMenu(){
           <Grid item className={classes.itemOption}>
             <Button 
               onClick={() => dispatch(toggleRecord(!record))}
-              className={classes.itemButton}
-              style={{color: record ? '#ff0038' : '#0d98ba'}}
+              className={record ? classes.recordActiveButton : classes.regularButton}
               endIcon={ record ? <StopIcon/> : <Brightness1Icon/>}
             >
               Record
@@ -55,7 +54,7 @@ export default function SettingsMenu(){
           </Grid>
           <Grid item className={classes.itemOption}>
             <Button 
-              className={classes.itemButton}
+              className={classes.regularButton}
               onClick={() => toggleMenu('sidebar') }
               endIcon={<MessageOutlinedIcon className={classes.itemIcon}/>}
             >

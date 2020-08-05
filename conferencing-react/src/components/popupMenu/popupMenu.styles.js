@@ -24,6 +24,12 @@ export default makeStyles((theme => ({
     borderBottom: '3px solid',
     cursor: 'pointer'
   },
+  tabSelected: {
+    borderBottomColor: 'rgba(132, 176, 209, 0.9)'
+  },
+  tabNotSelected: {
+    borderBottomColor: 'rgba(132, 176, 209, 0.3)'
+  },
   tabsContent: {
     padding: '1em',
   },
