@@ -47,17 +47,11 @@ export default function reducer(state, action){
         optionsMenu: false
       });
     case SET_OPENVIDU:
-      return Object.assign({}, state, { openVidu: action.payload});
+      return state;
     case SET_DISPLAY_NAME:
-      return {
-        ...state,
-        openVidu: {
-          ...state.openVidu,
-          myUserName: action.payload
-        }
-      }
+      return Object.assign({}, state, { myUserName: action.payload });
     case RESET_STATE:
-      if(state.openVidu.session) state.openVidu.session.disconnect();
+      if(state.session) state.session.disconnect();
       return initialState;
     default:
       throw new Error("Invalid action type");

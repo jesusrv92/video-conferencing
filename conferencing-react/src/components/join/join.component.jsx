@@ -21,6 +21,8 @@ import { setPage, toggleMic, toggleVideo, setOpenVidu, setDisplayName, addUser, 
 //Stream manager
 import { OpenVidu } from 'openvidu-browser';
 import getToken from './getToken';
+import connectSignalingChannel from './connectSignalingChannel'
+import {AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY} from '../../utils/openViduConfig'
 
 let { location } = window;
 const OV = new OpenVidu();
@@ -31,31 +33,37 @@ export default function Join() {
 
   const { state, dispatch } = React.useContext(Context);
   const { video, micro } = state;
-  const [userName, setUserName] = React.useState(state.openVidu.myUserName); // For setting the username of the participant
+  const [userName, setUserName] = React.useState(state.myUserName); // For setting the username of the participant
   const [mediastream, setMediastream] = React.useState(); // To add the stream to a video object
 
   React.useEffect(() => {
     // This line will set the URL to match the sessionID of the state
     // if you were invited and you joined the session, it will stay the same
     // if you create a new session, it will update the id even if you were invited.
-    location.href = location.origin + '#' + state.openVidu.mySessionID;
+    location.href = location.origin + '#' + state.mySessionID;
     const init = async () => {
       // This will retrieve the media that is going to be streamed
       // For more properties that can be set, look into: https://docs.openvidu.io/en/2.15.0/api/openvidu-browser/interfaces/publisherproperties.html
-      const response = await OV.getUserMedia({
-        audioSource: undefined, // The source of audio. If undefined default microphone
-        videoSource: undefined, // The source of video. If undefined default webcam
-        publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
-        publishVideo: true,     // Whether you want to start publishing with your video enabled or not
-        resolution: '640x480',  // The resolution of your video
-        frameRate: 15,          // The frame rate of your video
-        mirror: false           // Whether to mirror your local video or not
-      });
-      setMediastream(response);
-      dispatch(toggleVideo(!video));
-      dispatch(toggleMic(!micro));
+      // const response = await OV.getUserMedia({
+      //   audioSource: undefined, // The source of audio. If undefined default microphone
+      //   videoSource: undefined, // The source of video. If undefined default webcam
+      //   publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
+      //   publishVideo: true,     // Whether you want to start publishing with your video enabled or not
+      //   resolution: '640x480',  // The resolution of your video
+      //   frameRate: 15,          // The frame rate of your video
+      //   mirror: false           // Whether to mirror your local video or not
+      // });
+      // setMediastream(response);
+      // dispatch(toggleVideo(!video));
+      // dispatch(toggleMic(!micro));
     }
-    init();
+    // init();
+    connectSignalingChannel({
+      region: 'us-east-1',
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
+      channelName: 'conferencing-channel'
+    });
     // Since we only want to run this operation once,
     // we set an empty array as the watch dependencies.
     // the eslint disable line makes sure it doesn't throw a warning
@@ -64,13 +72,13 @@ export default function Join() {
   }, [])
 
   const toggleCamera = () => {
-    // if (state.openVidu.publisher) state.openVidu.publisher.publishVideo(!video);
+    // if (state.publisher) state.publisher.publishVideo(!video);
     // This doesn't disable the recording, only the publishing of the camera
     dispatch(toggleVideo(!video));
   }
 
   const toggleMicrophone = () => {
-    // if (state.openVidu.publisher) state.openVidu.publisher.publishAudio(!micro);
+    // if (state.publisher) state.publisher.publishAudio(!micro);
     // This doesn't disable the recording, only the publishing of the microphone
     dispatch(toggleMic(!micro));
   };
@@ -78,66 +86,66 @@ export default function Join() {
   const joinNow = () => {
     // This function will be run when you click the join button
     // Nothing will be streamed before that, all will remain local
-    const connect = async () => {
-      let { openVidu } = state;
-      // First we create a sesssion object that will handle all the operations
-      let session = OV.initSession();
-      openVidu.session = session;
+    // const connect = async () => {
+    //   let { openVidu } = state;
+    //   // First we create a sesssion object that will handle all the operations
+    //   let session = OV.initSession();
+    //   openVidu.session = session;
 
-      // This event will trigger once a new participant joins the conference
-      session.on('streamCreated', event => {
-        let subscriber = session.subscribe(event.stream, undefined);
-        dispatch(addUser(subscriber));
-      });
+    //   // This event will trigger once a new participant joins the conference
+    //   session.on('streamCreated', event => {
+    //     let subscriber = session.subscribe(event.stream, undefined);
+    //     dispatch(addUser(subscriber));
+    //   });
 
-      // This event will trigger once a participant leaves the conference
-      session.on('streamDestroyed', event => {
-        event.preventDefault();
-        let removedStream = event.stream.streamManager
-        dispatch(removeUser(removedStream));
-      });
+    //   // This event will trigger once a participant leaves the conference
+    //   session.on('streamDestroyed', event => {
+    //     event.preventDefault();
+    //     let removedStream = event.stream.streamManager
+    //     dispatch(removeUser(removedStream));
+    //   });
 
-      // This event will trigger when the participant is removed from the conference
-      // The structure of the event is different from the previous ones because it's using
-      // the signaling interface of the API. For more info: https://docs.openvidu.io/en/2.15.0/api/openvidu-browser/classes/signalevent.html
-      session.on('signal:removed', () => {
-        dispatch(resetState());
-      });
+    //   // This event will trigger when the participant is removed from the conference
+    //   // The structure of the event is different from the previous ones because it's using
+    //   // the signaling interface of the API. For more info: https://docs.openvidu.io/en/2.15.0/api/openvidu-browser/classes/signalevent.html
+    //   session.on('signal:removed', () => {
+    //     dispatch(resetState());
+    //   });
 
-      // Generating the token to the session you will connect
-      let token = await getToken(openVidu.mySessionID);
+    //   // Generating the token to the session you will connect
+    //   let token = await getToken(openVidu.mySessionID);
 
-      // Obtainig the tracks from the stream so they can be published to the server
-      const [audioTracks] = await mediastream.getAudioTracks();
-      const [videoTracks] = await mediastream.getVideoTracks();
+    //   // Obtainig the tracks from the stream so they can be published to the server
+    //   const [audioTracks] = await mediastream.getAudioTracks();
+    //   const [videoTracks] = await mediastream.getVideoTracks();
 
-      openVidu.myUserName = userName;
+    //   openVidu.myUserName = userName;
 
-      try {
-        // Connecting to the server using the generated token.
-        // The username isn't required to connect to the server but helps identify the participants
-        await session.connect(token, { clientData: openVidu.myUserName });
-        // Create the publisher object that will be sent to the server
-        let publisher = OV.initPublisher(undefined, {
-          audioSource: audioTracks,     // The source of audio. If undefined default microphone
-          videoSource: videoTracks,     // The source of video. If undefined default webcam
-          publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
-          publishVideo: true,     // Whether you want to start publishing with your video enabled or not
-          resolution: '640x480',  // The resolution of your video
-          frameRate: 15,          // The frame rate of your video
-          insertMode: 'APPEND',   // How the video is inserted in the target element 'video-container'
-          mirror: false           // Whether to mirror your local video or not
-        });
-        await session.publish(publisher);
-        openVidu.publisher = publisher;
-        dispatch(setOpenVidu(openVidu));
-      }
-      catch (error) {
-        console.log('There was an error connecting to the session:', error.code, error.message);
-      }
+    //   try {
+    //     // Connecting to the server using the generated token.
+    //     // The username isn't required to connect to the server but helps identify the participants
+    //     await session.connect(token, { clientData: openVidu.myUserName });
+    //     // Create the publisher object that will be sent to the server
+    //     let publisher = OV.initPublisher(undefined, {
+    //       audioSource: audioTracks,     // The source of audio. If undefined default microphone
+    //       videoSource: videoTracks,     // The source of video. If undefined default webcam
+    //       publishAudio: true,     // Whether you want to start publishing with your audio unmuted or not
+    //       publishVideo: true,     // Whether you want to start publishing with your video enabled or not
+    //       resolution: '640x480',  // The resolution of your video
+    //       frameRate: 15,          // The frame rate of your video
+    //       insertMode: 'APPEND',   // How the video is inserted in the target element 'video-container'
+    //       mirror: false           // Whether to mirror your local video or not
+    //     });
+    //     await session.publish(publisher);
+    //     openVidu.publisher = publisher;
+    //     dispatch(setOpenVidu(openVidu));
+    //   }
+    //   catch (error) {
+    //     console.log('There was an error connecting to the session:', error.code, error.message);
+    //   }
 
-    }
-    connect();
+    // }
+    // connect();
     // Connect is an async function, so it's possible that it won't be done
     // before the following actions. But, this allows for a more seamless experience
     // where one can join the session and then it will update on the fly if any users are already there
@@ -146,7 +154,7 @@ export default function Join() {
     dispatch(setDisplayName(userName));
   };
 
-  const renderVideo = React.useMemo(()=>{
+  const renderVideo = React.useMemo(() => {
     // This has to be done this way. Otherwise, the page will refresh everytime you update the username
     // and it will look like the video is flickering.
     return <video className={classes.video} ref={videoTag => {
@@ -159,8 +167,8 @@ export default function Join() {
       videoTag.muted = true;
     }} autoPlay playsInline>
     </video>
-  },[mediastream, classes.video, video]);
-  
+  }, [mediastream, classes.video, video]);
+
   return (
     <Grid item container direction="row" className={classes.joinContainer}>
       <Grid item className={classes.videoContainer} xs={12} md={8} lg={7}>
@@ -170,14 +178,14 @@ export default function Join() {
         <Grid item container direction='row' className={classes.videoButtonsContainer}>
           <Grid item>
             <Fab onClick={toggleMicrophone}
-              className={ micro ? `${classes.toggleButtonOn}` : `${classes.toggleButtonOff}` }
+              className={micro ? `${classes.toggleButtonOn}` : `${classes.toggleButtonOff}`}
             >
               {micro ? <MicIcon /> : <MicOffIcon />}
             </Fab>
           </Grid>
           <Grid item>
             <Fab onClick={toggleCamera}
-            className={ video ? `${classes.toggleButtonOn}` : `${classes.toggleButtonOff}` }
+              className={video ? `${classes.toggleButtonOn}` : `${classes.toggleButtonOff}`}
             >
               {video ? <VideocamIcon /> : <VideocamOffIcon />}
             </Fab>
@@ -198,7 +206,7 @@ export default function Join() {
           />
         </Grid>
         <Grid item>
-          <Typography className={classes.meetingCode}>Code: {state.openVidu.mySessionID}</Typography>
+          <Typography className={classes.meetingCode}>Code: {state.mySessionID}</Typography>
         </Grid>
         <Grid item>
           <Clipboard

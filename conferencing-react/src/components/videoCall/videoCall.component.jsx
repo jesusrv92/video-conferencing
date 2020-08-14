@@ -49,12 +49,12 @@ export default function VideoCall(){
   // if true, you will send the stream,
   // else you will stop sending the stream.
   const toggleCamera = () => {
-    if (state.openVidu.publisher) state.openVidu.publisher.publishVideo(!video);
+    if (state.publisher) state.publisher.publishVideo(!video);
     dispatch(toggleVideo(!video));
   };
 
   const toggleMicrophone = () => {
-    if (state.openVidu.publisher) state.openVidu.publisher.publishAudio(!micro);
+    if (state.publisher) state.publisher.publishAudio(!micro);
     dispatch(toggleMic(!micro));
   };
 
@@ -67,15 +67,15 @@ export default function VideoCall(){
     // TODO: signal all participants that the call is being recorded OR
     // just allow the creator of the session to record calls
     if(!record){
-      const { mySessionID } = state.openVidu;
+      const { mySessionID } = state;
       const recording = await recordCall(mySessionID);
-      state.openVidu.recordingID = recording.id;
-      dispatch(setOpenVidu(state.openVidu));
+      state.recordingID = recording.id;
+      dispatch(setOpenVidu(state));
     } 
     else {
-      await stopRecording(state.openVidu.recordingID);
-      state.openVidu.recordingID = '';
-      dispatch(setOpenVidu(state.openVidu));
+      await stopRecording(state.recordingID);
+      state.recordingID = '';
+      dispatch(setOpenVidu(state));
     }
     dispatch(toggleRecord(!record));
   };
@@ -144,7 +144,7 @@ export default function VideoCall(){
                 >
                   <Video
                   type='subscriber'
-                  session={state.openVidu.session}
+                  session={state.session}
                   streamManager={user}
                   />
                 </Grid>

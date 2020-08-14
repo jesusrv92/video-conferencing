@@ -19,7 +19,7 @@ let { location } = window;
 export default function Home(){
   React.useEffect(()=>{
     // Testing connection to server in case it's down or certificates aren't valid
-    testConnection();
+    // testConnection();
   },[])
 
   let meetingCodeInvitation = '';
@@ -38,8 +38,8 @@ export default function Home(){
     // If the meeting code isn't blank, 
     // set the OpenVidu session ID to the meeting code
     if(meetingCode) {
-      state.openVidu.mySessionID = meetingCode;
-      dispatch(setOpenVidu(state.openVidu));
+      // state.mySessionID = meetingCode;
+      // dispatch(setOpenVidu(state));
     }
     // If the meeting code is blank, 
     // a session ID is generated randomly in the initial state
