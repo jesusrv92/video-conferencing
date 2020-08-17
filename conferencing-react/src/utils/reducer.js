@@ -53,7 +53,12 @@ export default function reducer(state, action) {
     case SET_DISPLAY_NAME:
       return Object.assign({}, state, { myUserName: action.payload });
     case RESET_STATE:
-      if (state.localStream) state.localStream.getTracks().forEach(track => track.stop())
+      if (state.localStream) {
+        state.localStream.getTracks().forEach(track => track.stop());
+      }
+      if (state.users) {
+        state.users.forEach(user => user.peerConnection.close());
+      }
       return initialState;
     case SET_LOCAL_STREAM:
       return Object.assign({}, state, { localStream: action.payload });
