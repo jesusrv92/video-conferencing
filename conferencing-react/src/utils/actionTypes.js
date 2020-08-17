@@ -12,3 +12,4 @@ export const REMOVE_USER = 'REMOVE_USER';
 export const SET_OPENVIDU = 'SET_OPENVIDU';
 export const SET_DISPLAY_NAME = 'SET_DISPLAY_NAME';
 export const RESET_STATE = 'RESET_STATE';
+export const SET_LOCAL_STREAM = 'SET_LOCAL_STREAM';

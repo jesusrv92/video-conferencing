@@ -12,7 +12,8 @@ import {
   TOGGLE_SIDEBAR,
   SET_OPENVIDU,
   SET_DISPLAY_NAME,
-  RESET_STATE
+  RESET_STATE,
+  SET_LOCAL_STREAM
 } from './actionTypes';
 
 import initialState from './initialState'
@@ -53,6 +54,8 @@ export default function reducer(state, action){
     case RESET_STATE:
       if(state.session) state.session.disconnect();
       return initialState;
+    case SET_LOCAL_STREAM:
+      return Object.assign({}, state, { localStream: action.payload });
     default:
       throw new Error("Invalid action type");
   }

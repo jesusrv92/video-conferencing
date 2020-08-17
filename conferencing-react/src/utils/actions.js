@@ -12,7 +12,8 @@ import {
   TOGGLE_SIDEBAR,
   SET_OPENVIDU,
   SET_DISPLAY_NAME,
-  RESET_STATE
+  RESET_STATE,
+  SET_LOCAL_STREAM
 } from './actionTypes';
 
 export const setPage = (page) => ({
@@ -82,4 +83,9 @@ export const setDisplayName = (displayName) => ({
 
 export const resetState = () => ({
   type: RESET_STATE
+});
+
+export const setLocalStream = (localStream) => ({
+  type: SET_LOCAL_STREAM,
+  payload: localStream
 });
