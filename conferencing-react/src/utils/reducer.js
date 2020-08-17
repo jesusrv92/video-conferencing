@@ -18,8 +18,8 @@ import {
 
 import initialState from './initialState'
 
-export default function reducer(state, action){
-  switch(action.type){
+export default function reducer(state, action) {
+  switch (action.type) {
     case SET_PAGE:
       return Object.assign({}, state, { page: action.payload });
     case TOGGLE_MIC:
@@ -43,7 +43,7 @@ export default function reducer(state, action){
     case OPEN_OPTIONS_MENU:
       return Object.assign({}, state, { optionsMenu: action.payload, detailsMenu: false, sidebar: false });
     case TOGGLE_SIDEBAR:
-      return Object.assign({}, state, { 
+      return Object.assign({}, state, {
         sidebar: action.payload,
         optionsMenu: false
       });
@@ -52,7 +52,7 @@ export default function reducer(state, action){
     case SET_DISPLAY_NAME:
       return Object.assign({}, state, { myUserName: action.payload });
     case RESET_STATE:
-      if(state.session) state.session.disconnect();
+      if (state.localStream) state.localStream.getTracks().forEach(track => track.stop())
       return initialState;
     case SET_LOCAL_STREAM:
       return Object.assign({}, state, { localStream: action.payload });
