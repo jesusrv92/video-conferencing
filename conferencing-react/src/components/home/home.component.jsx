@@ -11,7 +11,7 @@ import KeyboardIcon from '@material-ui/icons/Keyboard';
 import useStyles from './home.styles';
 import intekGlobalLogo from '../../assets/images/logo.png';
 import { Context } from '../../App.js';
-import { setPage,setOpenVidu } from '../../utils/actions';
+import { setPage, setMeetingCode } from '../../utils/actions';
 import testConnection from '../../utils/testOpenViduAPI'
 
 let { location } = window;
@@ -31,15 +31,14 @@ export default function Home(){
   }
 
   const classes = useStyles();
-  const [ meetingCode, setMeetingCode ] = React.useState(meetingCodeInvitation);
+  const [ meetingCode, setMeetingCodeLocal ] = React.useState(meetingCodeInvitation);
   const { state, dispatch } = React.useContext(Context)
 
   const joinMeeting = () => {
     // If the meeting code isn't blank, 
     // set the OpenVidu session ID to the meeting code
     if(meetingCode) {
-      // state.mySessionID = meetingCode;
-      // dispatch(setOpenVidu(state));
+      dispatch(setMeetingCode(meetingCode));
     }
     // If the meeting code is blank, 
     // a session ID is generated randomly in the initial state
@@ -77,7 +76,7 @@ export default function Home(){
               placeholder="Enter meeting code"
               variant="outlined"
               value={meetingCode}
-              onChange={(e) => setMeetingCode(e.target.value)}
+              onChange={(e) => setMeetingCodeLocal(e.target.value)}
               onKeyDown={(e) => {if(e.keyCode === 13) joinMeeting()}}
               className={classes.meetingCode}
               InputProps={{
