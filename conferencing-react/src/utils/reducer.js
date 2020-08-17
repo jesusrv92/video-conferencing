@@ -13,7 +13,8 @@ import {
   SET_OPENVIDU,
   SET_DISPLAY_NAME,
   RESET_STATE,
-  SET_LOCAL_STREAM
+  SET_LOCAL_STREAM,
+  SET_MEETING_CODE,
 } from './actionTypes';
 
 import initialState from './initialState'
@@ -56,6 +57,8 @@ export default function reducer(state, action) {
       return initialState;
     case SET_LOCAL_STREAM:
       return Object.assign({}, state, { localStream: action.payload });
+    case SET_MEETING_CODE:
+      return Object.assign({}, state, { meetingCode: action.payload });
     default:
       throw new Error("Invalid action type");
   }

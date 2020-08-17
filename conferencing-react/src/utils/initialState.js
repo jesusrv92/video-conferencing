@@ -9,7 +9,7 @@ export default {
   optionsMenu: false, // Display options menu in videocall component
   sidebar: false, // Display sidebar menu in videocall component
   users: [], // Current users in call
-  mySessionID: `${shortid.generate()}${shortid.generate()}`, // Session you're going to join
+  meetingCode: `${shortid.generate()}${shortid.generate()}`, // Session you're going to join
   myUserName: 'Participant' + Math.floor(Math.random() * 100), // The username that you're going to use
   session: undefined, // OpenVidu Session API object
   localStream: null, // Local microphone and webcam stream

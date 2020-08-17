@@ -13,7 +13,8 @@ import {
   SET_OPENVIDU,
   SET_DISPLAY_NAME,
   RESET_STATE,
-  SET_LOCAL_STREAM
+  SET_LOCAL_STREAM,
+  SET_MEETING_CODE,
 } from './actionTypes';
 
 export const setPage = (page) => ({
@@ -88,4 +89,9 @@ export const resetState = () => ({
 export const setLocalStream = (localStream) => ({
   type: SET_LOCAL_STREAM,
   payload: localStream
+});
+
+export const setMeetingCode = (meetingCode) => ({
+  type: SET_MEETING_CODE,
+  payload: meetingCode
 });
