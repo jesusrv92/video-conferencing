@@ -36,7 +36,7 @@ export default function VideoCall(){
 
   const classes = useStyles();
   const { state, dispatch } = React.useContext(Context);
-  const { video, micro, users, record, detailsMenu, optionsMenu, sidebar, openVidu } = state;
+  const { video, micro, users, record, detailsMenu, optionsMenu, sidebar, localStream } = state;
   const theme = useTheme();
   const matchSM = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -49,12 +49,12 @@ export default function VideoCall(){
   // if true, you will send the stream,
   // else you will stop sending the stream.
   const toggleCamera = () => {
-    if (state.publisher) state.publisher.publishVideo(!video);
+    // if (state.publisher) state.publisher.publishVideo(!video);
     dispatch(toggleVideo(!video));
   };
 
   const toggleMicrophone = () => {
-    if (state.publisher) state.publisher.publishAudio(!micro);
+    // if (state.publisher) state.publisher.publishAudio(!micro);
     dispatch(toggleMic(!micro));
   };
 
@@ -125,10 +125,10 @@ export default function VideoCall(){
   return(
     <Grid container className={classes.videoCallcontainer} direction='column'>
       <Grid item className={classes.videosConatiner}>
-        { openVidu.publisher ? (
+        { localStream ? (
         <Video
           type="publisher"
-          streamManager={openVidu.publisher}
+          streamManager={new MediaStream(localStream.getVideoTracks())}
         />
         ):(<div>Loading</div>) }
         {
@@ -136,7 +136,7 @@ export default function VideoCall(){
             <Grid container direction='row' className={classes.participantsContainer}>
               {users.map(user => (
                 <Grid item
-                  key={user.stream.streamId}
+                  key={user.id}
                   xs={calculateWidth()}
                   style={{
                     height: `${calculateHeight()}%`
