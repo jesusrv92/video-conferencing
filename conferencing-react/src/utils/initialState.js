@@ -13,5 +13,4 @@ export default {
   myUserName: 'Participant' + Math.floor(Math.random() * 100), // The username that you're going to use
   session: undefined, // OpenVidu Session API object
   localStream: null, // Local microphone and webcam stream
-  recordingID: '', // keeps track of the ID if the call is being recorded.
 }
