@@ -10,7 +10,6 @@ import {
   TOGGLE_OPTIONS_MENU,
   OPEN_OPTIONS_MENU,
   TOGGLE_SIDEBAR,
-  SET_OPENVIDU,
   SET_DISPLAY_NAME,
   RESET_STATE,
   SET_LOCAL_STREAM,
@@ -48,8 +47,6 @@ export default function reducer(state, action) {
         sidebar: action.payload,
         optionsMenu: false
       });
-    case SET_OPENVIDU:
-      return state;
     case SET_DISPLAY_NAME:
       return Object.assign({}, state, { myUserName: action.payload });
     case RESET_STATE:

@@ -10,7 +10,6 @@ import {
   TOGGLE_OPTIONS_MENU,
   OPEN_OPTIONS_MENU,
   TOGGLE_SIDEBAR,
-  SET_OPENVIDU,
   SET_DISPLAY_NAME,
   RESET_STATE,
   SET_LOCAL_STREAM,
@@ -70,11 +69,6 @@ export const addUser = (user) => ({
 export const removeUser = (users) => ({
   type: REMOVE_USER,
   payload: users
-});
-
-export const setOpenVidu = (openVidu) => ({
-  type: SET_OPENVIDU,
-  payload: openVidu
 });
 
 export const setDisplayName = (displayName) => ({
