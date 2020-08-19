@@ -12,16 +12,10 @@ import useStyles from './home.styles';
 import intekGlobalLogo from '../../assets/images/logo.png';
 import { Context } from '../../App.js';
 import { setPage, setMeetingCode } from '../../utils/actions';
-import testConnection from '../../utils/testOpenViduAPI'
 
 let { location } = window;
 
 export default function Home(){
-  React.useEffect(()=>{
-    // Testing connection to server in case it's down or certificates aren't valid
-    // testConnection();
-  },[])
-
   let meetingCodeInvitation = '';
 
   if(location.href.includes('#')){
@@ -32,7 +26,7 @@ export default function Home(){
 
   const classes = useStyles();
   const [ meetingCode, setMeetingCodeLocal ] = React.useState(meetingCodeInvitation);
-  const { state, dispatch } = React.useContext(Context)
+  const { dispatch } = React.useContext(Context)
 
   const joinMeeting = () => {
     // If the meeting code isn't blank, 

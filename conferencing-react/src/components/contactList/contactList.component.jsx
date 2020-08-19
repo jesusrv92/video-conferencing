@@ -9,14 +9,12 @@ import useStyles from './contactList.styles.js';
 
 //State Managment
 import { Context } from '../../App.js';
-import removeUser from '../../utils/removeUser';
 
 export default function ContacList(){
 
   const [muted, setMuted] = React.useState(false);
   const { state } = React.useContext(Context);
-  const { users, openVidu } = state;
-  const { session } = openVidu;
+  const { users } = state;
 
   const classes = useStyles();
 
@@ -30,7 +28,7 @@ export default function ContacList(){
   };
 
   const handleHangButton = (user) => {
-    removeUser(session, user);
+    // removeUser(session, user);
   };
 
   return (

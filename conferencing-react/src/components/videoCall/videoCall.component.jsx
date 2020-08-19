@@ -29,8 +29,7 @@ import useStyles from './videoCall.styles';
 
 //State Managment
 import { Context } from '../../App.js';
-import { resetState, toggleMic, toggleVideo, toggleRecord, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar, openDetailsMenu, openOptionsMenu, setOpenVidu } from '../../utils/actions';
-import { recordCall, stopRecording } from './recordCall'
+import { resetState, toggleMic, toggleVideo, toggleRecord, toggleDetailsMenu, toggleOptionsMenu, toggleSidebar, openDetailsMenu, openOptionsMenu } from '../../utils/actions';
 
 export default function VideoCall(){
 
@@ -44,21 +43,26 @@ export default function VideoCall(){
     dispatch(resetState());
   };
 
-  // Using the OpenVidu Publisher API to mute and unmute audio/video
-  // the publishVideo/publishAudio methods take a boolean value;
-  // if true, you will send the stream,
-  // else you will stop sending the stream.
+  // Get the stream's tracks and set their enabled property to the opposite value
+  // of the current state
   const toggleCamera = () => {
-    // if (state.publisher) state.publisher.publishVideo(!video);
-    dispatch(toggleVideo(!video));
+    if(localStream) {
+      let [videoTrack] = localStream.getVideoTracks();
+      videoTrack.enabled = !video;
+      dispatch(toggleVideo(!video));
+    }
   };
 
   const toggleMicrophone = () => {
-    // if (state.publisher) state.publisher.publishAudio(!micro);
-    dispatch(toggleMic(!micro));
+    if(localStream) {
+      let [audioTrack] = localStream.getAudioTracks();
+      audioTrack.enabled = !micro;
+      dispatch(toggleMic(!micro));
+    }
   };
 
   const handleRecord = async () => {
+    //TODO: INTEGRATE AWS KINESIS VIDEO STREAMS HERE
     // If it isn't recording, it will start and save the recording ID on the
     // recordingID property of state's openVidu object.
     // Else, it will take the value stored on record and send the signal to the server
@@ -66,17 +70,17 @@ export default function VideoCall(){
     
     // TODO: signal all participants that the call is being recorded OR
     // just allow the creator of the session to record calls
-    if(!record){
-      const { mySessionID } = state;
-      const recording = await recordCall(mySessionID);
-      state.recordingID = recording.id;
-      dispatch(setOpenVidu(state));
-    } 
-    else {
-      await stopRecording(state.recordingID);
-      state.recordingID = '';
-      dispatch(setOpenVidu(state));
-    }
+    // if(!record){
+    //   const { mySessionID } = state;
+    //   const recording = await recordCall(mySessionID);
+    //   state.recordingID = recording.id;
+    //   dispatch(setOpenVidu(state));
+    // } 
+    // else {
+    //   await stopRecording(state.recordingID);
+    //   state.recordingID = '';
+    //   dispatch(setOpenVidu(state));
+    // }
     dispatch(toggleRecord(!record));
   };
 
@@ -128,7 +132,8 @@ export default function VideoCall(){
         { localStream ? (
         <Video
           type="publisher"
-          streamManager={new MediaStream(localStream.getVideoTracks())}
+          username={state.myUserName}
+          stream={new MediaStream(localStream.getVideoTracks())}
         />
         ):(<div>Loading</div>) }
         {
@@ -136,7 +141,7 @@ export default function VideoCall(){
             <Grid container direction='row' className={classes.participantsContainer}>
               {users.map(user => (
                 <Grid item
-                  key={user.id}
+                  key={user.remoteClientId}
                   xs={calculateWidth()}
                   style={{
                     height: `${calculateHeight()}%`
@@ -144,8 +149,11 @@ export default function VideoCall(){
                 >
                   <Video
                   type='subscriber'
-                  session={state.session}
-                  streamManager={user}
+                  // FIX THIS
+                  // |
+                  // v
+                  username={state.myUserName} // Remember to change this later
+                  stream={localStream} // for testing purposes, please remove
                   />
                 </Grid>
               ))}

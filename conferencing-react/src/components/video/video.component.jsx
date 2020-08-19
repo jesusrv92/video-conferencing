@@ -8,30 +8,21 @@ import MicOffIcon from '@material-ui/icons/MicOff';
 
 //Styles
 import useStyles from './video.styles';
-import removeUser from '../../utils/removeUser';
 
 const VideoComponent = (props) => {
-
   const classes = useStyles();
   const videoRef = React.createRef();
-  const [muted, setMuted] = React.useState(false)
+  const [muted, setMuted] = React.useState(false);
 
   React.useEffect(() => {
-    if (props && !!videoRef)
-      videoRef.current.srcObject = props.streamManager;
-    // props.streamManager.addVideoElement(videoRef.current);
+    if (props && !!videoRef.current)
+    videoRef.current.srcObject = props.stream;
   });
-
-  React.useEffect(() => {
-    if (props && !!videoRef)
-      videoRef.current.srcObject = props.streamManager;
-    // props.streamManager.addVideoElement(videoRef.current)
-  }, [props, videoRef]);
 
   const getUsername = () => {
     // TODO: Find a way to share usernames with peers
 
-      // return 'random'
+    return props.username
     // return JSON.parse(props.streamManager.stream.connection.data).clientData;
   };
 
@@ -40,8 +31,11 @@ const VideoComponent = (props) => {
   // if true, you will receive audio from the subscriber,
   // else you will stop receiving audio from the subscriber.
   const handleMicButton = () => {
-    // props.streamManager.subscribeToAudio(muted);
-    setMuted(!muted);
+    if (props.stream) {
+      let [audioTrack] = props.stream.getAudioTracks();
+      audioTrack.enabled = muted;
+      setMuted(!muted);
+    }
   };
   const handleHangButton = () => {
     // removeUser(props.session, props.streamManager);
@@ -50,7 +44,7 @@ const VideoComponent = (props) => {
   return (
     <React.Fragment>
       {
-        props.streamManager !== undefined ? (
+        !!props.stream ? (
           <div className={props.type !== 'publisher' ? classes.publisherContainer : undefined} >
             <video
               autoPlay={true}
@@ -63,7 +57,7 @@ const VideoComponent = (props) => {
                 props.type === 'subscriber' ? (
                   <React.Fragment>
                     {
-                      props.streamManager.stream.audioActive === true ? (
+                      muted ? (
                         <IconButton
                           className={`${classes.deviceButton} ${classes.deviceOn}`}
                           onClick={handleMicButton}
